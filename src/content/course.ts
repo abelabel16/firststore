@@ -30,13 +30,13 @@ export const modules: Module[] = [
     id: "m1",
     number: "01",
     title: "Foundations",
-    summary: "How dropshipping actually works — the model, the economics, and what realistically goes wrong.",
+    summary: "How dropshipping actually works, the model, the economics, and what realistically goes wrong.",
     detail:
       "The business model explained without hype: unit economics, margins, what a supplier does, what you're responsible for, and the honest failure modes so you can avoid them.",
     lessons: [
       { id: "l-1-1", title: "How the dropshipping model works", description: "The full order flow from customer to supplier, and where you fit in.", duration: "9 min", videoUrl: null, resources: [] },
       { id: "l-1-2", title: "Unit economics: margins, fees, and break-even", description: "A simple spreadsheet mindset for whether a product can be profitable.", duration: "12 min", videoUrl: null, resources: [{ label: "Margin calculator template", href: "/resources" }] },
-      { id: "l-1-3", title: "What realistically goes wrong (and why)", description: "The common failure points — product choice, shipping times, weak content — before you hit them.", duration: "10 min", videoUrl: null, resources: [] },
+      { id: "l-1-3", title: "What realistically goes wrong (and why)", description: "The common failure points, product choice, shipping times, weak content, before you hit them.", duration: "10 min", videoUrl: null, resources: [] },
       { id: "l-1-4", title: "Setting a realistic budget and timeline", description: "What it costs to test properly and how long validation usually takes.", duration: "8 min", videoUrl: null, resources: [] },
     ],
   },
@@ -49,7 +49,7 @@ export const modules: Module[] = [
       "How to generate product ideas, read demand signals, evaluate competition, and score candidates with a consistent checklist instead of guessing.",
     lessons: [
       { id: "l-2-1", title: "Where product ideas come from", description: "Systematic sources for ideas: marketplaces, ad libraries, communities.", duration: "11 min", videoUrl: null, resources: [] },
-      { id: "l-2-2", title: "Reading demand signals", description: "Search trends, ad engagement, and marketplace data — what each signal actually tells you.", duration: "14 min", videoUrl: null, resources: [] },
+      { id: "l-2-2", title: "Reading demand signals", description: "Search trends, ad engagement, and marketplace data, what each signal actually tells you.", duration: "14 min", videoUrl: null, resources: [] },
       { id: "l-2-3", title: "Evaluating the competition", description: "How to study competing stores and decide if there's room for you.", duration: "12 min", videoUrl: null, resources: [] },
       { id: "l-2-4", title: "The product scoring checklist", description: "Score every candidate the same way so decisions are comparable.", duration: "9 min", videoUrl: null, resources: [{ label: "Product research checklist", href: "/resources" }] },
     ],
@@ -58,7 +58,7 @@ export const modules: Module[] = [
     id: "m3",
     number: "03",
     title: "Store Setup",
-    summary: "Build a clean, trustworthy store — structure, product pages, policies, and checkout.",
+    summary: "Build a clean, trustworthy store, structure, product pages, policies, and checkout.",
     detail:
       "Step-by-step store build: theme and structure, product pages that answer real customer questions, trust elements, policies, and a checkout that doesn't leak sales.",
     lessons: [
@@ -99,7 +99,7 @@ export const modules: Module[] = [
     id: "m6",
     number: "06",
     title: "Traffic",
-    summary: "Get your content in front of people — organic short-form first, paid basics second.",
+    summary: "Get your content in front of people, organic short-form first, paid basics second.",
     detail:
       "How distribution actually works: organic posting strategy, reading your analytics, and the fundamentals of paid traffic once organic gives you signal.",
     lessons: [

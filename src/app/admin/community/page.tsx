@@ -65,7 +65,7 @@ export default function AdminCommunityPage() {
       {vipClients.length === 0 ? (
         <Card className="p-8 text-center">
           <p className="text-sm text-ink-soft">
-            No VIP clients with accounts yet — clients appear after their first login.
+            No VIP clients with accounts yet, clients appear after their first login.
           </p>
         </Card>
       ) : (
@@ -74,7 +74,7 @@ export default function AdminCommunityPage() {
             {vipClients.map((p) => (
               <li key={p.id} className="flex flex-wrap items-center justify-between gap-3 p-4 sm:px-5">
                 <div>
-                  <p className="text-sm font-medium text-ink">{p.name || "—"}</p>
+                  <p className="text-sm font-medium text-ink">{p.name || "not set"}</p>
                   <p className="text-xs text-ink-faint">{p.email}</p>
                 </div>
                 <div className="flex items-center gap-3">

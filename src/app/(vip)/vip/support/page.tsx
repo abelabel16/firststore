@@ -38,7 +38,7 @@ export default function VipSupportPage() {
           Private support
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-          Ask anything between sessions — store questions, product doubts, content feedback. Your
+          Ask anything between sessions, store questions, product doubts, content feedback. Your
           mentor reads and answers every request.
         </p>
       </div>
@@ -51,7 +51,7 @@ export default function VipSupportPage() {
         <h2 className="mb-3 text-sm font-semibold text-ink">Your requests</h2>
         {tickets.length === 0 ? (
           <Card className="p-5 text-center">
-            <p className="text-sm text-ink-soft">No requests yet — ask your first question above.</p>
+            <p className="text-sm text-ink-soft">No requests yet, ask your first question above.</p>
           </Card>
         ) : (
           <div className="space-y-3">

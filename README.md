@@ -1,31 +1,31 @@
-# FirstStore
+﻿# VibrantStore
 
 A complete, mobile-first website for a dropshipping education business.
 **Hosted free on GitHub Pages** (static Next.js export) with **Supabase** as the
-backend — the same pattern as the Remi web app.
+backend â€” the same pattern as the Remi web app.
 
 Two products, one honest pitch:
 
-- **The Dropshipping Course** — $19 one-time, self-paced (8 modules, 29 lessons)
-- **VIP Mentorship** — $499 one-time, 1-to-1 support, course included
+- **The Dropshipping Course** â€” $19 one-time, self-paced (8 modules, 29 lessons)
+- **VIP Mentorship** â€” $499 one-time, 1-to-1 support, course included
 
-No fake testimonials, no fake income proof, no fake urgency — by design.
+No fake testimonials, no fake income proof, no fake urgency â€” by design.
 
 ## Architecture
 
 ```
 GitHub Pages (free, static)          Supabase (free tier)
-┌─────────────────────────┐          ┌──────────────────────────────┐
-│ Next.js static export    │  auth   │ Auth (email magic links)     │
-│ marketing + checkout +   │ ───────►│ Postgres + Row Level Security│
-│ course/VIP/admin UIs     │  data   │ Edge Functions:              │
-│ (out/ via GitHub Actions)│ ───────►│  create-checkout, chapa-     │
-└─────────────────────────┘          │  webhook (Chapa payments)    │
-                                     └──────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”          â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚ Next.js static export    â”‚  auth   â”‚ Auth (email magic links)     â”‚
+â”‚ marketing + checkout +   â”‚ â”€â”€â”€â”€â”€â”€â”€â–ºâ”‚ Postgres + Row Level Securityâ”‚
+â”‚ course/VIP/admin UIs     â”‚  data   â”‚ Edge Functions:              â”‚
+â”‚ (out/ via GitHub Actions)â”‚ â”€â”€â”€â”€â”€â”€â”€â–ºâ”‚  create-checkout, chapa-     â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜          â”‚  webhook (Chapa payments)    â”‚
+                                     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 **Security model:** the static site is public by nature, so nothing secret lives
-in it. Access control is enforced by Supabase Row Level Security — a visitor
+in it. Access control is enforced by Supabase Row Level Security â€” a visitor
 without a `course` entitlement gets no rows back, whatever they do in the
 browser. Payments run through Edge Functions (the only place secret keys
 exist), and a payment webhook re-verifies every transaction with Chapa before
@@ -36,8 +36,8 @@ granting access.
 ### 1. Supabase
 
 1. Create a free project at [supabase.com](https://supabase.com)
-2. **SQL Editor** → paste the contents of [supabase/schema.sql](supabase/schema.sql) → Run
-3. **Authentication → URL Configuration** → set Site URL to
+2. **SQL Editor** â†’ paste the contents of [supabase/schema.sql](supabase/schema.sql) â†’ Run
+3. **Authentication â†’ URL Configuration** â†’ set Site URL to
    `https://abelabel16.github.io/firststore` and add
    `https://abelabel16.github.io/firststore/welcome/` to Redirect URLs
    (add `http://localhost:3000/welcome/` too for local dev)
@@ -59,11 +59,11 @@ granting access.
 
 ### 2. GitHub
 
-1. Repo → **Settings → Pages** → Source: **GitHub Actions**
-2. Repo → **Settings → Secrets and variables → Actions → Variables** → add:
-   - `NEXT_PUBLIC_SUPABASE_URL` — from Supabase → Settings → API
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` — same page (the anon/public key — safe to expose)
-3. Push to `main` (or re-run the workflow) → site deploys to
+1. Repo â†’ **Settings â†’ Pages** â†’ Source: **GitHub Actions**
+2. Repo â†’ **Settings â†’ Secrets and variables â†’ Actions â†’ Variables** â†’ add:
+   - `NEXT_PUBLIC_SUPABASE_URL` â€” from Supabase â†’ Settings â†’ API
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` â€” same page (the anon/public key â€” safe to expose)
+3. Push to `main` (or re-run the workflow) â†’ site deploys to
    `https://abelabel16.github.io/firststore`
 
 Until step 2 is done, the site deploys in **showcase mode**: all marketing
@@ -79,11 +79,11 @@ update public.profiles set is_admin = true where email = 'you@example.com';
 
 ### 4. Custom domain (Hostinger)
 
-1. GitHub repo → Settings → Pages → Custom domain → enter your domain
-2. Hostinger hPanel → DNS Zone → add:
-   - `A` records for `@` → `185.199.108.153`, `185.199.109.153`,
+1. GitHub repo â†’ Settings â†’ Pages â†’ Custom domain â†’ enter your domain
+2. Hostinger hPanel â†’ DNS Zone â†’ add:
+   - `A` records for `@` â†’ `185.199.108.153`, `185.199.109.153`,
      `185.199.110.153`, `185.199.111.153`
-   - `CNAME` for `www` → `abelabel16.github.io`
+   - `CNAME` for `www` â†’ `abelabel16.github.io`
 3. In [.github/workflows/deploy.yml](.github/workflows/deploy.yml) change
    `NEXT_PUBLIC_BASE_PATH` to `""` and `NEXT_PUBLIC_SITE_URL` to your domain,
    update the Supabase auth URLs and the `SITE_URL` secret, then push.
@@ -102,7 +102,7 @@ a "backend not connected" notice.
 ## Customizing
 
 - **Brand, prices, support email**: [src/config/site.ts](src/config/site.ts)
-  ⚠️ the crossed-out $199 must be a genuine reference price, else set it to null.
+  âš ï¸ the crossed-out $199 must be a genuine reference price, else set it to null.
   Prices are also mirrored in `supabase/functions/create-checkout/index.ts`.
 - **Course content & video URLs**: [src/content/course.ts](src/content/course.ts)
 - **FAQ / resources**: `src/content/faq.ts`, `src/content/resources.ts`
@@ -110,5 +110,5 @@ a "backend not connected" notice.
 
 ## Scripts
 
-- `npm run dev` — develop
-- `npm run build` — static export into `out/`
+- `npm run dev` â€” develop
+- `npm run build` â€” static export into `out/`

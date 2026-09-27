@@ -43,7 +43,7 @@ export default function ProfilePage() {
         <dl className="mt-4 space-y-3">
           <div className="flex items-baseline justify-between gap-4">
             <dt className="text-sm text-ink-soft">Name</dt>
-            <dd className="text-sm font-medium text-ink">{auth.profile.name || "—"}</dd>
+            <dd className="text-sm font-medium text-ink">{auth.profile.name || "not set"}</dd>
           </div>
           <div className="flex items-baseline justify-between gap-4">
             <dt className="text-sm text-ink-soft">Email</dt>
@@ -104,7 +104,7 @@ export default function ProfilePage() {
           <Link href="/contact" className="font-medium text-accent hover:text-accent-strong">
             contact support
           </Link>{" "}
-          — we verify the request and handle it for you.
+         , we verify the request and handle it for you.
         </p>
       </Card>
     </div>

@@ -33,7 +33,7 @@ export default function AdminOrdersPage() {
       </div>
       <DataTable
         headers={["Customer", "Email", "Product", "Amount", "Status", "Date"]}
-        emptyMessage="No orders yet — they'll appear here after the first checkout."
+        emptyMessage="No orders yet, they'll appear here after the first checkout."
         rows={orders.map((o) => [
           o.name,
           o.email,

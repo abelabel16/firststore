@@ -33,8 +33,8 @@ export default function BookPage() {
           Book your 1-to-1 session
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-          Pick a time that works for you. After booking, add your preparation — store URL, product
-          URL, questions — so the session goes straight to what matters.
+          Pick a time that works for you. After booking, add your preparation, store URL, product
+          URL, questions, so the session goes straight to what matters.
         </p>
       </div>
 

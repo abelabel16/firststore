@@ -49,7 +49,7 @@ export function ContactForm() {
       <div className="rounded-2xl border border-line bg-good-soft p-8 text-center">
         <p className="text-base font-semibold text-ink">Message sent.</p>
         <p className="mt-2 text-sm text-ink-soft">
-          Thanks for reaching out — we reply to every message, usually within one business day.
+          Thanks for reaching out, we reply to every message, usually within one business day.
         </p>
       </div>
     );

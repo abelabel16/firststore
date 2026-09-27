@@ -20,7 +20,7 @@ export default function FaqPage() {
             Frequently asked questions
           </h1>
           <p className="mx-auto mt-4 max-w-md text-base text-ink-soft">
-            Straight answers — including the uncomfortable ones about results.
+            Straight answers, including the uncomfortable ones about results.
           </p>
         </Narrow>
       </section>
@@ -38,7 +38,7 @@ export default function FaqPage() {
             <Link href="/contact" className="font-medium text-accent hover:text-accent-strong">
               Contact us
             </Link>{" "}
-            — we reply to every message.
+           , we reply to every message.
           </p>
         </Narrow>
       </section>

@@ -47,7 +47,7 @@ export function BookingForm({ email, existingCount }: { email: string; existingC
       .select("id")
       .single();
     if (dbError || !data) {
-      setError("Booking failed — please try again.");
+      setError("Booking failed, please try again.");
       setSubmitting(false);
       return;
     }

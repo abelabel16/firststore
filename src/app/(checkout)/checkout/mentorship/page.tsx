@@ -4,7 +4,7 @@ import { Narrow } from "@/components/ui/container";
 import { formatUsd, site } from "@/config/site";
 import { CheckoutForm } from "@/components/checkout/checkout-form";
 
-export const metadata: Metadata = { title: "Checkout — VIP Mentorship" };
+export const metadata: Metadata = { title: "VIP Checkout" };
 
 const included = [
   "1-to-1 mentorship sessions",
@@ -45,7 +45,7 @@ export default function MentorshipCheckoutPage() {
 
       <p className="mt-4 text-center text-xs leading-relaxed text-ink-faint">
         By purchasing you agree to our terms and refund policy. This is education and personal
-        support — results are not guaranteed.
+        support, results are not guaranteed.
       </p>
     </Narrow>
   );

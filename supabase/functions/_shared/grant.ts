@@ -15,10 +15,73 @@ export async function grantEntitlements(
       : [{ email, product: "course" }];
   await admin.from("entitlements").upsert(rows, { onConflict: "email,product" });
   if (product === "vip") {
-    // If the buyer already has a profile (logged in before), switch on
-    // community access; otherwise the admin grants it after first login.
     await admin.from("profiles").update({ community_access: true }).eq("email", email);
   }
+}
+
+/**
+ * Deliver the purchase by email (the customer never needs to log in).
+ *
+ * Secrets used:
+ *   RESEND_API_KEY     — from resend.com (without it, delivery is only logged)
+ *   EMAIL_FROM         — e.g. "VibrantStore <access@vibrantstore.com>"
+ *   COURSE_ACCESS_URL  — where the course lives (private video hub, Drive,
+ *                        Telegram channel invite, etc.)
+ *   VIP_ACCESS_URL     — onboarding link/instructions for VIP clients
+ *   SUPPORT_EMAIL      — shown in the email footer
+ */
+export async function sendAccessEmail(
+  email: string,
+  name: string,
+  product: "course" | "vip"
+): Promise<void> {
+  const apiKey = Deno.env.get("RESEND_API_KEY");
+  const accessUrl =
+    product === "vip"
+      ? Deno.env.get("VIP_ACCESS_URL") ?? Deno.env.get("COURSE_ACCESS_URL")
+      : Deno.env.get("COURSE_ACCESS_URL");
+  const support = Deno.env.get("SUPPORT_EMAIL") ?? "support@vibrantstore.com";
+  const firstName = name.split(" ")[0] || "there";
+
+  const subject =
+    product === "vip" ? "Welcome to VIP, here is everything you need" : "Your course access is here";
+  const intro =
+    product === "vip"
+      ? `Welcome to VIP, ${firstName}. Your mentorship starts now, and full course access is included.`
+      : `You're in, ${firstName}. Here is your full course access.`;
+  const cta =
+    product === "vip" ? "Start your VIP onboarding" : "Open the course";
+
+  const html = `
+  <div style="font-family:ui-sans-serif,system-ui,sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;color:#18181b;">
+    <p style="font-weight:700;font-size:16px;">vibrantstore<span style="color:#4f46e5">.</span></p>
+    <h2 style="font-size:20px;">${intro}</h2>
+    ${
+      accessUrl
+        ? `<p><a href="${accessUrl}" style="display:inline-block;background:#18181b;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;">${cta}</a></p>
+           <p style="font-size:13px;color:#71717a;">Keep this email: the button above is your permanent access.</p>`
+        : `<p style="font-size:14px;">Your access details will follow in a separate email shortly.</p>`
+    }
+    <p style="margin-top:32px;font-size:12px;color:#71717a;">
+      Bought by mistake or need help? Just reply, or write to ${support}. Our refund policy is simple and honest.
+    </p>
+  </div>`;
+
+  if (!apiKey) {
+    console.log(`[email skipped, no RESEND_API_KEY] to=${email} product=${product}`);
+    return;
+  }
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from: Deno.env.get("EMAIL_FROM") ?? "VibrantStore <onboarding@resend.dev>",
+      to: email,
+      subject,
+      html,
+    }),
+  });
+  if (!res.ok) console.error("access email failed:", res.status, await res.text());
 }
 
 export const corsHeaders = {

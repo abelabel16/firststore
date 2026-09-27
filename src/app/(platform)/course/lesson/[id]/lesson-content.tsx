@@ -78,7 +78,7 @@ export function LessonContent({ id }: { id: string }) {
             </span>
             <p className="text-sm font-medium text-white">{lesson.title}</p>
             <p className="max-w-sm text-xs leading-relaxed text-zinc-400">
-              Sample lesson — connect your video by setting this lesson&rsquo;s{" "}
+              Sample lesson, connect your video by setting this lesson&rsquo;s{" "}
               <code className="rounded bg-white/10 px-1">videoUrl</code> in{" "}
               <code className="rounded bg-white/10 px-1">src/content/course.ts</code>.
             </p>
@@ -102,11 +102,11 @@ export function LessonContent({ id }: { id: string }) {
               disabled={saving}
               variant={completed ? "secondary" : "primary"}
             >
-              {saving ? "Saving…" : completed ? "✓ Completed — undo" : "Mark Complete"}
+              {saving ? "Saving…" : completed ? "✓ Completed, undo" : "Mark Complete"}
             </Button>
             {saveError && (
               <span className="text-xs text-danger" role="alert">
-                Couldn&rsquo;t save — try again.
+                Couldn&rsquo;t save, try again.
               </span>
             )}
           </div>

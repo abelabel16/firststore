@@ -35,14 +35,14 @@ export default function VipDashboardPage() {
   const nextStep = !auth.profile.vip_onboarding
     ? {
         title: "Complete your onboarding",
-        text: "Tell your mentor where you are and what you're stuck on — it shapes everything that follows.",
+        text: "Tell your mentor where you are and what you're stuck on, it shapes everything that follows.",
         href: "/vip/onboarding",
         cta: "Complete Onboarding",
       }
     : !upcoming
       ? {
           title: "Book your next session",
-          text: "Pick a time for your 1-to-1 — then add your prep so the session goes deep, fast.",
+          text: "Pick a time for your 1-to-1, then add your prep so the session goes deep, fast.",
           href: "/vip/book",
           cta: "Book Session",
         }
@@ -63,18 +63,18 @@ export default function VipDashboardPage() {
       </div>
 
       {/* Next step */}
-      <Card className="border-ink bg-ink p-5 text-white sm:p-6">
+      <div className="rounded-2xl bg-zinc-900 p-5 text-white shadow-md sm:p-6">
         <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Next step</p>
         <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-base font-semibold">{nextStep.title}</p>
             <p className="mt-1 max-w-md text-sm text-zinc-400">{nextStep.text}</p>
           </div>
-          <ButtonLink href={nextStep.href} className="shrink-0 bg-white text-ink hover:bg-zinc-200">
+          <ButtonLink href={nextStep.href} variant="inverse" className="shrink-0">
             {nextStep.cta}
           </ButtonLink>
         </div>
-      </Card>
+      </div>
 
       {/* Upcoming session */}
       <Card className="p-5 sm:p-6">
@@ -90,7 +90,7 @@ export default function VipDashboardPage() {
               </p>
               <p className="mt-0.5 text-sm text-ink-soft">
                 {upcoming.store_url || upcoming.questions
-                  ? "Preparation added — you're set."
+                  ? "Preparation added, you're set."
                   : "No preparation added yet."}
               </p>
             </div>
@@ -126,7 +126,7 @@ export default function VipDashboardPage() {
           </div>
           <div>
             <p className="text-2xl font-semibold text-ink">
-              {auth.profile.vip_onboarding ? "✓" : "—"}
+              {auth.profile.vip_onboarding ? "✓" : "…"}
             </p>
             <p className="text-xs text-ink-soft">
               Onboarding {auth.profile.vip_onboarding ? "done" : "pending"}

@@ -64,7 +64,7 @@ export function SupportForm({
         </Field>
       </div>
       <p className="text-xs text-ink-faint">
-        Screenshots: paste an image link (e.g. from your store admin) into your message — direct
+        Screenshots: paste an image link (e.g. from your store admin) into your message, direct
         uploads are coming.
       </p>
       {error && (
@@ -76,7 +76,7 @@ export function SupportForm({
         <Button type="submit" size="lg" disabled={submitting}>
           {submitting ? "Sending…" : "Submit Question"}
         </Button>
-        {sent && <span className="text-sm text-good">Sent — we&rsquo;ll reply soon ✓</span>}
+        {sent && <span className="text-sm text-good">Sent, we&rsquo;ll reply soon ✓</span>}
       </div>
     </form>
   );

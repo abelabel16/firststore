@@ -152,7 +152,7 @@ export default function DashboardPage() {
         <Card className="p-5">
           <h2 className="text-sm font-semibold text-ink">Recent activity</h2>
           {orders.length === 0 ? (
-            <p className="mt-3 text-sm text-ink-soft">Nothing yet — start your first lesson.</p>
+            <p className="mt-3 text-sm text-ink-soft">Nothing yet, start your first lesson.</p>
           ) : (
             <ul className="mt-3 space-y-2">
               {orders.map((o) => (

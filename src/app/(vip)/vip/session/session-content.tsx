@@ -14,7 +14,7 @@ import type { VipSession } from "@/lib/types";
 
 const prepChecklist = [
   "Add your store and product URLs below",
-  "Write down your questions — specific beats general",
+  "Write down your questions, specific beats general",
   "Have your store analytics open during the call",
   "Be ready to share your screen",
 ];
@@ -102,13 +102,13 @@ export function SessionContent() {
           <h2 className="text-sm font-semibold text-ink">Your action plan</h2>
           {session.action_plan.length === 0 ? (
             <p className="mt-3 text-sm text-ink-soft">
-              Your mentor is writing up your action plan — it will appear here shortly.
+              Your mentor is writing up your action plan, it will appear here shortly.
             </p>
           ) : (
             <ol className="mt-4 space-y-3">
               {session.action_plan.map((task, i) => (
                 <li key={i} className="flex gap-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent-soft font-mono text-xs font-semibold text-accent-strong">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent-soft text-xs font-semibold text-accent-strong">
                     {i + 1}
                   </span>
                   <p className="text-sm leading-relaxed text-ink">{task}</p>

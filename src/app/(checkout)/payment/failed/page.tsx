@@ -18,7 +18,7 @@ export default function PaymentFailedPage() {
           Your payment wasn&rsquo;t completed.
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-          No money was taken. This usually happens when a payment is cancelled or declined — you
+          No money was taken. This usually happens when a payment is cancelled or declined, you
           can safely try again.
         </p>
         <div className="mt-7 space-y-3">

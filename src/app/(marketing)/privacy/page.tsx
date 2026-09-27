@@ -9,13 +9,13 @@ export default function PrivacyPage() {
     <LegalPage
       title="Privacy Policy"
       updated="September 2026"
-      intro={`This policy explains what data ${site.name} collects, why, and what we do with it. Short version: we collect what's needed to sell you a product and give you access to it — nothing more.`}
+      intro={`This policy explains what data ${site.name} collects, why, and what we do with it. Short version: we collect what's needed to sell you a product and give you access to it, nothing more.`}
       sections={[
         {
           heading: "1. What we collect",
           paragraphs: [
             "When you purchase, we collect your name and email address, plus your order details (product, amount, payment status). Payment card details are handled entirely by our payment provider and never touch our servers.",
-            "If you use the mentorship program, we also store the information you provide in onboarding, session preparation, and support requests — this exists so your mentor can actually help you.",
+            "If you use the mentorship program, we also store the information you provide in onboarding, session preparation, and support requests, this exists so your mentor can actually help you.",
             "If you contact us, we keep the message so we can reply and resolve the issue.",
           ],
         },
@@ -40,7 +40,7 @@ export default function PrivacyPage() {
         {
           heading: "5. Retention and deletion",
           paragraphs: [
-            "We keep your account data for as long as you have access to a product. You can request a copy of your data or ask us to delete your account at any time by emailing us — note that deleting your account removes your access.",
+            "We keep your account data for as long as you have access to a product. You can request a copy of your data or ask us to delete your account at any time by emailing us, note that deleting your account removes your access.",
           ],
         },
         {

@@ -31,7 +31,7 @@ export function ModuleContent({ id }: { id: string }) {
       <Card className="mx-auto max-w-md p-8 text-center">
         <p className="text-sm font-semibold text-ink">This module is still locked. 🔒</p>
         <p className="mt-2 text-sm text-ink-soft">
-          Complete the previous module first — the course builds in order.
+          Complete the previous module first, the course builds in order.
         </p>
         <Link href="/dashboard" className="mt-4 inline-block text-sm font-medium text-accent">
           Back to dashboard →
@@ -47,7 +47,7 @@ export function ModuleContent({ id }: { id: string }) {
           ← Dashboard
         </Link>
         <div className="mt-4 flex flex-wrap items-center gap-3">
-          <span className="font-mono text-sm font-semibold text-accent">{courseModule.number}</span>
+          <span className="text-sm font-semibold text-accent">{courseModule.number}</span>
           <h1 className="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
             {courseModule.title}
           </h1>

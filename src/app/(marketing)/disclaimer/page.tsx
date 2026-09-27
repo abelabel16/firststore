@@ -14,13 +14,13 @@ export default function DisclaimerPage() {
         {
           heading: "This is education, not a financial outcome",
           paragraphs: [
-            "Our course and mentorship teach a process for researching products, building an online store, creating content, and testing ideas. Completing the course, or working with a mentor, does not guarantee that your store will make money — or that it will make any specific amount.",
+            "Our course and mentorship teach a process for researching products, building an online store, creating content, and testing ideas. Completing the course, or working with a mentor, does not guarantee that your store will make money, or that it will make any specific amount.",
           ],
         },
         {
-          heading: "Results vary — a lot",
+          heading: "Results vary, a lot",
           paragraphs: [
-            "Outcomes depend on the products you choose, the effort and budget you put in, your market, timing, and factors nobody controls. Many first stores are not profitable. We think a first store is best treated as structured learning: some students go on to build stores that work, others conclude the model isn't for them — both are legitimate outcomes of honest experimentation.",
+            "Outcomes depend on the products you choose, the effort and budget you put in, your market, timing, and factors nobody controls. Many first stores are not profitable. We think a first store is best treated as structured learning: some students go on to build stores that work, others conclude the model isn't for them, both are legitimate outcomes of honest experimentation.",
           ],
         },
         {
@@ -32,7 +32,7 @@ export default function DisclaimerPage() {
         {
           heading: "Any demos are demos",
           paragraphs: [
-            "Interface previews and examples shown on this site illustrate how the course platform and teaching materials work. They are illustrations and demonstrations — never evidence of anyone's earnings.",
+            "Interface previews and examples shown on this site illustrate how the course platform and teaching materials work. They are illustrations and demonstrations, never evidence of anyone's earnings.",
           ],
         },
         {

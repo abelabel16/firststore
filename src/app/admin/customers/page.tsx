@@ -55,7 +55,7 @@ export default function AdminCustomersPage() {
           const spent = paidOrders.reduce((s, o) => s + o.amount_usd, 0);
           return [
             <span key="n">
-              {p.name || "—"}
+              {p.name || "not set"}
               <span className="block text-xs text-ink-faint">{p.email}</span>
             </span>,
             <span key="e" className="flex flex-wrap gap-1">
@@ -74,7 +74,7 @@ export default function AdminCustomersPage() {
             <span key="p">
               {paidOrders.length} · {formatUsd(spent)}
               <span className="block text-xs text-ink-faint">
-                {paidOrders.map((o) => (o.product === "course" ? "Course" : "VIP")).join(", ") || "—"}
+                {paidOrders.map((o) => (o.product === "course" ? "Course" : "VIP")).join(", ") || "not set"}
               </span>
             </span>,
             formatDate(p.created_at),

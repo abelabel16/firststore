@@ -28,7 +28,7 @@ export default function CommunityPage() {
           Private community
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-          A small private group of active mentorship clients — ask questions, share what
+          A small private group of active mentorship clients, ask questions, share what
           you&rsquo;re building, and see the feedback others get.
         </p>
       </div>

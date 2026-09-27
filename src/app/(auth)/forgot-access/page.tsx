@@ -11,7 +11,7 @@ export default function ForgotAccessPage() {
     <Card className="p-6 sm:p-8">
       <h1 className="text-xl font-semibold tracking-tight text-ink">Recover your access</h1>
       <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">
-        There are no passwords here — access is tied to your purchase email. Enter it below and
+        There are no passwords here, access is tied to your purchase email. Enter it below and
         we&rsquo;ll send a fresh login link.
       </p>
       <div className="mt-5">
@@ -23,7 +23,7 @@ export default function ForgotAccessPage() {
           <Link href="/contact" className="underline hover:text-ink">
             Contact support
           </Link>{" "}
-          or write to {site.supportEmail} — we&rsquo;ll verify your purchase and move your access.
+          or write to {site.supportEmail}, we&rsquo;ll verify your purchase and move your access.
         </p>
       </div>
     </Card>

@@ -10,7 +10,7 @@ import type { Product } from "@/lib/types";
  * Client-side access guard for the logged-in areas.
  *
  * UI convenience only: it redirects visitors who shouldn't be here. The real
- * enforcement is Supabase Row Level Security — without the right entitlement
+ * enforcement is Supabase Row Level Security, without the right entitlement
  * the database returns nothing, whatever the browser does.
  */
 export function RequireAccess({

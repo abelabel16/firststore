@@ -40,13 +40,13 @@ export const resources: Resource[] = [
   {
     id: "r6",
     title: "Recommended Tools",
-    description: "The tools we actually use for research, store building, and content — with free alternatives where they exist.",
+    description: "The tools we actually use for research, store building, and content, with free alternatives where they exist.",
     type: "Tools",
   },
   {
     id: "vr1",
     title: "Store Audit Checklist",
-    description: "The exact checklist used in VIP store reviews — audit your own store the way a mentor would.",
+    description: "The exact checklist used in VIP store reviews, audit your own store the way a mentor would.",
     type: "Checklist",
     vipOnly: true,
   },
@@ -60,7 +60,7 @@ export const resources: Resource[] = [
   {
     id: "vr3",
     title: "Content Review Rubric",
-    description: "The rubric used in VIP content feedback — hook, pacing, clarity, and call-to-action scoring.",
+    description: "The rubric used in VIP content feedback, hook, pacing, clarity, and call-to-action scoring.",
     type: "Framework",
     vipOnly: true,
   },

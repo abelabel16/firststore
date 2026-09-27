@@ -9,7 +9,7 @@
  * Then set the webhook URL in the Chapa dashboard to this function's URL.
  */
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { grantEntitlements } from "../_shared/grant.ts";
+import { grantEntitlements, sendAccessEmail } from "../_shared/grant.ts";
 
 async function hmacHex(secret: string, payload: string): Promise<string> {
   const key = await crypto.subtle.importKey(
@@ -66,6 +66,7 @@ Deno.serve(async (req) => {
       .update({ status: "paid", paid_at: new Date().toISOString() })
       .eq("tx_ref", txRef);
     await grantEntitlements(admin, order.email, order.product);
+    await sendAccessEmail(order.email, order.name ?? "", order.product);
   } else if (verification.data?.status === "failed") {
     await admin.from("orders").update({ status: "failed" }).eq("tx_ref", txRef);
   }

@@ -15,7 +15,7 @@ export default function VipResourcesPage() {
           VIP resources
         </h1>
         <p className="mt-1 text-sm text-ink-soft">
-          The advanced material used inside mentorship — yours to keep.
+          The advanced material used inside mentorship, yours to keep.
         </p>
       </div>
 

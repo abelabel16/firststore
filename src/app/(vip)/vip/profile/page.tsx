@@ -49,7 +49,7 @@ export default function VipProfilePage() {
         <dl className="mt-4 space-y-3">
           <div className="flex items-baseline justify-between gap-4">
             <dt className="text-sm text-ink-soft">Name</dt>
-            <dd className="text-sm font-medium text-ink">{auth.profile.name || "—"}</dd>
+            <dd className="text-sm font-medium text-ink">{auth.profile.name || "not set"}</dd>
           </div>
           <div className="flex items-baseline justify-between gap-4">
             <dt className="text-sm text-ink-soft">Email</dt>
@@ -76,7 +76,7 @@ export default function VipProfilePage() {
         <h2 className="text-sm font-semibold text-ink">Sessions</h2>
         {sessions.length === 0 ? (
           <p className="mt-3 text-sm text-ink-soft">
-            No sessions yet —{" "}
+            No sessions yet ,{" "}
             <Link href="/vip/book" className="font-medium text-accent hover:text-accent-strong">
               book your first one
             </Link>
@@ -113,7 +113,7 @@ export default function VipProfilePage() {
           <Link href="/contact" className="font-medium text-accent hover:text-accent-strong">
             contact support
           </Link>{" "}
-          — we handle verified requests within two business days.
+         , we handle verified requests within two business days.
         </p>
       </Card>
     </div>

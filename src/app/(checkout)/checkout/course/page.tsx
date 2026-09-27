@@ -5,7 +5,7 @@ import { Price } from "@/components/ui/price";
 import { formatUsd, site } from "@/config/site";
 import { CheckoutForm } from "@/components/checkout/checkout-form";
 
-export const metadata: Metadata = { title: "Checkout — Course" };
+export const metadata: Metadata = { title: "Course Checkout" };
 
 export default function CourseCheckoutPage() {
   return (
@@ -35,7 +35,7 @@ export default function CourseCheckoutPage() {
       </Card>
 
       <p className="mt-4 text-center text-xs leading-relaxed text-ink-faint">
-        By purchasing you agree to our terms and refund policy. This is education — results are
+        By purchasing you agree to our terms and refund policy. This is education, results are
         not guaranteed.
       </p>
     </Narrow>

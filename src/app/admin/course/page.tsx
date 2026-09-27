@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { modules } from "@/content/course";
 import { resources } from "@/content/resources";
 
-export const metadata: Metadata = { title: "Admin — Course" };
+export const metadata: Metadata = { title: "Admin, Course" };
 
 export default function AdminCoursePage() {
   const totalLessons = modules.reduce((n, m) => n + m.lessons.length, 0);
@@ -23,7 +23,7 @@ export default function AdminCoursePage() {
         <p className="text-sm leading-relaxed text-ink-soft">
           Course content is versioned with the code in{" "}
           <code className="rounded bg-paper px-1.5 py-0.5 text-xs">src/content/course.ts</code>.
-          Edit titles, descriptions, and video URLs there and deploy — every student gets the
+          Edit titles, descriptions, and video URLs there and deploy, every student gets the
           update instantly, and the change history lives in git.
         </p>
       </Card>
@@ -33,7 +33,7 @@ export default function AdminCoursePage() {
           <Card key={m.id} className="p-5">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <div className="flex items-baseline gap-3">
-                <span className="font-mono text-sm font-semibold text-accent">{m.number}</span>
+                <span className="text-sm font-semibold text-accent">{m.number}</span>
                 <h2 className="text-base font-semibold text-ink">{m.title}</h2>
               </div>
               <span className="text-xs text-ink-faint">{m.lessons.length} lessons</span>

@@ -3,7 +3,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 /**
- * Browser Supabase client (the site is a static export — all data access
+ * Browser Supabase client (the site is a static export, all data access
  * happens from the browser, secured by Row Level Security in Supabase).
  */
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;

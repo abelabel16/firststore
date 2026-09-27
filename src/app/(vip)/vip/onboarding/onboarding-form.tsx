@@ -25,7 +25,7 @@ export function OnboardingForm({
 
     const required = ["hasStore", "selling", "stage", "strugglingWith", "goal", "biggestProblem"];
     if (required.some((f) => !data[f]?.trim())) {
-      setError("Please answer every question — it all helps your mentor help you.");
+      setError("Please answer every question, it all helps your mentor help you.");
       return;
     }
 
@@ -87,17 +87,17 @@ export function OnboardingForm({
           <Input id="selling" name="selling" placeholder="e.g. home fitness accessories, or “not sure yet”" />
         </Field>
         <Field label="What stage are you at?" htmlFor="stage">
-          <Textarea id="stage" name="stage" placeholder="Where you are right now — research, building, testing…" />
+          <Textarea id="stage" name="stage" placeholder="Where you are right now, research, building, testing…" />
         </Field>
         <Field label="What are you struggling with?" htmlFor="strugglingWith">
-          <Textarea id="strugglingWith" name="strugglingWith" placeholder="Be specific — this is where mentorship focuses first." />
+          <Textarea id="strugglingWith" name="strugglingWith" placeholder="Be specific, this is where mentorship focuses first." />
         </Field>
       </div>
 
       <div className="space-y-5">
         <p className="text-xs font-semibold uppercase tracking-wider text-ink-faint">Your goals</p>
         <Field label="What are you trying to accomplish?" htmlFor="goal">
-          <Textarea id="goal" name="goal" placeholder="What does progress look like for you in the next 1–3 months?" />
+          <Textarea id="goal" name="goal" placeholder="What does progress look like for you in the next 1 to 3 months?" />
         </Field>
         <Field label="What is your biggest current problem?" htmlFor="biggestProblem">
           <Textarea id="biggestProblem" name="biggestProblem" placeholder="The one thing that, if solved, would unblock you." />

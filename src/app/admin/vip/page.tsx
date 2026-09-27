@@ -79,7 +79,7 @@ export default function AdminVipPage() {
       {vipClients.length === 0 && (
         <Card className="p-8 text-center">
           <p className="text-sm text-ink-soft">
-            No VIP clients yet — they appear here after their first login.
+            No VIP clients yet, they appear here after their first login.
           </p>
         </Card>
       )}
@@ -130,7 +130,7 @@ export default function AdminVipPage() {
                     <div key={s.id} className="rounded-xl border border-line p-4">
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <p className="text-sm font-medium text-ink">
-                          Session {s.number} — {s.date} at {s.time}
+                          Session {s.number}, {s.date} at {s.time}
                         </p>
                         <Badge tone={s.status === "completed" ? "good" : "accent"}>{s.status}</Badge>
                       </div>
@@ -152,7 +152,7 @@ export default function AdminVipPage() {
                         >
                           <textarea
                             name="actionPlan"
-                            placeholder="Action plan — one task per line"
+                            placeholder="Action plan, one task per line"
                             className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm placeholder:text-ink-faint focus:border-accent focus:outline-none"
                             rows={3}
                           />

@@ -1,6 +1,6 @@
 /**
  * Central business configuration.
- * Change the brand name, prices, and support email here — everything on the
+ * Change the brand name, prices, and support email here, everything on the
  * site reads from this file.
  *
  * NOTE ON THE REFERENCE PRICE: the crossed-out $199 must reflect a genuine
@@ -8,12 +8,12 @@
  * `course.referencePrice` to null and the UI will simply show $19.
  */
 export const site = {
-  name: "FirstStore",
+  name: "VibrantStore",
   tagline: "Build your first dropshipping store.",
   description:
-    "A practical dropshipping course and 1-to-1 mentorship. Learn product research, store setup, content, and traffic — a real process, not income promises.",
+    "A practical dropshipping course and 1-to-1 mentorship. Learn product research, store setup, content, and traffic, a real process, not income promises.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  supportEmail: "support@firststore.example",
+  supportEmail: "support@vibrantstore.com",
 
   course: {
     name: "The Dropshipping Course",

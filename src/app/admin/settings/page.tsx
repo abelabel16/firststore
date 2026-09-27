@@ -33,7 +33,7 @@ export default function AdminSettingsPage() {
         </dl>
         <p className="mt-4 text-xs leading-relaxed text-ink-faint">
           Edit these in <code className="rounded bg-paper px-1">src/config/site.ts</code>, then
-          push — GitHub Actions redeploys the site. The reference price must reflect a genuine
+          push, GitHub Actions redeploys the site. The reference price must reflect a genuine
           original price; set it to null otherwise.
         </p>
       </Card>

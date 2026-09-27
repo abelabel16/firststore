@@ -13,7 +13,7 @@
  * Deploy: supabase functions deploy create-checkout --no-verify-jwt
  */
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { corsHeaders, grantEntitlements } from "../_shared/grant.ts";
+import { corsHeaders, grantEntitlements, sendAccessEmail } from "../_shared/grant.ts";
 
 const PRICES_USD = { course: 19, vip: 499 } as const;
 
@@ -72,6 +72,7 @@ Deno.serve(async (req) => {
       .update({ status: "paid", paid_at: new Date().toISOString() })
       .eq("tx_ref", txRef);
     await grantEntitlements(admin, email, product);
+    await sendAccessEmail(email, name, product);
     return json({ checkoutUrl: successUrl });
   }
 

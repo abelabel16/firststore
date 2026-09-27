@@ -10,7 +10,7 @@ export default function LoginPage() {
     <Card className="p-6 sm:p-8">
       <h1 className="text-xl font-semibold tracking-tight text-ink">Log in</h1>
       <p className="mt-1.5 text-sm text-ink-soft">
-        Enter the email you purchased with. We&rsquo;ll send you a login link — no password
+        Enter the email you purchased with. We&rsquo;ll send you a login link, no password
         needed.
       </p>
       <div className="mt-5">

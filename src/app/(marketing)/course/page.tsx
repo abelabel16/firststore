@@ -17,11 +17,11 @@ export const metadata: Metadata = {
 const audience = [
   {
     title: "Complete beginners",
-    text: "You've never built a store. The course starts from zero — how the model works, what it costs, what to expect.",
+    text: "You've never built a store. The course starts from zero, how the model works, what it costs, what to expect.",
   },
   {
     title: "Stuck starters",
-    text: "You started a store but stalled — on product choice, content, or traffic. The module structure lets you fix the specific gap.",
+    text: "You started a store but stalled, on product choice, content, or traffic. The module structure lets you fix the specific gap.",
   },
   {
     title: "Side-project builders",
@@ -32,7 +32,7 @@ const audience = [
 const notList = [
   {
     title: "No guaranteed income",
-    text: "Nobody can guarantee your store makes money — your results depend on your products, execution, and budget.",
+    text: "Nobody can guarantee your store makes money, your results depend on your products, execution, and budget.",
   },
   {
     title: "No overnight wealth promises",
@@ -40,7 +40,7 @@ const notList = [
   },
   {
     title: "No fake proof",
-    text: "No income screenshots, no “student results” we can't verify. Judge the course by its curriculum — it's all public on this page.",
+    text: "No income screenshots, no “student results” we can't verify. Judge the course by its curriculum, it's all public on this page.",
   },
   {
     title: "No magic formula",
@@ -83,8 +83,8 @@ export default function CoursePage() {
             Start Learning Dropshipping for {formatUsd(site.course.price)}.
           </h1>
           <p className="mx-auto mt-5 max-w-lg text-base leading-relaxed text-ink-soft sm:text-lg">
-            The complete process — product research, store setup, suppliers, content, traffic, and
-            launch — in one structured course.
+            The complete process, product research, store setup, suppliers, content, traffic, and
+            launch, in one structured course.
           </p>
           <div className="mt-8 flex justify-center">
             <PriceBlock />
@@ -110,7 +110,7 @@ export default function CoursePage() {
             {modules.map((m) => (
               <Card key={m.id} className="p-5">
                 <div className="flex items-baseline gap-3">
-                  <span className="font-mono text-sm font-semibold text-accent">{m.number}</span>
+                  <span className="text-sm font-semibold text-accent">{m.number}</span>
                   <h3 className="text-base font-semibold text-ink">{m.title}</h3>
                 </div>
                 <p className="mt-2 text-sm leading-relaxed text-ink-soft">{m.summary}</p>
@@ -126,14 +126,14 @@ export default function CoursePage() {
           <SectionHeading
             eyebrow="Inside the course"
             title="Every module, in detail"
-            description="Exactly what each module contains — no mystery boxes."
+            description="Exactly what each module contains, no mystery boxes."
           />
           <div className="mx-auto max-w-3xl space-y-4">
             {modules.map((m) => (
               <Card key={m.id} className="p-5 sm:p-6">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <div className="flex items-baseline gap-3">
-                    <span className="font-mono text-sm font-semibold text-accent">{m.number}</span>
+                    <span className="text-sm font-semibold text-accent">{m.number}</span>
                     <h3 className="text-base font-semibold text-ink">{m.title}</h3>
                   </div>
                   <span className="text-xs text-ink-faint">{m.lessons.length} lessons</span>
@@ -178,7 +178,7 @@ export default function CoursePage() {
           <SectionHeading
             eyebrow="Honesty first"
             title="What this course is not"
-            description="This course is about learning, experimentation, execution, and understanding — not shortcuts."
+            description="This course is about learning, experimentation, execution, and understanding, not shortcuts."
           />
           <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2">
             {notList.map((n) => (
@@ -232,7 +232,7 @@ export default function CoursePage() {
               </ButtonLink>
             </div>
             <p className="mt-6 text-xs leading-relaxed text-ink-faint">
-              Education only — no income guarantees. See our refund policy and disclaimer.
+              Education only, no income guarantees. See our refund policy and disclaimer.
             </p>
           </Card>
         </Narrow>

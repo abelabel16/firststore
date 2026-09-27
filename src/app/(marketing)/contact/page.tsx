@@ -17,7 +17,7 @@ export default function ContactPage() {
             Contact us
           </h1>
           <p className="mx-auto mt-3 max-w-md text-base text-ink-soft">
-            Questions before buying, access issues, refunds — we answer everything.
+            Questions before buying, access issues, refunds, we answer everything.
           </p>
           <p className="mt-3 text-sm text-ink-soft">
             Support email:{" "}

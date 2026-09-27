@@ -1,6 +1,6 @@
 import type { FaqItem } from "@/content/faq";
 
-/** Accessible FAQ accordion built on native <details> — no JavaScript needed. */
+/** Accessible FAQ accordion built on native <details>, no JavaScript needed. */
 export function FaqAccordion({ items }: { items: FaqItem[] }) {
   return (
     <div className="divide-y divide-line rounded-2xl border border-line bg-surface">

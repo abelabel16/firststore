@@ -23,7 +23,7 @@ export function LoginForm({ buttonLabel = "Send Login Link" }: { buttonLabel?: s
       return;
     }
     if (!supabaseConfigured) {
-      setError("Login isn't available yet — the site's backend is not connected.");
+      setError("Login isn't available yet, the site's backend is not connected.");
       return;
     }
     setError(null);

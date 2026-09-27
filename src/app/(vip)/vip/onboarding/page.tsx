@@ -22,7 +22,7 @@ export default function VipOnboardingPage() {
         </p>
         {auth.profile.vip_onboarding && (
           <Badge tone="good" className="mt-3">
-            Already completed — submitting again updates your answers
+            Already completed, submitting again updates your answers
           </Badge>
         )}
       </div>

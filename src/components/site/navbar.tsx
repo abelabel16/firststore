@@ -42,12 +42,6 @@ export function Navbar() {
           ))}
         </div>
         <div className="hidden items-center gap-2 md:flex">
-          <Link
-            href="/login"
-            className="rounded-lg px-3 py-1.5 text-sm text-ink-soft transition-colors hover:text-ink"
-          >
-            Log in
-          </Link>
           <ButtonLink href="/course" size="sm">
             Get Started
           </ButtonLink>
@@ -88,12 +82,6 @@ export function Navbar() {
                 {l.label}
               </Link>
             ))}
-            <Link
-              href="/login"
-              className="rounded-lg px-3 py-2.5 text-sm text-ink-soft hover:bg-zinc-50"
-            >
-              Log in
-            </Link>
           </div>
         </div>
       )}

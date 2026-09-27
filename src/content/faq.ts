@@ -14,7 +14,7 @@ export const faqCategories: FaqCategory[] = [
     items: [
       {
         q: "Is the course beginner friendly?",
-        a: "Yes. It assumes no prior experience — Module 1 starts with how the business model works. If you've already started a store, you can jump to the modules you need.",
+        a: "Yes. It assumes no prior experience, Module 1 starts with how the business model works. If you've already started a store, you can jump to the modules you need.",
       },
       {
         q: "What exactly do I get?",
@@ -22,7 +22,7 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         q: "How long do I have access?",
-        a: "Access doesn't expire. Buy once, keep access — including updates.",
+        a: "Access doesn't expire. Buy once, keep access, including updates.",
       },
       {
         q: "Do I need Shopify?",
@@ -30,7 +30,7 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         q: "How much money do I need to start?",
-        a: "Beyond the course, plan for a store subscription, product samples, and a small testing budget. The Foundations module walks through a realistic budget in detail — most students should expect a few hundred dollars to test properly. Anyone telling you it's free is not being honest.",
+        a: "Beyond the course, plan for a store subscription, product samples, and a small testing budget. The Foundations module walks through a realistic budget in detail, most students should expect a few hundred dollars to test properly. Anyone telling you it's free is not being honest.",
       },
     ],
   },
@@ -68,7 +68,7 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         q: "Can I get a refund?",
-        a: "Yes — see the refund policy for the exact terms. In short: if the course isn't for you, contact support within the stated window and we'll sort it out.",
+        a: "Yes, see the refund policy for the exact terms. In short: if the course isn't for you, contact support within the stated window and we'll sort it out.",
       },
     ],
   },
@@ -77,15 +77,15 @@ export const faqCategories: FaqCategory[] = [
     items: [
       {
         q: "How do I access my purchase?",
-        a: "Access is tied to the email you used at checkout. After payment you'll receive an email with instructions; you log in by entering that email and clicking the login link we send you. No passwords to remember.",
+        a: "Right after payment, everything is sent to the email you used at checkout. No account, no password, no login. If it hasn't arrived within a few minutes, check your spam folder.",
       },
       {
-        q: "I lost access — what do I do?",
-        a: "Go to the login page and request a new login link with your purchase email. If you no longer control that email, contact support and we'll verify your purchase.",
+        q: "I lost the email. What do I do?",
+        a: "Contact support from the email you purchased with and we'll resend your access right away. If you no longer control that email, we'll verify your purchase and move it.",
       },
       {
         q: "Can I use it on my phone?",
-        a: "Yes — the whole platform is built mobile-first. Lessons, resources, and mentorship tools all work well on a phone.",
+        a: "Yes. Everything we send works on any device, and the lessons are made to watch comfortably on a phone.",
       },
     ],
   },
@@ -94,7 +94,7 @@ export const faqCategories: FaqCategory[] = [
     items: [
       {
         q: "Is income guaranteed?",
-        a: "No — and you should be skeptical of anyone who guarantees it. This is education: we teach a real process for researching, building, and testing an online store. Your results depend on your execution, your product choices, your budget, and factors outside anyone's control. Many stores fail; the course exists to make your attempts smarter, not to promise an outcome.",
+        a: "No, and you should be skeptical of anyone who guarantees it. This is education: we teach a real process for researching, building, and testing an online store. Your results depend on your execution, your product choices, your budget, and factors outside anyone's control. Many stores fail; the course exists to make your attempts smarter, not to promise an outcome.",
       },
       {
         q: "How long until I see results?",

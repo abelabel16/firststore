@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "accent" | "secondary" | "ghost" | "danger";
+type Variant = "primary" | "accent" | "secondary" | "ghost" | "danger" | "inverse" | "outlineDark";
 type Size = "sm" | "md" | "lg";
 
 const base =
@@ -13,6 +13,10 @@ const variants: Record<Variant, string> = {
   secondary: "bg-surface text-ink border border-line hover:border-zinc-300 hover:bg-zinc-50",
   ghost: "text-ink-soft hover:text-ink hover:bg-zinc-100",
   danger: "bg-danger text-white hover:bg-red-700",
+  /* For dark backgrounds. Never stack color overrides via className:
+     conflicting utilities resolve by stylesheet order, not class order. */
+  inverse: "bg-white text-zinc-900 hover:bg-zinc-100 shadow-sm",
+  outlineDark: "border border-zinc-600 text-white hover:bg-zinc-800",
 };
 
 const sizes: Record<Size, string> = {

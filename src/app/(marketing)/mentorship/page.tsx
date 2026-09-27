@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 
 const included = [
   { title: "1-to-1 mentorship", text: "Private sessions focused entirely on your store and your decisions." },
-  { title: "Store reviews", text: "Structured audits of your store — layout, copy, trust elements, checkout." },
+  { title: "Store reviews", text: "Structured audits of your store, layout, copy, trust elements, checkout." },
   { title: "Product reviews", text: "Feedback on product candidates before you spend money testing them." },
   { title: "Content feedback", text: "Your short-form videos reviewed against a clear rubric." },
   { title: "Personalized action plans", text: "A written plan after every session so the next step is always clear." },
@@ -26,7 +27,7 @@ const included = [
 
 const forWho = [
   { title: "You want direct feedback", text: "You'd rather have an experienced eye on your actual store than guess what's wrong." },
-  { title: "You're stuck on a specific problem", text: "Product choice, weak conversion, content that doesn't land — targeted help beats generic advice." },
+  { title: "You're stuck on a specific problem", text: "Product choice, weak conversion, content that doesn't land, targeted help beats generic advice." },
   { title: "You want structured accountability", text: "A written plan and someone checking in on it keeps you moving." },
   { title: "You prefer personalized guidance", text: "Courses teach the general case. Mentorship deals with your case." },
 ];
@@ -35,7 +36,7 @@ const steps = [
   { n: "1", title: "Purchase", text: "Complete checkout. You'll receive onboarding instructions by email immediately." },
   { n: "2", title: "Complete onboarding", text: "A short questionnaire about your store, your stage, and what you're stuck on." },
   { n: "3", title: "Join the private community", text: "Get access to the private group of active mentorship clients." },
-  { n: "4", title: "Book your session", text: "Pick a time that works for you and add your prep — store URL, product, questions." },
+  { n: "4", title: "Book your session", text: "Pick a time that works for you and add your prep, store URL, product, questions." },
   { n: "5", title: "Get your action plan", text: "After the session you receive a written, personalized plan." },
   { n: "6", title: "Continue with support", text: "Work the plan with direct support, feedback, and progress check-ins." },
 ];
@@ -43,7 +44,7 @@ const steps = [
 export default function MentorshipPage() {
   return (
     <>
-      {/* HERO — deliberately darker/more premium than the course page */}
+      {/* HERO, deliberately darker/more premium than the course page */}
       <section className="bg-ink">
         <Narrow className="py-16 text-center sm:py-28">
           <Badge className="mb-5 bg-zinc-800 text-zinc-300">VIP Mentorship</Badge>
@@ -60,11 +61,7 @@ export default function MentorshipPage() {
             <p className="mt-2 text-sm text-zinc-500">One-time payment · Course included</p>
           </div>
           <div className="mt-8">
-            <ButtonLink
-              href="/checkout/mentorship"
-              size="lg"
-              className="w-full bg-white text-ink hover:bg-zinc-200 sm:w-auto"
-            >
+            <ButtonLink href="/checkout/mentorship" variant="inverse" size="lg" className="w-full sm:w-auto">
               Get VIP Access
             </ButtonLink>
           </div>
@@ -112,10 +109,10 @@ export default function MentorshipPage() {
           </div>
           <p className="mx-auto mt-8 max-w-lg text-center text-sm text-ink-soft">
             If you learn well on your own, the{" "}
-            <a href="/course" className="font-medium text-accent hover:text-accent-strong">
+            <Link href="/course" className="font-medium text-accent hover:text-accent-strong">
               {formatUsd(site.course.price)} course
-            </a>{" "}
-            may be all you need — mentorship is for when you want a second pair of eyes on your
+            </Link>{" "}
+            may be all you need, mentorship is for when you want a second pair of eyes on your
             actual work.
           </p>
         </Container>
@@ -135,7 +132,7 @@ export default function MentorshipPage() {
                       aria-hidden="true"
                     />
                   )}
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line bg-surface font-mono text-sm font-semibold text-accent">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line bg-surface text-sm font-semibold text-accent">
                     {s.n}
                   </span>
                   <div className="pt-1.5">
@@ -159,11 +156,7 @@ export default function MentorshipPage() {
             {formatUsd(site.mentorship.price)}, one time. Everything included.
           </p>
           <div className="mt-8">
-            <ButtonLink
-              href="/checkout/mentorship"
-              size="lg"
-              className="w-full bg-white text-ink hover:bg-zinc-200 sm:w-auto"
-            >
+            <ButtonLink href="/checkout/mentorship" variant="inverse" size="lg" className="w-full sm:w-auto">
               Get VIP Access
             </ButtonLink>
           </div>

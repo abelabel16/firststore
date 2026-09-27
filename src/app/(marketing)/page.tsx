@@ -32,7 +32,7 @@ const vipIncludes = [
 const deliverables = [
   {
     title: "Video lessons",
-    text: "29 focused lessons across 8 modules — most under 15 minutes, built to be applied immediately.",
+    text: "29 focused lessons across 8 modules. Most are under 15 minutes and built to be applied immediately.",
   },
   {
     title: "Checklists",
@@ -40,7 +40,7 @@ const deliverables = [
   },
   {
     title: "Templates",
-    text: "Margin calculators, content shot lists, and store page structures — fill in, don't start from zero.",
+    text: "Margin calculators, content shot lists, and store page structures. Fill in, don't start from zero.",
   },
   {
     title: "Frameworks",
@@ -65,81 +65,87 @@ const steps = [
   {
     n: "2",
     title: "Build",
-    text: "Apply each module to your own store as you go — research real products, build real pages, make real content.",
+    text: "Apply each module to your own store as you go. Research real products, build real pages, make real content.",
   },
   {
     n: "3",
     title: "Test & improve",
-    text: "Launch, look at real data, and iterate. You're learning a process for making good decisions — not buying a guaranteed outcome.",
+    text: "Launch, look at real data, and iterate. You're learning a process for making good decisions, not buying a guaranteed outcome.",
   },
 ];
 
 const mentorshipPoints = [
-  { title: "Store review", text: "A structured audit of your store — layout, copy, trust, and checkout." },
+  { title: "Store review", text: "A structured audit of your store: layout, copy, trust, and checkout." },
   { title: "Product review", text: "Direct feedback on your product choices before you spend on testing." },
   { title: "Content feedback", text: "Your videos reviewed against a clear rubric: hook, pacing, clarity, CTA." },
-  { title: "Action plan", text: "A personalized, written plan after every session — you always know the next step." },
+  { title: "Action plan", text: "A personalized, written plan after every session. You always know the next step." },
   { title: "Private group", text: "A small community of active clients sharing real work and real feedback." },
   { title: "Session planning", text: "Prep before each 1-to-1 call so the time goes to your hardest problems." },
 ];
 
-/* ── Hero visual: a hand-drawn illustration of the course dashboard.
-     Pure UI mockup, labeled as such — never presented as earnings. ── */
+/* ── Hero visual: an illustration of the course experience.
+     Pure UI mockup, labeled as such. Never presented as earnings. ── */
 function HeroVisual() {
+  const lessons = [
+    { t: "Where product ideas come from", done: true },
+    { t: "Reading demand signals", done: true },
+    { t: "Evaluating the competition", done: false },
+    { t: "The product scoring checklist", done: false },
+  ];
   return (
-    <div aria-hidden="true" className="relative mx-auto w-full max-w-lg select-none">
-      <Card className="overflow-hidden">
-        <div className="flex items-center justify-between border-b border-line px-4 py-3">
-          <span className="text-xs font-bold tracking-tight">
+    <div aria-hidden="true" className="mx-auto w-full max-w-lg select-none">
+      <Card className="overflow-hidden shadow-lg shadow-zinc-200/60">
+        <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
+          <span className="text-sm font-bold tracking-tight">
             {site.name.toLowerCase()}
             <span className="text-accent">.</span>
           </span>
-          <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-medium text-ink-soft">
+          <span className="rounded-full bg-accent-soft px-2.5 py-1 text-xs font-medium text-accent-strong">
             Course preview
           </span>
         </div>
-        <div className="space-y-3 p-4">
+        <div className="space-y-3 p-5">
           <div>
-            <div className="mb-1.5 flex items-center justify-between text-[11px] text-ink-soft">
-              <span className="font-medium text-ink">Module 2 · Product Research</span>
-              <span>38% complete</span>
+            <div className="mb-2 flex items-center justify-between">
+              <span className="text-sm font-semibold text-ink">Module 2 · Product Research</span>
+              <span className="text-sm font-semibold tabular-nums text-accent">38%</span>
             </div>
-            <div className="h-1.5 overflow-hidden rounded-full bg-zinc-100">
+            <div className="h-2 overflow-hidden rounded-full bg-zinc-100">
               <div className="h-full w-[38%] rounded-full bg-accent" />
             </div>
           </div>
-          {[
-            { t: "Where product ideas come from", done: true },
-            { t: "Reading demand signals", done: true },
-            { t: "Evaluating the competition", done: false },
-            { t: "The product scoring checklist", done: false },
-          ].map((l) => (
+          {lessons.map((l) => (
             <div
               key={l.t}
-              className="flex items-center gap-2.5 rounded-lg border border-line px-3 py-2"
+              className="flex items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3"
             >
               <span
-                className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[9px] ${
-                  l.done ? "bg-good text-white" : "border border-line text-transparent"
+                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
+                  l.done ? "bg-good text-white" : "border-2 border-zinc-200"
                 }`}
               >
-                ✓
+                {l.done && (
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                    <path d="M1.5 5.5l2.5 2.5 4.5-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
               </span>
-              <span className={`text-xs ${l.done ? "text-ink-faint line-through" : "text-ink"}`}>
+              <span className={`text-sm font-medium ${l.done ? "text-ink-soft" : "text-ink"}`}>
                 {l.t}
               </span>
+              {l.done && <span className="ml-auto text-xs font-medium text-good">Done</span>}
             </div>
           ))}
+          <div className="flex items-center justify-between rounded-xl bg-zinc-900 px-4 py-3.5 text-white">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                Product score
+              </p>
+              <p className="mt-0.5 text-xs text-zinc-400">Demand ✓ · Margin ✓ · Competition high</p>
+            </div>
+            <p className="text-2xl font-bold tabular-nums">7.5<span className="text-base font-medium text-zinc-400">/10</span></p>
+          </div>
         </div>
-      </Card>
-      <Card className="absolute -bottom-6 -right-2 hidden w-44 p-3 sm:block">
-        <p className="text-[10px] font-semibold uppercase tracking-wider text-ink-faint">
-          Product score
-        </p>
-        <p className="mt-1 text-lg font-semibold text-ink">7.5 / 10</p>
-        <p className="mt-0.5 text-[10px] leading-snug text-ink-soft">
-          Demand ✓ · Margin ✓ · Competition high
-        </p>
       </Card>
     </div>
   );
@@ -160,11 +166,11 @@ export default function HomePage() {
             </h1>
             <p className="mt-5 text-base leading-relaxed text-ink-soft sm:text-lg">
               Learn how to research products, build a store, create content, and understand the
-              fundamentals of running a real online store — step by step, without the hype.
+              fundamentals of running a real online store. Step by step, without the hype.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="/checkout/course" size="lg" className="w-full sm:w-auto">
-                Start Learning — {formatUsd(site.course.price)}
+                Start Learning for {formatUsd(site.course.price)}
               </ButtonLink>
               <ButtonLink href="/mentorship" variant="secondary" size="lg" className="w-full sm:w-auto">
                 Explore VIP Mentorship
@@ -214,19 +220,22 @@ export default function HomePage() {
               </ButtonLink>
             </Card>
 
-            {/* VIP card */}
-            <Card className="flex flex-col border-ink bg-ink p-6 text-white sm:p-8">
+            {/* VIP card: intentionally a plain dark panel, NOT <Card>, so its
+                background can never be overridden by the Card base styles. */}
+            <div className="flex flex-col rounded-2xl bg-zinc-900 p-6 text-white shadow-md sm:p-8">
               <div className="flex items-center justify-between">
                 <p className="text-sm font-semibold uppercase tracking-wider text-zinc-400">
                   VIP Mentorship
                 </p>
-                <Badge className="bg-zinc-800 text-zinc-300">Premium</Badge>
+                <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white">
+                  Premium
+                </span>
               </div>
               <div className="mt-4">
                 <span className="text-3xl font-semibold tracking-tight">
                   {formatUsd(site.mentorship.price)}
                 </span>
-                <p className="mt-1 text-xs text-zinc-500">One-time payment. Course included.</p>
+                <p className="mt-1 text-xs text-zinc-400">One-time payment. Course included.</p>
               </div>
               <p className="mt-4 text-sm text-zinc-300">
                 Personal guidance, direct feedback, and private support.
@@ -239,13 +248,10 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
-              <ButtonLink
-                href="/mentorship"
-                className="mt-8 w-full bg-white text-ink hover:bg-zinc-200"
-              >
+              <ButtonLink href="/mentorship" variant="inverse" className="mt-8 w-full">
                 Explore Mentorship
               </ButtonLink>
-            </Card>
+            </div>
           </div>
         </Container>
       </section>
@@ -256,7 +262,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="Curriculum"
             title="What you'll learn"
-            description="Eight modules covering the complete process — from understanding the model to operating a launched store."
+            description="Eight modules covering the complete process, from understanding the model to operating a launched store."
           />
           <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2">
             {modules.map((m) => (
@@ -265,7 +271,7 @@ export default function HomePage() {
                 className="group rounded-2xl border border-line bg-paper p-5 transition-colors hover:border-zinc-300"
               >
                 <div className="flex items-baseline gap-3">
-                  <span className="font-mono text-sm font-semibold text-accent">{m.number}</span>
+                  <span className="text-sm font-bold tabular-nums text-accent">{m.number}</span>
                   <h3 className="text-base font-semibold text-ink">{m.title}</h3>
                 </div>
                 <p className="mt-2 text-sm leading-relaxed text-ink-soft">{m.summary}</p>
@@ -286,7 +292,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="Deliverables"
             title="What you actually get"
-            description="Tangible materials — no “secret methods”, no vague promises. This is what's inside."
+            description="Tangible materials. No “secret methods”, no vague promises. This is what's inside."
           />
           <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {deliverables.map((d) => (
@@ -305,12 +311,12 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="How it works"
             title="A process, not a promise"
-            description="You're learning how to research, build, and test — the outcome depends on your execution, and that's the honest truth."
+            description="You're learning how to research, build, and test. The outcome depends on your execution, and that's the honest truth."
           />
           <div className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-3">
             {steps.map((s) => (
               <div key={s.n} className="text-center sm:text-left">
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-accent-soft font-mono text-sm font-semibold text-accent-strong">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-accent-soft text-base font-bold tabular-nums text-accent-strong">
                   {s.n}
                 </span>
                 <h3 className="mt-4 text-base font-semibold text-ink">{s.title}</h3>
@@ -321,36 +327,101 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* COURSE PREVIEW */}
+      {/* INSIDE THE COURSE */}
       <section className="py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="Inside the platform"
-            title="A clean place to learn"
-            description="Your dashboard tracks progress through every module. Lessons, resources, and checklists in one place — built mobile-first."
+            eyebrow="Inside the course"
+            title="What lands in your inbox"
+            description="Buy once and everything arrives by email: video lessons, checklists, templates, and the full curriculum. No account or password needed."
           />
           <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2">
-            <PreviewPanel
-              label="Course dashboard"
-              lines={["Welcome back 👋", "Continue: Module 3 · Store Setup", "31% complete"]}
-              bars={[100, 100, 31, 0]}
-            />
-            <PreviewPanel
-              label="Lesson player"
-              lines={["Reading demand signals", "14 min · Module 2", "Resources attached"]}
-              video
-            />
-            <PreviewPanel
-              label="Curriculum"
-              lines={["01 Foundations ✓", "02 Product Research ▶", "03 Store Setup", "04 Suppliers"]}
-            />
-            <PreviewPanel
-              label="Resource library"
-              lines={["Product Research Checklist", "Store Launch Checklist", "Content Angle Framework"]}
-            />
+            {/* Video lesson */}
+            <Card aria-hidden="true" className="select-none overflow-hidden">
+              <div className="flex aspect-video items-center justify-center bg-zinc-900">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/15">
+                  <svg width="14" height="16" viewBox="0 0 12 14" fill="white" aria-hidden="true">
+                    <path d="M0 0l12 7-12 7z" />
+                  </svg>
+                </span>
+              </div>
+              <div className="p-4">
+                <p className="text-sm font-semibold text-ink">Reading demand signals</p>
+                <p className="mt-0.5 text-xs text-ink-soft">Video lesson · 14 min · Module 2</p>
+              </div>
+            </Card>
+
+            {/* Checklist */}
+            <Card aria-hidden="true" className="select-none p-4">
+              <p className="text-sm font-semibold text-ink">Store Launch Checklist</p>
+              <p className="mt-0.5 text-xs text-ink-soft">Included template</p>
+              <ul className="mt-3 space-y-2">
+                {[
+                  { t: "Product page answers all customer questions", done: true },
+                  { t: "Shipping times stated honestly", done: true },
+                  { t: "Policies and contact page complete", done: true },
+                  { t: "Checkout tested on mobile", done: false },
+                  { t: "Analytics connected", done: false },
+                ].map((i) => (
+                  <li key={i.t} className="flex items-center gap-2.5 text-sm">
+                    <span
+                      className={`flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded ${
+                        i.done ? "bg-good text-white" : "border-2 border-zinc-200"
+                      }`}
+                    >
+                      {i.done && (
+                        <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+                          <path d="M1.5 5.5l2.5 2.5 4.5-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                    </span>
+                    <span className={i.done ? "text-ink-soft" : "text-ink"}>{i.t}</span>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+
+            {/* Curriculum */}
+            <Card aria-hidden="true" className="select-none p-4">
+              <p className="text-sm font-semibold text-ink">Full curriculum</p>
+              <p className="mt-0.5 text-xs text-ink-soft">8 modules · 29 lessons</p>
+              <ul className="mt-3 space-y-1.5">
+                {modules.slice(0, 5).map((m) => (
+                  <li key={m.id} className="flex items-center gap-3 text-sm">
+                    <span className="w-6 text-xs font-bold tabular-nums text-accent">{m.number}</span>
+                    <span className="text-ink">{m.title}</span>
+                  </li>
+                ))}
+                <li className="pl-9 text-xs text-ink-faint">+ 3 more modules</li>
+              </ul>
+            </Card>
+
+            {/* Framework */}
+            <Card aria-hidden="true" className="select-none p-4">
+              <p className="text-sm font-semibold text-ink">Product scoring framework</p>
+              <p className="mt-0.5 text-xs text-ink-soft">Score every idea the same way</p>
+              <div className="mt-3 space-y-2.5">
+                {[
+                  { label: "Demand", value: 80 },
+                  { label: "Margin", value: 70 },
+                  { label: "Competition", value: 45 },
+                  { label: "Content potential", value: 85 },
+                ].map((r) => (
+                  <div key={r.label}>
+                    <div className="mb-1 flex items-center justify-between text-xs">
+                      <span className="font-medium text-ink">{r.label}</span>
+                      <span className="font-semibold tabular-nums text-ink-soft">{r.value}</span>
+                    </div>
+                    <div className="h-1.5 overflow-hidden rounded-full bg-zinc-100">
+                      <div className="h-full rounded-full bg-accent" style={{ width: `${r.value}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
           </div>
           <p className="mt-6 text-center text-xs text-ink-faint">
-            Interface previews of the actual course platform.
+            Illustrations of the course materials.
           </p>
         </Container>
       </section>
@@ -361,7 +432,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="VIP Mentorship"
             title="Learning alone vs. building with support"
-            description="The course teaches the process. Mentorship applies it to your store — with someone experienced reviewing your actual decisions."
+            description="The course teaches the process. Mentorship applies it to your store, with someone experienced reviewing your actual decisions."
           />
           <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {mentorshipPoints.map((p) => (
@@ -382,10 +453,7 @@ export default function HomePage() {
       {/* FAQ */}
       <section className="py-16 sm:py-24">
         <Narrow>
-          <SectionHeading
-            eyebrow="FAQ"
-            title="Honest answers to real questions"
-          />
+          <SectionHeading eyebrow="FAQ" title="Honest answers to real questions" />
           <FaqAccordion items={homeFaq} />
           <p className="mt-6 text-center text-sm text-ink-soft">
             More questions?{" "}
@@ -410,7 +478,7 @@ function CheckIcon({ dark }: { dark?: boolean }) {
   return (
     <span
       className={`flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full ${
-        dark ? "bg-zinc-800 text-good" : "bg-good-soft text-good"
+        dark ? "bg-white/10 text-emerald-400" : "bg-good-soft text-good"
       }`}
       aria-hidden="true"
     >
@@ -418,50 +486,5 @@ function CheckIcon({ dark }: { dark?: boolean }) {
         <path d="M1.5 5.5l2.5 2.5 4.5-6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </span>
-  );
-}
-
-function PreviewPanel({
-  label,
-  lines,
-  bars,
-  video,
-}: {
-  label: string;
-  lines: string[];
-  bars?: number[];
-  video?: boolean;
-}) {
-  return (
-    <Card aria-hidden="true" className="select-none overflow-hidden">
-      <div className="border-b border-line px-4 py-2.5">
-        <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-faint">{label}</p>
-      </div>
-      <div className="space-y-2.5 p-4">
-        {video && (
-          <div className="flex aspect-video items-center justify-center rounded-lg bg-ink">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
-              <svg width="12" height="14" viewBox="0 0 12 14" fill="white" aria-hidden="true">
-                <path d="M0 0l12 7-12 7z" />
-              </svg>
-            </span>
-          </div>
-        )}
-        {lines.map((line) => (
-          <p key={line} className="text-xs text-ink-soft first:font-medium first:text-ink">
-            {line}
-          </p>
-        ))}
-        {bars && (
-          <div className="flex gap-1.5 pt-1">
-            {bars.map((b, i) => (
-              <div key={i} className="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100">
-                <div className="h-full rounded-full bg-accent" style={{ width: `${b}%` }} />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </Card>
   );
 }

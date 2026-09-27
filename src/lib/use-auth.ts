@@ -20,7 +20,7 @@ export interface AuthState {
  * Client-side auth + entitlement state.
  *
  * This drives what the UI shows; the actual security boundary is Supabase
- * Row Level Security — the database refuses reads/writes the user isn't
+ * Row Level Security, the database refuses reads/writes the user isn't
  * entitled to, regardless of what the UI does.
  */
 export function useAuth(): AuthState {

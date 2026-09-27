@@ -26,7 +26,7 @@ export function CheckoutForm({ product, cta }: { product: "course" | "vip"; cta:
     if (Object.keys(nextErrors).length > 0) return;
 
     if (!supabaseConfigured) {
-      setServerError("Checkout isn't live yet — the site's backend is not connected.");
+      setServerError("Checkout isn't live yet, the site's backend is not connected.");
       return;
     }
 
@@ -66,7 +66,7 @@ export function CheckoutForm({ product, cta }: { product: "course" | "vip"; cta:
         label="Email"
         htmlFor="email"
         error={errors.email}
-        hint="Your access is delivered to this email — double-check it."
+        hint="Your access is delivered to this email, double-check it."
       >
         <Input id="email" name="email" type="email" autoComplete="email" placeholder="you@example.com" />
       </Field>
