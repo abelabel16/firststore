@@ -19,17 +19,48 @@ export async function grantEntitlements(
   }
 }
 
-/**
- * Deliver the purchase by email (the customer never needs to log in).
- *
- * Secrets used:
- *   RESEND_API_KEY     — from resend.com (without it, delivery is only logged)
- *   EMAIL_FROM         — e.g. "VibrantFlacon <access@vibrantflacon.com>"
- *   COURSE_ACCESS_URL  — where the course lives (private video hub, Drive,
- *                        Telegram channel invite, etc.)
- *   VIP_ACCESS_URL     — where the VIP materials + community invite live
- *   SUPPORT_EMAIL      — shown in the email footer
- */
+/* ────────────────────────── email building blocks ──────────────────────────
+   Gmail/Outlook-safe HTML: tables for structure, inline styles only. */
+
+const BRAND = "#4f46e5";
+const INK = "#18181b";
+
+function emailShell(inner: string, preheader: string): string {
+  return `<!DOCTYPE html>
+<html><body style="margin:0;padding:0;background:#f4f4f5;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">${preheader}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;padding:28px 12px;">
+<tr><td align="center">
+<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid #e4e4e7;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">
+<tr><td style="background:${INK};padding:22px 32px;">
+  <span style="font-size:19px;font-weight:800;letter-spacing:-0.3px;color:#ffffff;">vibrantflacon</span><span style="font-size:19px;font-weight:800;color:${BRAND};">.</span>
+</td></tr>
+${inner}
+</table>
+<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
+<tr><td style="padding:18px 12px;text-align:center;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:11px;color:#a1a1aa;line-height:1.6;">
+  VibrantFlacon · vibrantflacon.com · Education, honestly sold.
+</td></tr>
+</table>
+</td></tr></table></body></html>`;
+}
+
+function button(href: string, label: string, bg = INK): string {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto;"><tr>
+  <td style="border-radius:12px;background:${bg};">
+    <a href="${href}" style="display:inline-block;padding:15px 36px;font-size:15px;font-weight:700;color:#ffffff;text-decoration:none;border-radius:12px;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">${label}</a>
+  </td></tr></table>`;
+}
+
+function detailRow(label: string, value: string, last = false): string {
+  return `<tr>
+    <td style="padding:11px 0;font-size:13px;color:#71717a;${last ? "" : "border-bottom:1px solid #f0f0f2;"}">${label}</td>
+    <td align="right" style="padding:11px 0;font-size:13px;font-weight:700;color:${INK};${last ? "" : "border-bottom:1px solid #f0f0f2;"}">${value}</td>
+  </tr>`;
+}
+
+/* ───────────────────────── customer access email ───────────────────────── */
+
 export async function sendAccessEmail(
   email: string,
   name: string,
@@ -47,82 +78,65 @@ export async function sendAccessEmail(
 
   const isVip = product === "vip";
   const productName = isVip ? "VIP Accelerator" : "The Dropshipping Course";
-  const amount = receipt?.amountUsd ?? (isVip ? 199 : 19);
+  const amount = receipt?.amountUsd ?? (isVip ? 199 : 17.99);
   const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-
   const subject = isVip
     ? "Welcome to VIP: your receipt and access"
     : "You're in: your receipt and course access";
 
   const included = isVip
-    ? ["The full course, all 8 modules", "Advanced deep-dive guides", "Store & product audit systems", "Content review rubric + action plan templates", "Private community access", "Priority support and lifetime updates"]
+    ? ["The full course, all 8 modules", "Advanced deep-dive guides", "Store &amp; product audit systems", "Content review rubric + action plan templates", "Private community access", "Priority support and lifetime updates"]
     : ["All 8 modules, 29 video lessons", "Checklists, templates, and frameworks", "The complete resource library", "Every future course update, free"];
 
-  const row = (label: string, value: string) =>
-    `<tr><td style="padding:6px 0;font-size:13px;color:#71717a;">${label}</td><td style="padding:6px 0;font-size:13px;color:#18181b;font-weight:600;text-align:right;">${value}</td></tr>`;
+  const inner = `
+<tr><td style="padding:34px 32px 8px;">
+  <h1 style="margin:0;font-size:24px;line-height:1.3;color:${INK};font-weight:800;">${isVip ? `Welcome to VIP, ${firstName}. 🤝` : `You're in, ${firstName}. 🎉`}</h1>
+  <p style="margin:12px 0 0;font-size:14px;line-height:1.7;color:#52525b;">
+    Thank you for your purchase. ${isVip ? "You now own the complete system, course included." : "You just took the first real step toward your first store."} Keep this email: everything you need is right here.
+  </p>
+</td></tr>
+<tr><td style="padding:22px 32px 0;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fafafa;border:1px solid #ececee;border-radius:14px;">
+    <tr><td style="padding:20px 22px;">
+      <p style="margin:0 0 4px;font-size:10px;font-weight:800;letter-spacing:1.6px;color:#a1a1aa;">RECEIPT</p>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+        ${detailRow("Product", productName)}
+        ${detailRow("Amount", `$${amount} USD`)}
+        ${detailRow("Date", date)}
+        ${receipt?.orderRef ? detailRow("Order reference", receipt.orderRef.slice(0, 18)) : ""}
+        ${detailRow("Payment", "One-time. Never a subscription.", true)}
+      </table>
+    </td></tr>
+  </table>
+</td></tr>
+<tr><td style="padding:24px 32px 0;">
+  <p style="margin:0 0 10px;font-size:10px;font-weight:800;letter-spacing:1.6px;color:#a1a1aa;">WHAT'S INCLUDED</p>
+  ${included.map((i) => `<p style="margin:0 0 8px;font-size:14px;color:${INK};"><span style="color:#059669;font-weight:800;">✓</span>&nbsp;&nbsp;${i}</p>`).join("")}
+</td></tr>
+<tr><td style="padding:22px 32px 0;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+    <td style="border-left:3px solid ${BRAND};padding:4px 0 4px 16px;">
+      <p style="margin:0;font-size:15px;font-weight:700;color:${INK};line-height:1.5;">Your ${isVip ? "VIP access" : "course"} arrives at this email within 24 hours.</p>
+      <p style="margin:6px 0 0;font-size:13px;line-height:1.7;color:#52525b;">Usually much faster. Nothing after 24 hours? Check spam, then message us on Telegram at <strong>${telegram}</strong> or just reply here. We fix it immediately.</p>
+    </td>
+  </tr></table>
+</td></tr>
+${accessUrl ? `<tr><td align="center" style="padding:28px 32px 4px;">${button(accessUrl, isVip ? "Open Your VIP Access" : "Open Your Course")}<p style="margin:10px 0 0;font-size:11px;color:#a1a1aa;">This button is your permanent access.</p></td></tr>` : ""}
+<tr><td style="padding:26px 32px 6px;">
+  <p style="margin:0;font-size:13px;line-height:1.8;color:#52525b;">One honest note before you start: this is education, not a shortcut. Go one module at a time, do the checklists, and let real data make your decisions. That's the whole game.</p>
+  <p style="margin:14px 0 0;font-size:14px;color:${INK};font-weight:600;">Let's build. 🚀<br/><span style="font-weight:400;color:#71717a;">The VibrantFlacon team</span></p>
+</td></tr>
+<tr><td style="padding:20px 32px 26px;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+    <td style="border-top:1px solid #ececee;padding-top:16px;font-size:11.5px;line-height:1.7;color:#a1a1aa;">
+      Questions or refunds: reply to this email, write to ${support}, or Telegram ${telegram}. Our 14-day refund policy is simple and honest.
+    </td>
+  </tr></table>
+</td></tr>`;
 
-  const html = `
-  <div style="background:#f4f4f5;padding:24px 8px;">
-  <div style="font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;max-width:520px;margin:0 auto;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e4e4e7;">
-    <div style="padding:28px 28px 0;">
-      <p style="font-weight:700;font-size:17px;margin:0;">vibrantflacon<span style="color:#4f46e5">.</span></p>
-    </div>
-    <div style="padding:24px 28px;">
-      <h1 style="font-size:22px;margin:0 0 8px;color:#18181b;">${isVip ? `Welcome to VIP, ${firstName}. 🤝` : `You're in, ${firstName}. 🎉`}</h1>
-      <p style="font-size:14px;line-height:1.6;color:#52525b;margin:0;">
-        Thank you for your purchase. ${isVip ? "You now have the complete system, and the full course is included." : "You just took the first real step toward your first store."}
-        Here is everything you need, all in one email worth keeping.
-      </p>
-
-      <!-- Receipt -->
-      <div style="margin:24px 0;border:1px solid #e4e4e7;border-radius:12px;padding:18px 20px;background:#fafafa;">
-        <p style="margin:0 0 10px;font-size:11px;font-weight:700;letter-spacing:1px;color:#a1a1aa;">YOUR RECEIPT</p>
-        <table style="width:100%;border-collapse:collapse;">
-          ${row("Product", productName)}
-          ${row("Amount", `$${amount} USD`)}
-          ${row("Date", date)}
-          ${receipt?.orderRef ? row("Order reference", receipt.orderRef) : ""}
-          ${row("Payment", "One-time. No subscription, ever.")}
-        </table>
-        <p style="margin:10px 0 0;font-size:12px;color:#a1a1aa;">The official tax invoice from our payment provider arrives in a separate email.</p>
-      </div>
-
-      <!-- What you get -->
-      <p style="margin:0 0 8px;font-size:11px;font-weight:700;letter-spacing:1px;color:#a1a1aa;">WHAT'S INCLUDED</p>
-      ${included.map((i) => `<p style="margin:0 0 6px;font-size:14px;color:#18181b;">✓&nbsp; ${i}</p>`).join("")}
-
-      <!-- Delivery -->
-      <div style="margin:24px 0;border-left:3px solid #4f46e5;padding:2px 0 2px 14px;">
-        <p style="margin:0;font-size:14px;line-height:1.6;color:#18181b;font-weight:600;">
-          ${isVip ? "Your VIP access arrives at this email address within 24 hours." : "Your course access arrives at this email address within 24 hours."}
-        </p>
-        <p style="margin:6px 0 0;font-size:13px;line-height:1.6;color:#52525b;">
-          Usually it's much faster. If nothing lands within 24 hours, check spam first, then message us on Telegram at <strong>${telegram}</strong> or reply to this email, and we'll sort it out immediately.
-        </p>
-      </div>
-      ${
-        accessUrl
-          ? `<a href="${accessUrl}" style="display:inline-block;background:#18181b;color:#ffffff;padding:13px 24px;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600;">${isVip ? "Open Your VIP Access" : "Open Your Course"}</a>
-             <p style="margin:10px 0 0;font-size:12px;color:#a1a1aa;">This button is your permanent access. Keep this email safe.</p>`
-          : ""
-      }
-
-      <p style="margin:28px 0 0;font-size:14px;line-height:1.7;color:#52525b;">
-        One honest reminder before you start: this is education, not a shortcut. The students who get the most out of it are the ones who treat the first store as practice, follow the process, and let real data make their decisions. Take it one module at a time, and don't skip the checklists.
-      </p>
-      <p style="margin:16px 0 0;font-size:14px;color:#18181b;">Let's build. 🚀<br/><span style="color:#71717a;">The ${"VibrantFlacon"} team</span></p>
-    </div>
-    <div style="padding:18px 28px;border-top:1px solid #e4e4e7;background:#fafafa;">
-      <p style="margin:0;font-size:12px;line-height:1.6;color:#a1a1aa;">
-        Questions or refunds: reply to this email, write to ${support}, or Telegram ${telegram}.
-        Our refund policy is simple and honest, no fine-print games.
-      </p>
-    </div>
-  </div>
-  </div>`;
+  const html = emailShell(inner, `Your ${productName} receipt and access details.`);
 
   if (!apiKey) {
-    // Never log full customer emails.
     console.log(`[email skipped, no RESEND_API_KEY] to=${email.slice(0, 2)}*** product=${product}`);
     return;
   }
@@ -139,8 +153,8 @@ export async function sendAccessEmail(
   if (!res.ok) console.error("access email failed:", res.status, await res.text());
 }
 
-/** Origins allowed to call the checkout function from a browser. */
-/** Alert the store owner that a sale just landed. */
+/* ─────────────────────────── owner sale alert ─────────────────────────── */
+
 export async function sendOwnerSaleAlert(
   buyerEmail: string,
   buyerName: string,
@@ -151,27 +165,52 @@ export async function sendOwnerSaleAlert(
   const owner = Deno.env.get("OWNER_EMAIL");
   if (!apiKey || !owner) return;
   const productName = product === "vip" ? "VIP Accelerator" : "The Dropshipping Course";
+  const amount = amountUsd ?? (product === "vip" ? 199 : 17.99);
+  const time = new Date().toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: "Africa/Addis_Ababa",
+  });
+
+  const inner = `
+<tr><td align="center" style="padding:38px 32px 0;">
+  <p style="margin:0;font-size:13px;font-weight:800;letter-spacing:2px;color:#059669;">NEW SALE 🎉</p>
+  <p style="margin:10px 0 0;font-size:46px;font-weight:800;letter-spacing:-1px;color:${INK};">$${amount}</p>
+  <p style="margin:6px 0 0;font-size:15px;color:#52525b;">${productName}</p>
+</td></tr>
+<tr><td style="padding:26px 32px 0;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fafafa;border:1px solid #ececee;border-radius:14px;">
+    <tr><td style="padding:18px 22px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+        ${detailRow("Buyer", buyerName ? buyerName.replace(/[<>&]/g, "") : "No name given")}
+        ${detailRow("Email", buyerEmail)}
+        ${detailRow("Time", `${time} (Addis)`, true)}
+      </table>
+    </td></tr>
+  </table>
+</td></tr>
+<tr><td style="padding:22px 32px 0;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+    <td style="border-left:3px solid ${BRAND};padding:4px 0 4px 16px;">
+      <p style="margin:0;font-size:14px;font-weight:700;color:${INK};">Your move: deliver within 24 hours.</p>
+      <p style="margin:5px 0 0;font-size:13px;line-height:1.7;color:#52525b;">Send the ${product === "vip" ? "VIP materials and community invite" : "course materials"} to <strong>${buyerEmail}</strong>. Their receipt was already sent automatically.</p>
+    </td>
+  </tr></table>
+</td></tr>
+<tr><td align="center" style="padding:28px 32px 34px;">
+  ${button("https://vibrantflacon.com/login/", "Open Admin Panel", BRAND)}
+</td></tr>`;
+
   await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       from: Deno.env.get("EMAIL_FROM") ?? "VibrantFlacon <onboarding@resend.dev>",
       to: owner,
-      subject: `🎉 New sale: ${productName}${amountUsd ? ` ($${amountUsd})` : ""}`,
-      html: `
-      <div style="font-family:ui-sans-serif,system-ui,sans-serif;max-width:480px;margin:0 auto;padding:24px;color:#18181b;">
-        <h2 style="font-size:20px;">You just made a sale! 🎉</h2>
-        <p style="font-size:14px;line-height:1.7;">
-          <strong>${productName}</strong>${amountUsd ? ` for $${amountUsd}` : ""}<br/>
-          Buyer: <strong>${buyerName || "(no name)"}</strong> · ${buyerEmail}<br/>
-          Time: ${new Date().toUTCString()}
-        </p>
-        <p style="font-size:13px;color:#71717a;line-height:1.6;">
-          Their receipt email was sent automatically. Remember your promise:
-          deliver the course materials to <strong>${buyerEmail}</strong> within 24 hours.
-          Full details in your admin panel.
-        </p>
-      </div>`,
+      subject: `🎉 $${amount} sale: ${productName}`,
+      html: emailShell(inner, `${buyerEmail} just bought ${productName}.`),
     }),
   }).catch((e) => console.error("owner alert failed", e));
 }

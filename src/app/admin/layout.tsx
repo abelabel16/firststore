@@ -5,6 +5,7 @@ import { RequireAccess } from "@/components/app/require-access";
 
 const links: AppNavLink[] = [
   { href: "/admin", label: "Overview" },
+  { href: "/admin/analytics", label: "Analytics" },
   { href: "/admin/orders", label: "Orders" },
   { href: "/admin/customers", label: "Customers" },
   { href: "/admin/course", label: "Course" },

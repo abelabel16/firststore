@@ -95,6 +95,16 @@ create table if not exists public.tickets (
   created_at timestamptz not null default now()
 );
 
+-- First-party analytics: anonymous page views (no cookies, no third parties).
+create table if not exists public.page_views (
+  id uuid primary key default gen_random_uuid(),
+  path text not null check (char_length(path) <= 200),
+  referrer text check (char_length(referrer) <= 500),
+  visitor text check (char_length(visitor) <= 64),
+  created_at timestamptz not null default now()
+);
+create index if not exists page_views_created_idx on public.page_views (created_at desc);
+
 -- ---------- triggers ----------
 
 -- Create a profile row automatically when a user signs up / first logs in.
@@ -202,6 +212,13 @@ drop policy if exists vip_sessions_update on public.vip_sessions;
 create policy vip_sessions_update on public.vip_sessions for update
   using ((email = public.jwt_email() and public.has_product('vip')) or public.is_admin())
   with check ((email = public.jwt_email() and public.has_product('vip')) or public.is_admin());
+
+-- page_views: anyone can record a view; only admins can read them.
+alter table public.page_views enable row level security;
+drop policy if exists page_views_insert on public.page_views;
+create policy page_views_insert on public.page_views for insert with check (true);
+drop policy if exists page_views_select on public.page_views;
+create policy page_views_select on public.page_views for select using (public.is_admin());
 
 -- tickets: anyone may send a contact message; VIP clients may open VIP
 -- tickets; users read their own; only admins reply/close.

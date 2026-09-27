@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { site } from "@/config/site";
+import { AnalyticsTracker } from "@/components/site/analytics-tracker";
 import "./globals.css";
 
 const inter = Inter({
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "if(location.protocol==='http:'&&location.hostname!=='localhost'){location.replace(location.href.replace('http://','https://'))}",
           }}
         />
+        <AnalyticsTracker />
         {children}
       </body>
     </html>
