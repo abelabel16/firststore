@@ -36,12 +36,19 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
 
-  let body: { product?: string; name?: string; email?: string; returnOrigin?: string };
+  let body: {
+    product?: string;
+    name?: string;
+    email?: string;
+    returnOrigin?: string;
+    method?: string;
+  };
   try {
     body = await req.json();
   } catch {
     return json({ error: "Invalid request." }, 400);
   }
+  const method = body.method === "crypto" ? "crypto" : "card";
 
   const product = body.product === "vip" ? "vip" : body.product === "course" ? "course" : null;
   const name = (body.name ?? "").trim().slice(0, 100);
@@ -71,7 +78,11 @@ Deno.serve(async (req) => {
     name,
     product,
     amount_usd: PRICES_USD[product],
-    provider: demo ? "demo" : (Deno.env.get("PAYMENT_GATEWAY") ?? "dodo"),
+    provider: demo
+      ? "demo"
+      : method === "crypto"
+        ? "crypto"
+        : (Deno.env.get("PAYMENT_GATEWAY") ?? "dodo"),
   });
   if (orderError) {
     console.error("order insert failed", orderError);
@@ -90,6 +101,32 @@ Deno.serve(async (req) => {
       orderRef: txRef,
     });
     return json({ checkoutUrl: successUrl });
+  }
+
+  // ── Crypto via NOWPayments (https://nowpayments.io) ──
+  if (method === "crypto") {
+    const apiKey = Deno.env.get("NOWPAYMENTS_API_KEY");
+    if (!apiKey) return json({ error: "Crypto payments are not configured yet." }, 503);
+    const res = await fetch("https://api.nowpayments.io/v1/invoice", {
+      method: "POST",
+      headers: { "x-api-key": apiKey, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        price_amount: PRICES_USD[product],
+        price_currency: "usd",
+        order_id: txRef,
+        order_description:
+          product === "course" ? "The Dropshipping Course" : "VIP Accelerator",
+        success_url: successUrl,
+        cancel_url: `${siteUrl}/payment/failed/`,
+        ipn_callback_url: `${Deno.env.get("SUPABASE_URL")}/functions/v1/nowpayments-ipn`,
+      }),
+    });
+    const np = (await res.json()) as { invoice_url?: string };
+    if (!res.ok || !np.invoice_url) {
+      console.error("nowpayments invoice failed", res.status, JSON.stringify(np));
+      return json({ error: "Could not start the crypto payment. Try again shortly." }, 502);
+    }
+    return json({ checkoutUrl: np.invoice_url });
   }
 
   // ── Polar (https://polar.sh/docs) ──

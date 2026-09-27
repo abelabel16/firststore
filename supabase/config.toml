@@ -13,3 +13,6 @@ verify_jwt = false
 
 [functions.polar-webhook]
 verify_jwt = false
+
+[functions.nowpayments-ipn]
+verify_jwt = false

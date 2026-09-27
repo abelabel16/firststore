@@ -12,6 +12,7 @@ import { functionsUrl, supabaseConfigured } from "@/lib/supabase";
  */
 export function CheckoutForm({ product, cta }: { product: "course" | "vip"; cta: string }) {
   const [submitting, setSubmitting] = useState(false);
+  const [method, setMethod] = useState<"card" | "crypto">("card");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -41,6 +42,7 @@ export function CheckoutForm({ product, cta }: { product: "course" | "vip"; cta:
         },
         body: JSON.stringify({
           product,
+          method,
           name: data.name,
           email: data.email,
           returnOrigin: window.location.origin + (process.env.NEXT_PUBLIC_BASE_PATH ?? ""),
@@ -72,10 +74,37 @@ export function CheckoutForm({ product, cta }: { product: "course" | "vip"; cta:
       </Field>
 
       <div className="rounded-xl border border-line bg-paper p-4">
-        <p className="text-sm font-medium text-ink">Payment</p>
-        <p className="mt-1 text-xs leading-relaxed text-ink-soft">
-          You&rsquo;ll be redirected to our payment provider&rsquo;s secure page to complete the
-          payment. Card and mobile-money details are entered there, never on this site.
+        <p className="text-sm font-medium text-ink">Payment method</p>
+        <div className="mt-3 grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={() => setMethod("card")}
+            aria-pressed={method === "card"}
+            className={`rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
+              method === "card"
+                ? "border-ink bg-ink text-white"
+                : "border-line bg-surface text-ink-soft hover:border-zinc-300 hover:text-ink"
+            }`}
+          >
+            💳 Card
+          </button>
+          <button
+            type="button"
+            onClick={() => setMethod("crypto")}
+            aria-pressed={method === "crypto"}
+            className={`rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
+              method === "crypto"
+                ? "border-ink bg-ink text-white"
+                : "border-line bg-surface text-ink-soft hover:border-zinc-300 hover:text-ink"
+            }`}
+          >
+            ₮ Crypto (USDT)
+          </button>
+        </div>
+        <p className="mt-2.5 text-xs leading-relaxed text-ink-soft">
+          {method === "card"
+            ? "You'll be redirected to our payment provider's secure page. Card details are entered there, never on this site."
+            : "You'll be redirected to a secure crypto invoice. Pay in USDT (or other supported coins); access is granted after blockchain confirmation, usually within minutes."}
         </p>
       </div>
 
