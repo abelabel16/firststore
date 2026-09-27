@@ -19,13 +19,13 @@ const courseIncludes = [
 ];
 
 const vipIncludes = [
-  "1-to-1 support",
-  "Store reviews",
-  "Product reviews",
-  "Content feedback",
-  "Personalized action plans",
-  "Private group",
-  "Progress support",
+  "Everything in the course",
+  "Advanced deep-dive guides",
+  "Store & product audit systems",
+  "Content review rubric",
+  "Action plan templates",
+  "Private community",
+  "Priority support",
 ];
 
 const deliverables = [
@@ -73,13 +73,13 @@ const steps = [
   },
 ];
 
-const mentorshipPoints = [
-  { title: "Store review", text: "A structured audit of your store: layout, copy, trust, and checkout." },
-  { title: "Product review", text: "Direct feedback on your product choices before you spend on testing." },
-  { title: "Content feedback", text: "Your videos reviewed against a clear rubric: hook, pacing, clarity, CTA." },
-  { title: "Action plan", text: "A personalized, written plan after every session. You always know the next step." },
-  { title: "Private group", text: "A small community of active clients sharing real work and real feedback." },
-  { title: "Session planning", text: "Prep before each 1-to-1 call so the time goes to your hardest problems." },
+const vipPoints = [
+  { title: "Store audit system", text: "Audit your own store the way a professional would: layout, copy, trust, checkout." },
+  { title: "Product audit system", text: "Score product candidates with clear thresholds before you spend on testing." },
+  { title: "Content review rubric", text: "Grade your videos on hook, pacing, clarity, and CTA, then fix what's weak." },
+  { title: "Action plan templates", text: "Weekly plans that turn the process into a schedule. You always know the next step." },
+  { title: "Private community", text: "A private group of serious builders sharing real work and real feedback." },
+  { title: "Advanced guides", text: "Deeper material on validation, testing budgets, and reading early data." },
 ];
 
 /* ── Hero visual: an illustration of the course experience.
@@ -167,7 +167,7 @@ export default function HomePage() {
                 Start Learning for {formatUsd(site.course.price)}
               </ButtonLink>
               <ButtonLink href="/mentorship" variant="secondary" size="lg" className="w-full sm:w-auto">
-                Explore VIP Mentorship
+                Explore VIP Accelerator
               </ButtonLink>
             </div>
             <p className="mt-6 text-sm text-ink-faint">
@@ -184,7 +184,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="Two ways to learn"
             title="Choose how you want to build"
-            description="Self-paced if you learn well alone. Mentorship if you want direct feedback on your actual store."
+            description="The course teaches the full process. VIP adds the advanced guides, audit systems, and community around it."
           />
           <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
             {/* Course card */}
@@ -219,7 +219,7 @@ export default function HomePage() {
             <div className="flex flex-col rounded-2xl bg-zinc-900 p-6 text-white shadow-md sm:p-8">
               <div className="flex items-center justify-between">
                 <p className="text-sm font-semibold uppercase tracking-wider text-zinc-400">
-                  VIP Mentorship
+                  VIP Accelerator
                 </p>
                 <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white">
                   Premium
@@ -232,7 +232,7 @@ export default function HomePage() {
                 <p className="mt-1 text-xs text-zinc-400">One-time payment. Course included.</p>
               </div>
               <p className="mt-4 text-sm text-zinc-300">
-                Personal guidance, direct feedback, and private support.
+                The complete system: advanced guides, audits, templates, and community.
               </p>
               <ul className="mt-6 flex-1 space-y-2.5">
                 {vipIncludes.map((item) => (
@@ -243,7 +243,7 @@ export default function HomePage() {
                 ))}
               </ul>
               <ButtonLink href="/mentorship" variant="inverse" className="mt-8 w-full">
-                Explore Mentorship
+                Explore VIP
               </ButtonLink>
             </div>
           </div>
@@ -422,16 +422,16 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* MENTORSHIP PREVIEW */}
+      {/* VIP PREVIEW */}
       <section className="border-t border-line bg-surface py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="VIP Mentorship"
-            title="Learning alone vs. building with support"
-            description="The course teaches the process. Mentorship applies it to your store, with someone experienced reviewing your actual decisions."
+            eyebrow="VIP Accelerator"
+            title="What VIP adds on top"
+            description="The course teaches the process. VIP gives you the audit systems, templates, and community to execute it with precision."
           />
           <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {mentorshipPoints.map((p) => (
+            {vipPoints.map((p) => (
               <Card key={p.title} className="p-5">
                 <h3 className="text-sm font-semibold text-ink">{p.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink-soft">{p.text}</p>
@@ -440,7 +440,7 @@ export default function HomePage() {
           </div>
           <div className="mt-10 text-center">
             <ButtonLink href="/mentorship" variant="secondary" size="lg">
-              Explore VIP Mentorship
+              Explore VIP Accelerator
             </ButtonLink>
           </div>
         </Container>

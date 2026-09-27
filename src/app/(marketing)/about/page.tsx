@@ -25,7 +25,7 @@ const principles = [
   },
   {
     title: "Small and real",
-    text: "This is a focused product: one course, one mentorship offer. We'd rather do two things properly than ten things loudly.",
+    text: "This is a focused product: one course, one advanced tier. We'd rather do two things properly than ten things loudly.",
   },
 ];
 
@@ -57,8 +57,9 @@ export default function AboutPage() {
             <p>
               That&rsquo;s what we built {site.name} around. The course turns the whole journey into
               eight structured modules with checklists and frameworks you can actually follow. The
-              mentorship adds what a course can&rsquo;t: an experienced set of eyes on{" "}
-              <em>your</em> store, <em>your</em> products, and <em>your</em> content.
+              VIP Accelerator adds the advanced layer: audit systems for <em>your</em> store,{" "}
+              <em>your</em> products, and <em>your</em> content, plus a community building
+              alongside you.
             </p>
             <p>
               Our promise is honest education, not a financial outcome. Test your ideas. Use data.

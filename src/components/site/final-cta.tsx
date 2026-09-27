@@ -17,7 +17,7 @@ export function FinalCta() {
             Start Learning for {formatUsd(site.course.price)}
           </ButtonLink>
           <ButtonLink href="/mentorship" variant="outlineDark" size="lg" className="w-full sm:w-auto">
-            Explore VIP Mentorship
+            Explore VIP Accelerator
           </ButtonLink>
         </div>
       </Container>

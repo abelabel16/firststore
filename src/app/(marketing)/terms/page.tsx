@@ -9,18 +9,18 @@ export default function TermsPage() {
     <LegalPage
       title="Terms of Service"
       updated="September 2026"
-      intro={`These terms govern your use of ${site.name}, including the course, the VIP mentorship program, and this website. By purchasing or using our products you agree to these terms. We've written them to be readable, if anything is unclear, ask us at ${site.supportEmail}.`}
+      intro={`These terms govern your use of ${site.name}, including the course, the VIP Accelerator, and this website. By purchasing or using our products you agree to these terms. We've written them to be readable, if anything is unclear, ask us at ${site.supportEmail}.`}
       sections={[
         {
           heading: "1. What we provide",
           paragraphs: [
-            `${site.name} provides educational products: a self-paced video course and a 1-to-1 mentorship program. We provide instruction, materials, feedback, and support, we do not operate a store on your behalf, and we do not provide financial, legal, or tax advice.`,
+            `${site.name} provides educational products: a self-paced video course and the VIP Accelerator, an advanced tier of digital materials with community access. We provide instruction and materials, we do not operate a store on your behalf, and we do not provide financial, legal, or tax advice.`,
           ],
         },
         {
           heading: "2. Purchases and access",
           paragraphs: [
-            "Access to purchased products is tied to the email address used at checkout. Course access does not expire and includes future updates to the course. Mentorship includes the services described on the mentorship page at the time of your purchase.",
+            "Access to purchased products is tied to the email address used at checkout and does not expire. Both products include future updates to their materials. The VIP Accelerator includes what is described on its page at the time of your purchase.",
             "You may not share, resell, or redistribute your access or the course materials. Access is for one person, the purchaser.",
           ],
         },

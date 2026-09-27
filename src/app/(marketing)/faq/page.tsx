@@ -8,7 +8,7 @@ import { faqCategories } from "@/content/faq";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Honest answers about the course, mentorship, payments, access, and what results to realistically expect.",
+    "Honest answers about the course, the VIP Accelerator, payments, access, and what results to realistically expect.",
 };
 
 export default function FaqPage() {

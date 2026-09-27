@@ -19,9 +19,9 @@ export default function RefundPolicyPage() {
           ],
         },
         {
-          heading: "Mentorship refunds",
+          heading: "VIP Accelerator refunds",
           paragraphs: [
-            "Because mentorship involves reserved personal time, the terms are slightly different: you can request a full refund within 7 days of purchase as long as your first 1-to-1 session hasn't taken place. After your first session, refunds are handled case by case, if the program genuinely isn't serving you, contact us and we'll find a fair resolution, which may be a partial refund.",
+            "Same terms as the course: email us within 14 days of purchase and we'll refund the full amount. VIP is a digital product, so there are no special conditions or exceptions.",
           ],
         },
         {

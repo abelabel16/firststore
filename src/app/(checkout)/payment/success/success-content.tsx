@@ -16,7 +16,7 @@ export function SuccessContent() {
       </h1>
       <p className="mt-3 text-sm leading-relaxed text-ink-soft">
         Your payment is confirmed.{" "}
-        {isCourse ? "Your course will be sent to" : "Your onboarding will be sent to"}{" "}
+        {isCourse ? "Your course will be sent to" : "Your VIP access will be sent to"}{" "}
         {email ? <strong className="text-ink">{email}</strong> : "your email"}{" "}
         <strong className="text-ink">within 24 hours</strong>, and usually much faster.
       </p>

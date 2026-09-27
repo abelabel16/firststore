@@ -8,7 +8,7 @@ const columns = [
     title: "Product",
     links: [
       { href: "/course", label: "The Course" },
-      { href: "/mentorship", label: "VIP Mentorship" },
+      { href: "/mentorship", label: "VIP Accelerator" },
       { href: "/faq", label: "FAQ" },
     ],
   },

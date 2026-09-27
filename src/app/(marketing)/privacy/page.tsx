@@ -15,14 +15,14 @@ export default function PrivacyPage() {
           heading: "1. What we collect",
           paragraphs: [
             "When you purchase, we collect your name and email address, plus your order details (product, amount, payment status). Payment card details are handled entirely by our payment provider and never touch our servers.",
-            "If you use the mentorship program, we also store the information you provide in onboarding, session preparation, and support requests, this exists so your mentor can actually help you.",
+            "If you contact support or participate in the VIP community, we keep the information you provide so we can actually help you.",
             "If you contact us, we keep the message so we can reply and resolve the issue.",
           ],
         },
         {
           heading: "2. What we use it for",
           paragraphs: [
-            "Providing access to your purchase, sending transactional emails (receipts, login links, session confirmations), providing mentorship services, and responding to support requests. We do not sell your data, and we don't send marketing email you didn't ask for.",
+            "Providing access to your purchase, sending transactional emails (receipts and access emails), and responding to support requests. We do not sell your data, and we don't send marketing email you didn't ask for.",
           ],
         },
         {

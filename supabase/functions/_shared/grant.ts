@@ -27,7 +27,7 @@ export async function grantEntitlements(
  *   EMAIL_FROM         — e.g. "VibrantFlacon <access@vibrantflacon.com>"
  *   COURSE_ACCESS_URL  — where the course lives (private video hub, Drive,
  *                        Telegram channel invite, etc.)
- *   VIP_ACCESS_URL     — onboarding link/instructions for VIP clients
+ *   VIP_ACCESS_URL     — where the VIP materials + community invite live
  *   SUPPORT_EMAIL      — shown in the email footer
  */
 export async function sendAccessEmail(
@@ -46,16 +46,16 @@ export async function sendAccessEmail(
   const firstName = (name.split(" ")[0] || "there").replace(/[<>&]/g, "");
 
   const isVip = product === "vip";
-  const productName = isVip ? "VIP Mentorship" : "The Dropshipping Course";
-  const amount = receipt?.amountUsd ?? (isVip ? 499 : 19);
+  const productName = isVip ? "VIP Accelerator" : "The Dropshipping Course";
+  const amount = receipt?.amountUsd ?? (isVip ? 199 : 19);
   const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 
   const subject = isVip
-    ? "Welcome to VIP: your receipt and what happens next"
+    ? "Welcome to VIP: your receipt and access"
     : "You're in: your receipt and course access";
 
   const included = isVip
-    ? ["1-to-1 mentorship sessions", "Store, product, and content reviews", "Personalized action plans", "Private community access", "Full course access included"]
+    ? ["The full course, all 8 modules", "Advanced deep-dive guides", "Store & product audit systems", "Content review rubric + action plan templates", "Private community access", "Priority support and lifetime updates"]
     : ["All 8 modules, 29 video lessons", "Checklists, templates, and frameworks", "The complete resource library", "Every future course update, free"];
 
   const row = (label: string, value: string) =>
@@ -70,7 +70,7 @@ export async function sendAccessEmail(
     <div style="padding:24px 28px;">
       <h1 style="font-size:22px;margin:0 0 8px;color:#18181b;">${isVip ? `Welcome to VIP, ${firstName}. 🤝` : `You're in, ${firstName}. 🎉`}</h1>
       <p style="font-size:14px;line-height:1.6;color:#52525b;margin:0;">
-        Thank you for your purchase. ${isVip ? "Your mentorship starts now, and the full course is included." : "You just took the first real step toward your first store."}
+        Thank you for your purchase. ${isVip ? "You now have the complete system, and the full course is included." : "You just took the first real step toward your first store."}
         Here is everything you need, all in one email worth keeping.
       </p>
 
@@ -94,7 +94,7 @@ export async function sendAccessEmail(
       <!-- Delivery -->
       <div style="margin:24px 0;border-left:3px solid #4f46e5;padding:2px 0 2px 14px;">
         <p style="margin:0;font-size:14px;line-height:1.6;color:#18181b;font-weight:600;">
-          ${isVip ? "Your onboarding link arrives at this email address within 24 hours." : "Your course access arrives at this email address within 24 hours."}
+          ${isVip ? "Your VIP access arrives at this email address within 24 hours." : "Your course access arrives at this email address within 24 hours."}
         </p>
         <p style="margin:6px 0 0;font-size:13px;line-height:1.6;color:#52525b;">
           Usually it's much faster. If nothing lands within 24 hours, check spam first, then message us on Telegram at <strong>${telegram}</strong> or reply to this email, and we'll sort it out immediately.
@@ -102,7 +102,7 @@ export async function sendAccessEmail(
       </div>
       ${
         accessUrl
-          ? `<a href="${accessUrl}" style="display:inline-block;background:#18181b;color:#ffffff;padding:13px 24px;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600;">${isVip ? "Start VIP Onboarding" : "Open Your Course"}</a>
+          ? `<a href="${accessUrl}" style="display:inline-block;background:#18181b;color:#ffffff;padding:13px 24px;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600;">${isVip ? "Open Your VIP Access" : "Open Your Course"}</a>
              <p style="margin:10px 0 0;font-size:12px;color:#a1a1aa;">This button is your permanent access. Keep this email safe.</p>`
           : ""
       }

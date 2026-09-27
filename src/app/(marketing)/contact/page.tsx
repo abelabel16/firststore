@@ -5,7 +5,7 @@ import { ContactForm } from "./contact-form";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Questions about the course, mentorship, payments, or access? Get in touch.",
+  description: "Questions about the course, the VIP Accelerator, payments, or access? Get in touch.",
 };
 
 export default function ContactPage() {

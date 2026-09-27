@@ -14,7 +14,7 @@ export default function DisclaimerPage() {
         {
           heading: "This is education, not a financial outcome",
           paragraphs: [
-            "Our course and mentorship teach a process for researching products, building an online store, creating content, and testing ideas. Completing the course, or working with a mentor, does not guarantee that your store will make money, or that it will make any specific amount.",
+            "Our course and VIP Accelerator teach a process for researching products, building an online store, creating content, and testing ideas. Completing either product does not guarantee that your store will make money, or that it will make any specific amount.",
           ],
         },
         {

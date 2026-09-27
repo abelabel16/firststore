@@ -23,7 +23,7 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { allowedOrigins, corsFor, grantEntitlements, sendAccessEmail } from "../_shared/grant.ts";
 
-const PRICES_USD = { course: 19, vip: 499 } as const;
+const PRICES_USD = { course: 19, vip: 199 } as const;
 
 Deno.serve(async (req) => {
   const cors = corsFor(req);

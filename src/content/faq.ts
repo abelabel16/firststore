@@ -35,23 +35,23 @@ export const faqCategories: FaqCategory[] = [
     ],
   },
   {
-    title: "Mentorship",
+    title: "VIP Accelerator",
     items: [
       {
-        q: "How does mentorship work?",
-        a: "After purchase you complete a short onboarding so your mentor understands your situation. You then get access to the private community, book your 1-to-1 session, and receive a personalized action plan. Between sessions you get direct feedback on your store, products, and content.",
+        q: "What is the VIP Accelerator?",
+        a: "The advanced tier of the course. It includes everything in the base course plus deep-dive guides, self-serve store and product audit systems, a content review rubric, action plan templates, the private community, and priority support. It's all digital and self-paced, delivered to your email like the course.",
       },
       {
-        q: "Is the course included with mentorship?",
-        a: "Yes. VIP mentorship includes full course access.",
+        q: "Is the course included with VIP?",
+        a: "Yes. VIP includes full course access, so you never need to buy both.",
       },
       {
-        q: "How does the private group work?",
-        a: "It's a small private community of active mentorship clients. You can ask questions, share what you're working on, and see feedback given to others. Access is verified against your purchase.",
+        q: "How does the private community work?",
+        a: "It's a private group of VIP members. You can ask questions, share what you're working on, and see what others are building and testing. Access is verified against your purchase.",
       },
       {
-        q: "What's the difference between the course and mentorship?",
-        a: "The course teaches the process; mentorship applies it to your specific store with direct feedback. If you learn well on your own, start with the course. If you want someone reviewing your actual decisions, mentorship is the upgrade.",
+        q: "What's the difference between the course and VIP?",
+        a: "The course teaches the full process and stands on its own. VIP adds the advanced tooling around it: audit systems to diagnose your own store and products, templates that turn the process into a weekly plan, deeper guides, and the community. Start with the course if you're unsure, you can always upgrade.",
       },
     ],
   },

@@ -11,7 +11,7 @@ export const site = {
   name: "VibrantFlacon",
   tagline: "Build your first dropshipping store.",
   description:
-    "A practical dropshipping course and 1-to-1 mentorship. Learn product research, store setup, content, and traffic, a real process, not income promises.",
+    "A practical dropshipping course plus an advanced VIP tier. Learn product research, store setup, content, and traffic, a real process, not income promises.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   supportEmail: "support@vibrantflacon.com",
   telegram: "@netro_s",
@@ -25,15 +25,10 @@ export const site = {
   },
 
   mentorship: {
-    name: "VIP Mentorship",
-    price: 499,
-    // If you genuinely cap the number of active mentorship clients, describe
-    // it here truthfully (e.g. "Limited to 10 active clients so every store
-    // gets real attention"). Leave null to show nothing.
-    capacityNote:
-      "Mentorship is intentionally kept small so every client gets real attention." as
-        | string
-        | null,
+    name: "VIP Accelerator",
+    price: 199,
+    // Digital product: no capacity constraints, so no note.
+    capacityNote: null as string | null,
   },
 
   social: {

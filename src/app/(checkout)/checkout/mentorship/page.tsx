@@ -7,12 +7,13 @@ import { CheckoutForm } from "@/components/checkout/checkout-form";
 export const metadata: Metadata = { title: "VIP Checkout" };
 
 const included = [
-  "1-to-1 mentorship sessions",
-  "Store, product, and content reviews",
-  "Personalized action plans",
+  "The full course, all 8 modules",
+  "Advanced deep-dive guides",
+  "Store & product audit systems",
+  "Content review rubric",
+  "Action plan templates",
   "Private community access",
-  "Progress check-ins and direct support",
-  "Full course access included",
+  "Priority support & lifetime updates",
 ];
 
 export default function MentorshipCheckoutPage() {
@@ -44,8 +45,8 @@ export default function MentorshipCheckoutPage() {
       </Card>
 
       <p className="mt-4 text-center text-xs leading-relaxed text-ink-faint">
-        By purchasing you agree to our terms and refund policy. This is education and personal
-        support, results are not guaranteed.
+        By purchasing you agree to our terms and refund policy. This is education, results are
+        not guaranteed.
       </p>
     </Narrow>
   );
