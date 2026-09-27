@@ -10,3 +10,6 @@ verify_jwt = false
 
 [functions.dodo-webhook]
 verify_jwt = false
+
+[functions.polar-webhook]
+verify_jwt = false

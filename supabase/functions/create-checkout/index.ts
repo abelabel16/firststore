@@ -92,6 +92,34 @@ Deno.serve(async (req) => {
     return json({ checkoutUrl: successUrl });
   }
 
+  // ── Polar (https://polar.sh/docs) ──
+  if (Deno.env.get("PAYMENT_GATEWAY") === "polar") {
+    const token = Deno.env.get("POLAR_ACCESS_TOKEN");
+    const productId =
+      product === "course"
+        ? Deno.env.get("POLAR_PRODUCT_COURSE")
+        : Deno.env.get("POLAR_PRODUCT_VIP");
+    if (!token || !productId) return json({ error: "Payments are not configured yet." }, 503);
+
+    const res = await fetch("https://api.polar.sh/v1/checkouts/", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        products: [productId],
+        customer_email: email,
+        customer_name: name,
+        success_url: successUrl,
+        metadata: { tx_ref: txRef, product },
+      }),
+    });
+    const polar = (await res.json()) as { url?: string };
+    if (!res.ok || !polar.url) {
+      console.error("polar checkout failed", res.status, JSON.stringify(polar));
+      return json({ error: "The payment provider rejected the request. Try again shortly." }, 502);
+    }
+    return json({ checkoutUrl: polar.url });
+  }
+
   // ── Dodo Payments (https://docs.dodopayments.com) ──
   if ((Deno.env.get("PAYMENT_GATEWAY") ?? "dodo") === "dodo") {
     const apiKey = Deno.env.get("DODO_API_KEY");
