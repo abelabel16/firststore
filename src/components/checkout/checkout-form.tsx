@@ -4,17 +4,27 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
 import { functionsUrl, supabaseConfigured } from "@/lib/supabase";
+import { formatUsd, site } from "@/config/site";
 
 /**
  * Minimal checkout: name + email. The "create-checkout" Supabase Edge
  * Function records the order and returns the payment provider's hosted
  * checkout URL; we redirect there. Card details never touch this site.
  */
-export function CheckoutForm({ product, cta }: { product: "course" | "vip"; cta: string }) {
+export function CheckoutForm({ product }: { product: "course" | "vip"; cta?: string }) {
   const [submitting, setSubmitting] = useState(false);
-  const [method, setMethod] = useState<"card" | "crypto">("card");
+  const [method, setMethod] = useState<"card" | "crypto">("crypto");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState<string | null>(null);
+
+  const isCourse = product === "course";
+  const payAmount = isCourse
+    ? method === "crypto"
+      ? site.course.cryptoPrice
+      : site.course.price
+    : site.mentorship.price;
+  const ctaLabel =
+    product === "vip" ? `Get VIP Access · ${formatUsd(payAmount)}` : `Pay ${formatUsd(payAmount)}`;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -74,37 +84,45 @@ export function CheckoutForm({ product, cta }: { product: "course" | "vip"; cta:
       </Field>
 
       <div className="rounded-xl border border-line bg-paper p-4">
-        <p className="text-sm font-medium text-ink">Payment method</p>
+        <p className="text-sm font-medium text-ink">How do you want to pay?</p>
         <div className="mt-3 grid grid-cols-2 gap-2">
-          <button
-            type="button"
-            onClick={() => setMethod("card")}
-            aria-pressed={method === "card"}
-            className={`rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
-              method === "card"
-                ? "border-ink bg-ink text-white"
-                : "border-line bg-surface text-ink-soft hover:border-zinc-300 hover:text-ink"
-            }`}
-          >
-            💳 Card
-          </button>
           <button
             type="button"
             onClick={() => setMethod("crypto")}
             aria-pressed={method === "crypto"}
-            className={`rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
+            className={`relative rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
               method === "crypto"
                 ? "border-ink bg-ink text-white"
                 : "border-line bg-surface text-ink-soft hover:border-zinc-300 hover:text-ink"
             }`}
           >
             ₮ Crypto (USDT)
+            {isCourse && (
+              <span className="absolute -top-2 right-2 rounded-full bg-good px-2 py-0.5 text-[10px] font-bold text-white">
+                {site.course.cryptoDiscountLabel}
+              </span>
+            )}
+          </button>
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            className="cursor-not-allowed rounded-xl border border-line bg-surface px-3 py-2.5 text-sm font-medium text-ink-faint"
+          >
+            💳 Card · Soon
           </button>
         </div>
-        <p className="mt-2.5 text-xs leading-relaxed text-ink-soft">
-          {method === "card"
-            ? "You'll be redirected to our payment provider's secure page. Card details are entered there, never on this site."
-            : "You'll be redirected to a secure crypto invoice. Pay in USDT (or other supported coins); access is granted after blockchain confirmation, usually within minutes."}
+        {isCourse && (
+          <p className="mt-2.5 text-xs font-medium text-good">
+            Crypto price: {formatUsd(site.course.cryptoPrice)} instead of{" "}
+            {formatUsd(site.course.price)} — an extra discount because crypto costs us less to
+            accept.
+          </p>
+        )}
+        <p className="mt-2 text-xs leading-relaxed text-ink-soft">
+          You&rsquo;ll be redirected to a secure crypto invoice. Pay in USDT or other supported
+          coins; access is granted after blockchain confirmation, usually within minutes. Card
+          payments are coming soon.
         </p>
       </div>
 
@@ -115,7 +133,7 @@ export function CheckoutForm({ product, cta }: { product: "course" | "vip"; cta:
       )}
 
       <Button type="submit" size="lg" disabled={submitting} className="w-full">
-        {submitting ? "Preparing secure payment…" : cta}
+        {submitting ? "Preparing secure payment…" : ctaLabel}
       </Button>
     </form>
   );

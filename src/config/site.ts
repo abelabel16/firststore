@@ -22,6 +22,9 @@ export const site = {
     price: 19,
     referencePrice: 199 as number | null,
     discountLabel: "90% OFF",
+    // Crypto costs us less to accept, so crypto buyers pay less.
+    cryptoPrice: 17.99,
+    cryptoDiscountLabel: "91% OFF",
   },
 
   mentorship: {

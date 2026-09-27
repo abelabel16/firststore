@@ -24,6 +24,8 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { allowedOrigins, corsFor, grantEntitlements, sendAccessEmail } from "../_shared/grant.ts";
 
 const PRICES_USD = { course: 19, vip: 199 } as const;
+// Crypto is cheaper for us to accept; the course gets a crypto discount.
+const CRYPTO_PRICES_USD = { course: 17.99, vip: 199 } as const;
 
 Deno.serve(async (req) => {
   const cors = corsFor(req);
@@ -70,6 +72,16 @@ Deno.serve(async (req) => {
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
   );
 
+  // Card payments are gated until a card gateway with working payouts is
+  // live; flip CARD_PAYMENTS=on to re-enable.
+  if (method === "card" && Deno.env.get("CARD_PAYMENTS") !== "on") {
+    return json(
+      { error: "Card payments are coming soon. Please use Crypto (USDT) for now." },
+      503
+    );
+  }
+
+  const chargeUsd = method === "crypto" ? CRYPTO_PRICES_USD[product] : PRICES_USD[product];
   const txRef = crypto.randomUUID();
   const demo = Deno.env.get("DEMO_PAYMENTS") === "true";
   const { error: orderError } = await admin.from("orders").insert({
@@ -77,7 +89,7 @@ Deno.serve(async (req) => {
     email,
     name,
     product,
-    amount_usd: PRICES_USD[product],
+    amount_usd: chargeUsd,
     provider: demo
       ? "demo"
       : method === "crypto"
@@ -111,7 +123,7 @@ Deno.serve(async (req) => {
       method: "POST",
       headers: { "x-api-key": apiKey, "Content-Type": "application/json" },
       body: JSON.stringify({
-        price_amount: PRICES_USD[product],
+        price_amount: chargeUsd,
         price_currency: "usd",
         order_id: txRef,
         order_description:
