@@ -1,18 +1,24 @@
 # Build the static site and publish it to GitHub Pages (gh-pages branch).
-# Usage:  npm run deploy          (defaults to skdksdcw68-dev)
-#         powershell scripts/deploy.ps1 -Owner abelabel16
-param([string]$Owner = "skdksdcw68-dev")
+# Usage:  npm run deploy
+param(
+  [string]$Owner = "skdksdcw68-dev",
+  [string]$Domain = "vibrantflacon.com"
+)
 
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
 Set-Location $root
 
-$env:NEXT_PUBLIC_BASE_PATH = "/firststore"
-$env:NEXT_PUBLIC_SITE_URL = "https://$Owner.github.io/firststore"
+# Custom domain serves from the root, so no base path.
+$env:NEXT_PUBLIC_BASE_PATH = ""
+$env:NEXT_PUBLIC_SITE_URL = "https://$Domain"
 npm run build
 if ($LASTEXITCODE -ne 0) { throw "Build failed" }
 
 New-Item -ItemType File -Force "$root\out\.nojekyll" | Out-Null
+# GitHub Pages reads the custom domain from a CNAME file on the branch;
+# without this, every force-push would disconnect the domain.
+[System.IO.File]::WriteAllText("$root\out\CNAME", $Domain)
 if (Test-Path "$root\out\.git") { Remove-Item -Recurse -Force "$root\out\.git" }
 
 Set-Location "$root\out"
@@ -23,4 +29,4 @@ git push --force "https://github.com/$Owner/firststore.git" gh-pages
 
 Set-Location $root
 Write-Host ""
-Write-Host "Deployed: https://$Owner.github.io/firststore/" -ForegroundColor Green
+Write-Host "Deployed: https://$Domain/" -ForegroundColor Green

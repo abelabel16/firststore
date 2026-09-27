@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Container, Narrow } from "@/components/ui/container";
@@ -100,9 +99,7 @@ function HeroVisual() {
             {site.name.toLowerCase()}
             <span className="text-accent">.</span>
           </span>
-          <span className="rounded-full bg-accent-soft px-2.5 py-1 text-xs font-medium text-accent-strong">
-            Course preview
-          </span>
+          <span className="text-xs font-medium text-ink-faint">Course preview</span>
         </div>
         <div className="space-y-3 p-5">
           <div>
@@ -158,9 +155,6 @@ export default function HomePage() {
       <section className="overflow-hidden border-b border-line bg-surface">
         <Container className="grid items-center gap-12 py-16 sm:py-24 lg:grid-cols-2">
           <div className="max-w-xl">
-            <Badge tone="accent" className="mb-5">
-              Practical dropshipping education
-            </Badge>
             <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl lg:text-6xl text-balance">
               Build Your First Dropshipping Store.
             </h1>
@@ -360,7 +354,9 @@ export default function HomePage() {
                   { t: "Product page answers all customer questions", done: true },
                   { t: "Shipping times stated honestly", done: true },
                   { t: "Policies and contact page complete", done: true },
+                  { t: "Payment methods verified", done: true },
                   { t: "Checkout tested on mobile", done: false },
+                  { t: "Order confirmation email tested", done: false },
                   { t: "Analytics connected", done: false },
                 ].map((i) => (
                   <li key={i.t} className="flex items-center gap-2.5 text-sm">

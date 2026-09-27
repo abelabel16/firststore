@@ -8,12 +8,12 @@
  * `course.referencePrice` to null and the UI will simply show $19.
  */
 export const site = {
-  name: "VibrantStore",
+  name: "VibrantFlacon",
   tagline: "Build your first dropshipping store.",
   description:
     "A practical dropshipping course and 1-to-1 mentorship. Learn product research, store setup, content, and traffic, a real process, not income promises.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  supportEmail: "support@vibrantstore.com",
+  supportEmail: "support@vibrantflacon.com",
 
   course: {
     name: "The Dropshipping Course",

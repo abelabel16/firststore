@@ -24,7 +24,7 @@ export async function grantEntitlements(
  *
  * Secrets used:
  *   RESEND_API_KEY     — from resend.com (without it, delivery is only logged)
- *   EMAIL_FROM         — e.g. "VibrantStore <access@vibrantstore.com>"
+ *   EMAIL_FROM         — e.g. "VibrantFlacon <access@vibrantflacon.com>"
  *   COURSE_ACCESS_URL  — where the course lives (private video hub, Drive,
  *                        Telegram channel invite, etc.)
  *   VIP_ACCESS_URL     — onboarding link/instructions for VIP clients
@@ -40,7 +40,7 @@ export async function sendAccessEmail(
     product === "vip"
       ? Deno.env.get("VIP_ACCESS_URL") ?? Deno.env.get("COURSE_ACCESS_URL")
       : Deno.env.get("COURSE_ACCESS_URL");
-  const support = Deno.env.get("SUPPORT_EMAIL") ?? "support@vibrantstore.com";
+  const support = Deno.env.get("SUPPORT_EMAIL") ?? "support@vibrantflacon.com";
   const firstName = name.split(" ")[0] || "there";
 
   const subject =
@@ -54,7 +54,7 @@ export async function sendAccessEmail(
 
   const html = `
   <div style="font-family:ui-sans-serif,system-ui,sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;color:#18181b;">
-    <p style="font-weight:700;font-size:16px;">vibrantstore<span style="color:#4f46e5">.</span></p>
+    <p style="font-weight:700;font-size:16px;">vibrantflacon<span style="color:#4f46e5">.</span></p>
     <h2 style="font-size:20px;">${intro}</h2>
     ${
       accessUrl
@@ -75,7 +75,7 @@ export async function sendAccessEmail(
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      from: Deno.env.get("EMAIL_FROM") ?? "VibrantStore <onboarding@resend.dev>",
+      from: Deno.env.get("EMAIL_FROM") ?? "VibrantFlacon <onboarding@resend.dev>",
       to: email,
       subject,
       html,

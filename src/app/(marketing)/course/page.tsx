@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Container, Narrow } from "@/components/ui/container";
@@ -76,9 +75,6 @@ export default function CoursePage() {
       {/* HERO */}
       <section className="border-b border-line bg-surface">
         <Narrow className="py-16 text-center sm:py-24">
-          <Badge tone="accent" className="mb-5">
-            Self-paced course
-          </Badge>
           <h1 className="text-4xl font-semibold tracking-tight text-ink sm:text-5xl text-balance">
             Start Learning Dropshipping for {formatUsd(site.course.price)}.
           </h1>

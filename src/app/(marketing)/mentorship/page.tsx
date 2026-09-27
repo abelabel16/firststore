@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Container, Narrow } from "@/components/ui/container";
@@ -47,7 +46,9 @@ export default function MentorshipPage() {
       {/* HERO, deliberately darker/more premium than the course page */}
       <section className="bg-ink">
         <Narrow className="py-16 text-center sm:py-28">
-          <Badge className="mb-5 bg-zinc-800 text-zinc-300">VIP Mentorship</Badge>
+          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.14em] text-zinc-500">
+            VIP Mentorship
+          </p>
           <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl text-balance">
             Don&rsquo;t Figure It Out Alone.
           </h1>
