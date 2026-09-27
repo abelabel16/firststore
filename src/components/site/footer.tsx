@@ -9,6 +9,7 @@ const columns = [
     links: [
       { href: "/course", label: "The Course" },
       { href: "/mentorship", label: "VIP Accelerator" },
+      { href: "/pricing", label: "Pricing" },
       { href: "/faq", label: "FAQ" },
     ],
   },
