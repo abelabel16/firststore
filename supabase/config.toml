@@ -7,3 +7,6 @@ verify_jwt = false
 
 [functions.chapa-webhook]
 verify_jwt = false
+
+[functions.dodo-webhook]
+verify_jwt = false

@@ -2,13 +2,21 @@
  * create-checkout — records an order and returns the payment URL.
  *
  * Secrets (Supabase dashboard → Edge Functions → Secrets):
- *   DEMO_PAYMENTS        "true" while testing → no real gateway, order is
- *                        marked paid immediately and clearly labeled demo.
- *   CHAPA_SECRET_KEY     Chapa secret key (live mode).
- *   CHAPA_CURRENCY       usually "ETB".
- *   CHAPA_AMOUNT_COURSE / CHAPA_AMOUNT_VIP  amounts in CHAPA_CURRENCY.
- *   SITE_URL             canonical site origin for redirects, e.g.
- *                        https://abelabel16.github.io/firststore
+ *   DEMO_PAYMENTS         "true" while testing → no real gateway, order is
+ *                         marked paid immediately and clearly labeled demo.
+ *   PAYMENT_GATEWAY       "dodo" (default) or "chapa".
+ *   SITE_URL              canonical site origin for redirects, e.g.
+ *                         https://vibrantflacon.com
+ *
+ *   Dodo Payments (dodopayments.com):
+ *     DODO_API_KEY        from Dashboard → Developer → API Keys
+ *     DODO_PRODUCT_COURSE / DODO_PRODUCT_VIP
+ *                         product IDs of the two products you create in
+ *                         Dashboard → Products
+ *     DODO_TEST_MODE      "true" to use test.dodopayments.com
+ *
+ *   Chapa (legacy alternative):
+ *     CHAPA_SECRET_KEY, CHAPA_CURRENCY, CHAPA_AMOUNT_COURSE, CHAPA_AMOUNT_VIP
  *
  * Deploy: supabase functions deploy create-checkout --no-verify-jwt
  */
@@ -79,6 +87,39 @@ Deno.serve(async (req) => {
     await grantEntitlements(admin, email, product);
     await sendAccessEmail(email, name, product);
     return json({ checkoutUrl: successUrl });
+  }
+
+  // ── Dodo Payments (https://docs.dodopayments.com) ──
+  if ((Deno.env.get("PAYMENT_GATEWAY") ?? "dodo") === "dodo") {
+    const apiKey = Deno.env.get("DODO_API_KEY");
+    if (!apiKey) return json({ error: "Payments are not configured yet." }, 503);
+    const productId =
+      product === "course"
+        ? Deno.env.get("DODO_PRODUCT_COURSE")
+        : Deno.env.get("DODO_PRODUCT_VIP");
+    if (!productId) return json({ error: "Payments are not configured yet." }, 503);
+
+    const apiBase =
+      Deno.env.get("DODO_TEST_MODE") === "true"
+        ? "https://test.dodopayments.com"
+        : "https://live.dodopayments.com";
+    const res = await fetch(`${apiBase}/checkouts`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        product_cart: [{ product_id: productId, quantity: 1 }],
+        customer: { email, name },
+        return_url: successUrl,
+        // tx_ref links the webhook back to our order record.
+        metadata: { tx_ref: txRef, product },
+      }),
+    });
+    const dodo = (await res.json()) as { checkout_url?: string };
+    if (!res.ok || !dodo.checkout_url) {
+      console.error("dodo checkout failed", res.status, JSON.stringify(dodo));
+      return json({ error: "The payment provider rejected the request. Try again shortly." }, 502);
+    }
+    return json({ checkoutUrl: dodo.checkout_url });
   }
 
   // ── Chapa (https://developer.chapa.co) ──

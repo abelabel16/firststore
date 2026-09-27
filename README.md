@@ -49,13 +49,25 @@ granting access.
    supabase functions deploy chapa-webhook --no-verify-jwt
    supabase secrets set DEMO_PAYMENTS=true SITE_URL=https://abelabel16.github.io/firststore
    ```
-   `DEMO_PAYMENTS=true` = test mode (no real money, clearly labeled). For live
-   payments, create a [Chapa](https://chapa.co) merchant account and set:
-   ```bash
-   supabase secrets set DEMO_PAYMENTS=false CHAPA_SECRET_KEY=... CHAPA_WEBHOOK_SECRET=... CHAPA_CURRENCY=ETB CHAPA_AMOUNT_COURSE=... CHAPA_AMOUNT_VIP=...
-   ```
-   and point the Chapa dashboard webhook to
-   `https://<project-ref>.supabase.co/functions/v1/chapa-webhook`.
+   `DEMO_PAYMENTS=true` = test mode (no real money, clearly labeled).
+
+   **Going live with Dodo Payments** (dodopayments.com, merchant of record):
+   1. Finish Dodo onboarding, then create two products in Dashboard → Products:
+      the course ($19) and VIP mentorship ($499). Copy their product IDs.
+   2. Create an API key (Developer → API Keys) and a webhook
+      (Developer → Webhooks) pointing to
+      `https://<project-ref>.supabase.co/functions/v1/dodo-webhook`;
+      copy the webhook signing secret (whsec_...).
+   3. ```bash
+      supabase functions deploy dodo-webhook --no-verify-jwt
+      supabase secrets set DEMO_PAYMENTS=false PAYMENT_GATEWAY=dodo DODO_API_KEY=... DODO_PRODUCT_COURSE=... DODO_PRODUCT_VIP=... DODO_WEBHOOK_SECRET=... DODO_TEST_MODE=false
+      ```
+   Use Dodo's test mode first (`DODO_TEST_MODE=true` with a test-mode API key)
+   to run a full fake card payment end to end.
+
+   Chapa remains available as an alternative gateway
+   (`PAYMENT_GATEWAY=chapa` + the CHAPA_* secrets; webhook:
+   `.../functions/v1/chapa-webhook`).
 
 ### 2. GitHub
 
