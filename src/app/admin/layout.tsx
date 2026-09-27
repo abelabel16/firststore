@@ -1,5 +1,7 @@
-import { requireAdmin } from "@/lib/auth";
+"use client";
+
 import { AppHeader, type AppNavLink } from "@/components/app/app-header";
+import { RequireAccess } from "@/components/app/require-access";
 
 const links: AppNavLink[] = [
   { href: "/admin", label: "Overview" },
@@ -12,14 +14,19 @@ const links: AppNavLink[] = [
   { href: "/admin/settings", label: "Settings" },
 ];
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  // Server-side admin authorization for every admin page.
-  const user = await requireAdmin();
-
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  // Admin check happens against profiles.is_admin; RLS enforces it on every
+  // query regardless of this UI guard.
   return (
-    <div className="flex min-h-screen flex-col">
-      <AppHeader user={user} links={links} homeHref="/admin" />
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12">{children}</main>
-    </div>
+    <RequireAccess need="admin">
+      {(auth) => (
+        <div className="flex min-h-screen flex-col">
+          <AppHeader email={auth.session?.user.email ?? ""} links={links} homeHref="/admin" />
+          <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
+            {children}
+          </main>
+        </div>
+      )}
+    </RequireAccess>
   );
 }

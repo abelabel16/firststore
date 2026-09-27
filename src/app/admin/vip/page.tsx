@@ -1,64 +1,113 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { listSessions, listUsers } from "@/lib/db";
+import { PageSkeleton } from "@/components/ui/skeleton";
+import { getSupabase } from "@/lib/supabase";
+import { useAuth } from "@/lib/use-auth";
+import type { Product, Profile, VipSession } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
-import { completeSessionAction, saveClientNotesAction } from "@/app/admin/actions";
-
-export const metadata: Metadata = { title: "Admin — VIP" };
 
 export default function AdminVipPage() {
-  const vipClients = listUsers().filter((u) => u.entitlements.includes("vip"));
-  const sessions = listSessions();
+  const auth = useAuth();
+  const [profiles, setProfiles] = useState<Profile[] | null>(null);
+  const [sessions, setSessions] = useState<VipSession[]>([]);
+  const [vipEmails, setVipEmails] = useState<Set<string>>(new Set());
+
+  const load = useCallback(() => {
+    const supabase = getSupabase();
+    supabase
+      .from("profiles")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data }) => setProfiles((data as Profile[]) ?? []));
+    supabase
+      .from("vip_sessions")
+      .select("*")
+      .order("number", { ascending: true })
+      .then(({ data }) => setSessions((data as VipSession[]) ?? []));
+    supabase
+      .from("entitlements")
+      .select("email, product")
+      .then(({ data }) =>
+        setVipEmails(
+          new Set(
+            ((data as { email: string; product: Product }[]) ?? [])
+              .filter((e) => e.product === "vip")
+              .map((e) => e.email)
+          )
+        )
+      );
+  }, []);
+
+  useEffect(() => {
+    if (auth.profile?.is_admin) load();
+  }, [auth.profile?.is_admin, load]);
+
+  if (auth.loading || profiles === null) return <PageSkeleton />;
+
+  const vipClients = profiles.filter((p) => vipEmails.has(p.email));
+
+  async function completeSession(sessionId: string, planText: string) {
+    const plan = planText
+      .split("\n")
+      .map((t) => t.trim())
+      .filter(Boolean);
+    await getSupabase()
+      .from("vip_sessions")
+      .update({ status: "completed", action_plan: plan })
+      .eq("id", sessionId);
+    load();
+  }
+
+  async function saveNotes(profileId: string, notes: string) {
+    await getSupabase().from("profiles").update({ admin_notes: notes }).eq("id", profileId);
+    load();
+  }
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">VIP clients</h1>
         <p className="mt-1 text-sm text-ink-soft">
-          {vipClients.length} clients · {sessions.filter((s) => s.status === "upcoming").length}{" "}
-          upcoming sessions
+          {vipClients.length} clients with accounts ·{" "}
+          {sessions.filter((s) => s.status === "upcoming").length} upcoming sessions
         </p>
       </div>
 
       {vipClients.length === 0 && (
         <Card className="p-8 text-center">
-          <p className="text-sm text-ink-soft">No VIP clients yet.</p>
+          <p className="text-sm text-ink-soft">
+            No VIP clients yet — they appear here after their first login.
+          </p>
         </Card>
       )}
 
       {vipClients.map((client) => {
         const clientSessions = sessions.filter((s) => s.email === client.email);
+        const ob = client.vip_onboarding;
         return (
           <Card key={client.id} className="p-5 sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
-                <h2 className="text-base font-semibold text-ink">
-                  {client.name}
-                  {client.seeded && (
-                    <Badge className="ml-2" tone="warn">
-                      demo
-                    </Badge>
-                  )}
-                </h2>
+                <h2 className="text-base font-semibold text-ink">{client.name || client.email}</h2>
                 <p className="text-xs text-ink-faint">
-                  {client.email} · joined {formatDate(client.createdAt)}
+                  {client.email} · joined {formatDate(client.created_at)}
                 </p>
               </div>
-              <Badge tone={client.vipOnboarding ? "good" : "warn"}>
-                {client.vipOnboarding ? "Onboarded" : "Onboarding pending"}
-              </Badge>
+              <Badge tone={ob ? "good" : "warn"}>{ob ? "Onboarded" : "Onboarding pending"}</Badge>
             </div>
 
-            {client.vipOnboarding && (
+            {ob && (
               <dl className="mt-4 grid gap-3 rounded-xl bg-paper p-4 sm:grid-cols-2">
                 {[
-                  ["Store", client.vipOnboarding.hasStore],
-                  ["Selling", client.vipOnboarding.selling],
-                  ["Stage", client.vipOnboarding.stage],
-                  ["Struggling with", client.vipOnboarding.strugglingWith],
-                  ["Goal", client.vipOnboarding.goal],
-                  ["Biggest problem", client.vipOnboarding.biggestProblem],
+                  ["Store", ob.hasStore],
+                  ["Selling", ob.selling],
+                  ["Stage", ob.stage],
+                  ["Struggling with", ob.strugglingWith],
+                  ["Goal", ob.goal],
+                  ["Biggest problem", ob.biggestProblem],
                 ].map(([label, value]) => (
                   <div key={label}>
                     <dt className="text-xs font-semibold uppercase tracking-wider text-ink-faint">
@@ -85,16 +134,22 @@ export default function AdminVipPage() {
                         </p>
                         <Badge tone={s.status === "completed" ? "good" : "accent"}>{s.status}</Badge>
                       </div>
-                      {(s.prep.storeUrl || s.prep.productUrl || s.prep.questions) && (
+                      {(s.store_url || s.product_url || s.questions) && (
                         <div className="mt-2 space-y-1 text-xs text-ink-soft">
-                          {s.prep.storeUrl && <p>Store: {s.prep.storeUrl}</p>}
-                          {s.prep.productUrl && <p>Product: {s.prep.productUrl}</p>}
-                          {s.prep.questions && <p>Questions: {s.prep.questions}</p>}
+                          {s.store_url && <p>Store: {s.store_url}</p>}
+                          {s.product_url && <p>Product: {s.product_url}</p>}
+                          {s.questions && <p>Questions: {s.questions}</p>}
                         </div>
                       )}
                       {s.status === "upcoming" ? (
-                        <form action={completeSessionAction} className="mt-3 space-y-2">
-                          <input type="hidden" name="id" value={s.id} />
+                        <form
+                          className="mt-3 space-y-2"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            const plan = String(new FormData(e.currentTarget).get("actionPlan") ?? "");
+                            completeSession(s.id, plan);
+                          }}
+                        >
                           <textarea
                             name="actionPlan"
                             placeholder="Action plan — one task per line"
@@ -109,9 +164,9 @@ export default function AdminVipPage() {
                           </button>
                         </form>
                       ) : (
-                        s.actionPlan.length > 0 && (
+                        s.action_plan.length > 0 && (
                           <ol className="mt-2 list-inside list-decimal space-y-1 text-xs text-ink-soft">
-                            {s.actionPlan.map((t, i) => (
+                            {s.action_plan.map((t, i) => (
                               <li key={i}>{t}</li>
                             ))}
                           </ol>
@@ -124,8 +179,14 @@ export default function AdminVipPage() {
             </div>
 
             {/* Notes */}
-            <form action={saveClientNotesAction} className="mt-5 border-t border-line pt-4">
-              <input type="hidden" name="email" value={client.email} />
+            <form
+              className="mt-5 border-t border-line pt-4"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const notes = String(new FormData(e.currentTarget).get("notes") ?? "");
+                saveNotes(client.id, notes);
+              }}
+            >
               <label
                 htmlFor={`notes-${client.id}`}
                 className="text-xs font-semibold uppercase tracking-wider text-ink-faint"
@@ -135,7 +196,7 @@ export default function AdminVipPage() {
               <textarea
                 id={`notes-${client.id}`}
                 name="notes"
-                defaultValue={client.adminNotes ?? ""}
+                defaultValue={client.admin_notes ?? ""}
                 placeholder="Only you see these."
                 className="mt-2 w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm placeholder:text-ink-faint focus:border-accent focus:outline-none"
                 rows={2}

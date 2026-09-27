@@ -1,16 +1,35 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { requireEntitlement } from "@/lib/auth";
-import { listTicketsByEmail } from "@/lib/db";
+import { PageSkeleton } from "@/components/ui/skeleton";
+import { getSupabase } from "@/lib/supabase";
+import { useAuth } from "@/lib/use-auth";
+import type { Ticket } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 import { SupportForm } from "./support-form";
 
-export const metadata: Metadata = { title: "VIP Support" };
+export default function VipSupportPage() {
+  const auth = useAuth();
+  const [tickets, setTickets] = useState<Ticket[] | null>(null);
 
-export default async function VipSupportPage() {
-  const user = await requireEntitlement("vip");
-  const tickets = listTicketsByEmail(user.email).filter((t) => t.source === "vip");
+  const email = auth.session?.user.email;
+  const load = useCallback(() => {
+    if (!email) return;
+    getSupabase()
+      .from("tickets")
+      .select("*")
+      .eq("source", "vip")
+      .order("created_at", { ascending: false })
+      .then(({ data }) => setTickets((data as Ticket[]) ?? []));
+  }, [email]);
+
+  useEffect(() => {
+    if (auth.configured) load();
+  }, [auth.configured, load]);
+
+  if (auth.loading || !auth.profile || tickets === null) return <PageSkeleton />;
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
@@ -25,7 +44,7 @@ export default async function VipSupportPage() {
       </div>
 
       <Card className="p-5 sm:p-8">
-        <SupportForm />
+        <SupportForm email={auth.profile.email} name={auth.profile.name} onSent={load} />
       </Card>
 
       <section>
@@ -51,7 +70,7 @@ export default async function VipSupportPage() {
                     <p className="mt-1 text-sm leading-relaxed text-ink">{t.reply}</p>
                   </div>
                 )}
-                <p className="mt-2 text-xs text-ink-faint">{formatDate(t.createdAt)}</p>
+                <p className="mt-2 text-xs text-ink-faint">{formatDate(t.created_at)}</p>
               </Card>
             ))}
           </div>

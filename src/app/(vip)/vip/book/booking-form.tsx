@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { getSupabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 
 const TIMES = ["10:00", "12:00", "15:00", "17:00"];
@@ -25,7 +26,7 @@ function upcomingDates(): { value: string; label: string }[] {
   return out;
 }
 
-export function BookingForm() {
+export function BookingForm({ email, existingCount }: { email: string; existingCount: number }) {
   const router = useRouter();
   const dates = useMemo(upcomingDates, []);
   const [date, setDate] = useState<string | null>(null);
@@ -40,20 +41,17 @@ export function BookingForm() {
     }
     setSubmitting(true);
     setError(null);
-    try {
-      const res = await fetch("/api/vip/book", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ date, time }),
-      });
-      const json = (await res.json()) as { sessionId?: string; error?: string };
-      if (!res.ok || !json.sessionId) throw new Error(json.error);
-      router.push(`/vip/session/${json.sessionId}`);
-      router.refresh();
-    } catch (err) {
-      setError(err instanceof Error && err.message ? err.message : "Booking failed — try again.");
+    const { data, error: dbError } = await getSupabase()
+      .from("vip_sessions")
+      .insert({ email, number: existingCount + 1, date, time })
+      .select("id")
+      .single();
+    if (dbError || !data) {
+      setError("Booking failed — please try again.");
       setSubmitting(false);
+      return;
     }
+    router.push(`/vip/session/?id=${data.id}`);
   }
 
   const chip = (selected: boolean) =>

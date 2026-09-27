@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { requireEntitlement } from "@/lib/auth";
+import { PageSkeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/lib/use-auth";
 import { OnboardingForm } from "./onboarding-form";
 
-export const metadata: Metadata = { title: "VIP Onboarding" };
-
-export default async function VipOnboardingPage() {
-  const user = await requireEntitlement("vip");
+export default function VipOnboardingPage() {
+  const auth = useAuth();
+  if (auth.loading || !auth.profile) return <PageSkeleton />;
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
@@ -19,14 +20,18 @@ export default async function VipOnboardingPage() {
           Your answers go straight to your mentor and shape your first session and action plan.
           Five minutes here saves an hour later.
         </p>
-        {user.vipOnboarding && (
+        {auth.profile.vip_onboarding && (
           <Badge tone="good" className="mt-3">
             Already completed — submitting again updates your answers
           </Badge>
         )}
       </div>
       <Card className="p-5 sm:p-8">
-        <OnboardingForm defaultName={user.name} defaultEmail={user.email} />
+        <OnboardingForm
+          profileId={auth.profile.id}
+          defaultName={auth.profile.name}
+          defaultEmail={auth.profile.email}
+        />
       </Card>
     </div>
   );

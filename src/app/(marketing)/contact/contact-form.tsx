@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Textarea } from "@/components/ui/field";
+import { getSupabase, supabaseConfigured } from "@/lib/supabase";
+import { site } from "@/config/site";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -26,12 +28,15 @@ export function ContactForm() {
 
     setStatus("submitting");
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+      if (!supabaseConfigured) throw new Error("not configured");
+      const { error } = await getSupabase().from("tickets").insert({
+        email: data.email.trim().toLowerCase(),
+        name: data.name.trim(),
+        source: "contact",
+        subject: data.subject.trim(),
+        message: data.message.trim(),
       });
-      if (!res.ok) throw new Error("Request failed");
+      if (error) throw error;
       setStatus("success");
       form.reset();
     } catch {
@@ -68,7 +73,7 @@ export function ContactForm() {
       </Field>
       {status === "error" && (
         <p className="text-sm text-danger" role="alert">
-          Something went wrong sending your message. Please try again, or email us directly.
+          Something went wrong sending your message. Please email us directly at {site.supportEmail}.
         </p>
       )}
       <Button type="submit" disabled={status === "submitting"} className="w-full sm:w-auto">

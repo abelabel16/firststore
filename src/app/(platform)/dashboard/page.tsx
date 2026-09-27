@@ -1,32 +1,41 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { requireEntitlement } from "@/lib/auth";
-import { listOrdersByEmail } from "@/lib/db";
+import { PageSkeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/lib/use-auth";
+import { getSupabase } from "@/lib/supabase";
+import type { Order } from "@/lib/types";
 import { allLessons, modules, moduleState, progressPercent } from "@/content/course";
 import { formatDate } from "@/lib/utils";
 import { resources } from "@/content/resources";
 
-export const metadata: Metadata = { title: "Dashboard" };
+export default function DashboardPage() {
+  const auth = useAuth();
+  const [orders, setOrders] = useState<Order[]>([]);
 
-export default async function DashboardPage() {
-  const user = await requireEntitlement("course");
-  const percent = progressPercent(user.completedLessons);
-  const firstName = user.name.split(" ")[0];
+  const email = auth.session?.user.email;
+  useEffect(() => {
+    if (!email || !auth.configured) return;
+    getSupabase()
+      .from("orders")
+      .select("*")
+      .eq("status", "paid")
+      .order("created_at", { ascending: false })
+      .then(({ data }) => setOrders((data as Order[]) ?? []));
+  }, [email, auth.configured]);
 
-  const nextLesson =
-    allLessons.find((l) => !user.completedLessons.includes(l.id)) ?? allLessons[0];
+  if (auth.loading || !auth.profile) return <PageSkeleton />;
+
+  const completed = auth.profile.completed_lessons;
+  const percent = progressPercent(completed);
+  const firstName = (auth.profile.name || email || "there").split(" ")[0];
+  const nextLesson = allLessons.find((l) => !completed.includes(l.id)) ?? allLessons[0];
   const nextModule = modules.find((m) => m.lessons.some((l) => l.id === nextLesson.id))!;
-  const allDone = allLessons.every((l) => user.completedLessons.includes(l.id));
-
-  const recentActivity = listOrdersByEmail(user.email)
-    .filter((o) => o.status === "paid")
-    .map((o) => ({
-      when: o.paidAt ?? o.createdAt,
-      text: o.product === "course" ? "Joined the course" : "Joined VIP mentorship",
-    }));
+  const allDone = allLessons.every((l) => completed.includes(l.id));
 
   return (
     <div className="space-y-8">
@@ -72,8 +81,8 @@ export default async function DashboardPage() {
         <h2 className="mb-4 text-lg font-semibold text-ink">Curriculum</h2>
         <div className="space-y-3">
           {modules.map((m) => {
-            const state = moduleState(m, user.completedLessons);
-            const done = m.lessons.filter((l) => user.completedLessons.includes(l.id)).length;
+            const state = moduleState(m, completed);
+            const done = m.lessons.filter((l) => completed.includes(l.id)).length;
             const locked = state === "locked";
             const inner = (
               <div className="flex items-center gap-4 p-4 sm:p-5">
@@ -142,14 +151,18 @@ export default async function DashboardPage() {
         </Card>
         <Card className="p-5">
           <h2 className="text-sm font-semibold text-ink">Recent activity</h2>
-          {recentActivity.length === 0 ? (
+          {orders.length === 0 ? (
             <p className="mt-3 text-sm text-ink-soft">Nothing yet — start your first lesson.</p>
           ) : (
             <ul className="mt-3 space-y-2">
-              {recentActivity.map((a, i) => (
-                <li key={i} className="flex items-baseline justify-between gap-3 text-sm">
-                  <span className="text-ink-soft">{a.text}</span>
-                  <span className="shrink-0 text-xs text-ink-faint">{formatDate(a.when)}</span>
+              {orders.map((o) => (
+                <li key={o.id} className="flex items-baseline justify-between gap-3 text-sm">
+                  <span className="text-ink-soft">
+                    {o.product === "course" ? "Joined the course" : "Joined VIP mentorship"}
+                  </span>
+                  <span className="shrink-0 text-xs text-ink-faint">
+                    {formatDate(o.paid_at ?? o.created_at)}
+                  </span>
                 </li>
               ))}
             </ul>

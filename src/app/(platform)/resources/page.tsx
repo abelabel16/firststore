@@ -1,15 +1,17 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { requireEntitlement } from "@/lib/auth";
+import { PageSkeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/lib/use-auth";
 import { resources } from "@/content/resources";
 
-export const metadata: Metadata = { title: "Resources" };
+export default function ResourcesPage() {
+  const auth = useAuth();
+  if (auth.loading) return <PageSkeleton />;
 
-export default async function ResourcesPage() {
-  const user = await requireEntitlement("course");
-  const isVip = user.entitlements.includes("vip");
+  const isVip = auth.entitlements.includes("vip");
   const visible = resources.filter((r) => !r.vipOnly);
 
   return (
@@ -33,7 +35,7 @@ export default async function ResourcesPage() {
         ))}
       </div>
 
-      {!isVip && (
+      {!isVip ? (
         <Card className="border-dashed p-5 text-center">
           <p className="text-sm font-medium text-ink">Looking for the advanced material?</p>
           <p className="mx-auto mt-1 max-w-md text-sm text-ink-soft">
@@ -44,8 +46,7 @@ export default async function ResourcesPage() {
             .
           </p>
         </Card>
-      )}
-      {isVip && (
+      ) : (
         <p className="text-center text-sm text-ink-soft">
           Your premium material lives in{" "}
           <Link href="/vip/resources" className="font-medium text-accent hover:text-accent-strong">

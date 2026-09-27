@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { requireEntitlement } from "@/lib/auth";
+import { PageSkeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/lib/use-auth";
 import { site } from "@/config/site";
-
-export const metadata: Metadata = { title: "Private Community" };
 
 const norms = [
   { title: "Real work only", text: "Share actual stores, actual products, actual content. Feedback is honest and specific." },
@@ -13,10 +13,13 @@ const norms = [
   { title: "No income bragging", text: "We talk process and decisions, not screenshots. What worked, what didn't, and why." },
 ];
 
-export default async function CommunityPage() {
-  // Entitlement is verified server-side before any private access is exposed.
-  const user = await requireEntitlement("vip");
-  const hasAccess = user.communityAccess;
+export default function CommunityPage() {
+  // The VIP layout guard + RLS enforce entitlement; community_access is the
+  // per-client switch controlled from the admin area.
+  const auth = useAuth();
+  if (auth.loading || !auth.profile) return <PageSkeleton />;
+
+  const hasAccess = auth.profile.community_access;
 
   return (
     <div className="mx-auto max-w-xl space-y-6">

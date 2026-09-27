@@ -4,11 +4,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Select, Textarea } from "@/components/ui/field";
+import { getSupabase } from "@/lib/supabase";
 
 export function OnboardingForm({
+  profileId,
   defaultName,
   defaultEmail,
 }: {
+  profileId: string;
   defaultName: string;
   defaultEmail: string;
 }) {
@@ -28,19 +31,27 @@ export function OnboardingForm({
 
     setSubmitting(true);
     setError(null);
-    try {
-      const res = await fetch("/api/vip/onboarding", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error();
-      router.push("/vip");
-      router.refresh();
-    } catch {
+    const { error: dbError } = await getSupabase()
+      .from("profiles")
+      .update({
+        name: data.name?.trim() || defaultName,
+        vip_onboarding: {
+          hasStore: data.hasStore.trim(),
+          selling: data.selling.trim(),
+          stage: data.stage.trim(),
+          strugglingWith: data.strugglingWith.trim(),
+          goal: data.goal.trim(),
+          biggestProblem: data.biggestProblem.trim(),
+          completedAt: new Date().toISOString(),
+        },
+      })
+      .eq("id", profileId);
+    if (dbError) {
       setError("Something went wrong saving your answers. Please try again.");
       setSubmitting(false);
+      return;
     }
+    router.push("/vip/");
   }
 
   return (

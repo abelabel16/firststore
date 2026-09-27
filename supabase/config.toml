@@ -1,0 +1,9 @@
+# Supabase CLI configuration (only the parts this project needs).
+# The checkout function is called by anonymous visitors and the webhook by
+# Chapa's servers, so neither requires a Supabase user JWT.
+
+[functions.create-checkout]
+verify_jwt = false
+
+[functions.chapa-webhook]
+verify_jwt = false

@@ -1,14 +1,11 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { requireEntitlement } from "@/lib/auth";
 import { resources } from "@/content/resources";
 
-export const metadata: Metadata = { title: "VIP Resources" };
-
-export default async function VipResourcesPage() {
-  await requireEntitlement("vip");
+export default function VipResourcesPage() {
   const premium = resources.filter((r) => r.vipOnly);
 
   return (

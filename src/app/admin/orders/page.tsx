@@ -1,14 +1,29 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { PageSkeleton } from "@/components/ui/skeleton";
 import { DataTable } from "@/components/admin/data-table";
-import { listOrders } from "@/lib/db";
+import { getSupabase } from "@/lib/supabase";
+import { useAuth } from "@/lib/use-auth";
+import type { Order } from "@/lib/types";
 import { formatDateTime } from "@/lib/utils";
 import { formatUsd } from "@/config/site";
 
-export const metadata: Metadata = { title: "Admin — Orders" };
-
 export default function AdminOrdersPage() {
-  const orders = listOrders();
+  const auth = useAuth();
+  const [orders, setOrders] = useState<Order[] | null>(null);
+
+  useEffect(() => {
+    if (!auth.profile?.is_admin) return;
+    getSupabase()
+      .from("orders")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data }) => setOrders((data as Order[]) ?? []));
+  }, [auth.profile?.is_admin]);
+
+  if (auth.loading || orders === null) return <PageSkeleton />;
 
   return (
     <div className="space-y-6">
@@ -20,21 +35,14 @@ export default function AdminOrdersPage() {
         headers={["Customer", "Email", "Product", "Amount", "Status", "Date"]}
         emptyMessage="No orders yet — they'll appear here after the first checkout."
         rows={orders.map((o) => [
-          <span key="n">
-            {o.name}
-            {o.seeded && (
-              <Badge className="ml-2" tone="warn">
-                demo
-              </Badge>
-            )}
-          </span>,
+          o.name,
           o.email,
           o.product === "course" ? "Course" : "VIP Mentorship",
-          formatUsd(o.amountUsd),
+          formatUsd(o.amount_usd),
           <Badge key="s" tone={o.status === "paid" ? "good" : o.status === "failed" ? "danger" : "warn"}>
             {o.status}
           </Badge>,
-          formatDateTime(o.createdAt),
+          formatDateTime(o.created_at),
         ])}
       />
     </div>

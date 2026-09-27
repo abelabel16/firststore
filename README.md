@@ -1,7 +1,8 @@
 # FirstStore
 
-A complete, mobile-first website for a dropshipping education business, built with
-**Next.js (App Router) + TypeScript + Tailwind CSS**.
+A complete, mobile-first website for a dropshipping education business.
+**Hosted free on GitHub Pages** (static Next.js export) with **Supabase** as the
+backend — the same pattern as the Remi web app.
 
 Two products, one honest pitch:
 
@@ -10,91 +11,104 @@ Two products, one honest pitch:
 
 No fake testimonials, no fake income proof, no fake urgency — by design.
 
-## Quick start
-
-```bash
-npm install
-copy .env.example .env      # then edit .env
-npm run dev
-```
-
-Open http://localhost:3000.
-
-### Try the full flow locally (no payment keys needed)
-
-1. Go to `/course` → **Get Instant Access** → enter any name + email
-2. The **demo gateway** page appears (clearly labeled — no real payments) → simulate success
-3. The "email" with your login link is printed to the **terminal running `npm run dev`**
-4. Open that link → you land in the student dashboard
-5. Buy "VIP" the same way to see the VIP area (`/vip`)
-
-### Admin
-
-Set your email in `.env`:
-
-```
-ADMIN_EMAILS=you@example.com
-```
-
-Then log in at `/login` with that email (login link prints to the terminal) → you're
-redirected to `/admin`.
-
-Two seeded demo accounts exist for exploring the platform (marked **demo** in admin):
-`demo-student@example.com` and `demo-vip@example.com`. Delete `data/db.json` to reset.
-
-## Going live checklist
-
-1. **Branding** — name, prices, support email, socials: [src/config/site.ts](src/config/site.ts).
-   ⚠️ The crossed-out $199 reference price must be a *genuine* original price; otherwise set
-   `referencePrice: null`.
-2. **Course content** — lesson titles, descriptions, and `videoUrl`s:
-   [src/content/course.ts](src/content/course.ts). FAQ: `src/content/faq.ts`. Resources:
-   `src/content/resources.ts`.
-3. **Payments** — create a [Chapa](https://chapa.co) merchant account, then in `.env`:
-   `PAYMENT_PROVIDER=chapa`, `CHAPA_SECRET_KEY`, `CHAPA_WEBHOOK_SECRET`, `CHAPA_CURRENCY`,
-   and the ETB amounts. Point the Chapa webhook to `https://yourdomain/api/payment/webhook`.
-   Other gateways: implement `PaymentProvider` in `src/lib/payments/` (one small file).
-4. **Email** — create a [Resend](https://resend.com) account, verify your domain, set
-   `RESEND_API_KEY` and `EMAIL_FROM`.
-5. **Security** — set a long random `AUTH_SECRET` and your real `ADMIN_EMAILS`.
-6. **Database** — the JSON-file store (`src/lib/db.ts`) is for development and tiny
-   deployments on a persistent server. Before real traffic, swap it for Postgres/SQLite —
-   all data access goes through that one file, so nothing else changes. Note: serverless
-   hosts (Vercel) have no persistent disk; use a real database there.
-7. **Legal pages** — review `/terms`, `/privacy`, `/refund-policy`, `/disclaimer` and adjust
-   to your actual policies and jurisdiction.
-
 ## Architecture
 
 ```
-src/
-  config/site.ts        ← brand, prices, support email (edit me first)
-  content/              ← course curriculum, FAQ, resources (your content)
-  lib/
-    db.ts               ← data store (swap for a real DB here)
-    auth.ts             ← magic-link auth + server-side guards
-    payments/           ← provider abstraction: chapa.ts, mock.ts
-    email.ts            ← transactional email (Resend or console)
-    fulfillment.ts      ← paid order → entitlement + email (idempotent)
-  components/           ← ui primitives, site chrome, app shell, admin
-  app/
-    (marketing)/        ← home, course, mentorship, faq, about, contact, legal
-    (checkout)/         ← checkout, demo gateway, success, failed
-    (auth)/             ← login, verify-email, forgot-access
-    (platform)/         ← student: dashboard, modules, lessons, resources, profile
-    (vip)/vip/          ← VIP: dashboard, onboarding, booking, sessions, support…
-    admin/              ← overview, orders, customers, course, vip, community…
-    api/                ← checkout, payments, auth, progress, vip, contact
+GitHub Pages (free, static)          Supabase (free tier)
+┌─────────────────────────┐          ┌──────────────────────────────┐
+│ Next.js static export    │  auth   │ Auth (email magic links)     │
+│ marketing + checkout +   │ ───────►│ Postgres + Row Level Security│
+│ course/VIP/admin UIs     │  data   │ Edge Functions:              │
+│ (out/ via GitHub Actions)│ ───────►│  create-checkout, chapa-     │
+└─────────────────────────┘          │  webhook (Chapa payments)    │
+                                     └──────────────────────────────┘
 ```
 
-**Authorization model:** visitor → course customer → VIP customer → admin. Entitlements are
-stored server-side and re-checked in every protected layout, page, API route, and server
-action (`requireUser` / `requireEntitlement` / `requireAdmin` in `src/lib/auth.ts`). VIP
-includes course access. Payment success is only ever trusted after server-side verification
-with the gateway — never from a return URL alone.
+**Security model:** the static site is public by nature, so nothing secret lives
+in it. Access control is enforced by Supabase Row Level Security — a visitor
+without a `course` entitlement gets no rows back, whatever they do in the
+browser. Payments run through Edge Functions (the only place secret keys
+exist), and a payment webhook re-verifies every transaction with Chapa before
+granting access.
+
+## Setup (one time, ~15 minutes)
+
+### 1. Supabase
+
+1. Create a free project at [supabase.com](https://supabase.com)
+2. **SQL Editor** → paste the contents of [supabase/schema.sql](supabase/schema.sql) → Run
+3. **Authentication → URL Configuration** → set Site URL to
+   `https://abelabel16.github.io/firststore` and add
+   `https://abelabel16.github.io/firststore/welcome/` to Redirect URLs
+   (add `http://localhost:3000/welcome/` too for local dev)
+4. Deploy the payment functions (needs the [Supabase CLI](https://supabase.com/docs/guides/cli)):
+   ```bash
+   supabase login
+   supabase link --project-ref <your-project-ref>
+   supabase functions deploy create-checkout --no-verify-jwt
+   supabase functions deploy chapa-webhook --no-verify-jwt
+   supabase secrets set DEMO_PAYMENTS=true SITE_URL=https://abelabel16.github.io/firststore
+   ```
+   `DEMO_PAYMENTS=true` = test mode (no real money, clearly labeled). For live
+   payments, create a [Chapa](https://chapa.co) merchant account and set:
+   ```bash
+   supabase secrets set DEMO_PAYMENTS=false CHAPA_SECRET_KEY=... CHAPA_WEBHOOK_SECRET=... CHAPA_CURRENCY=ETB CHAPA_AMOUNT_COURSE=... CHAPA_AMOUNT_VIP=...
+   ```
+   and point the Chapa dashboard webhook to
+   `https://<project-ref>.supabase.co/functions/v1/chapa-webhook`.
+
+### 2. GitHub
+
+1. Repo → **Settings → Pages** → Source: **GitHub Actions**
+2. Repo → **Settings → Secrets and variables → Actions → Variables** → add:
+   - `NEXT_PUBLIC_SUPABASE_URL` — from Supabase → Settings → API
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` — same page (the anon/public key — safe to expose)
+3. Push to `main` (or re-run the workflow) → site deploys to
+   `https://abelabel16.github.io/firststore`
+
+Until step 2 is done, the site deploys in **showcase mode**: all marketing
+pages work, login/checkout politely say the backend isn't connected yet.
+
+### 3. Make yourself admin
+
+Log in once on the site, then in the Supabase SQL Editor:
+
+```sql
+update public.profiles set is_admin = true where email = 'you@example.com';
+```
+
+### 4. Custom domain (Hostinger)
+
+1. GitHub repo → Settings → Pages → Custom domain → enter your domain
+2. Hostinger hPanel → DNS Zone → add:
+   - `A` records for `@` → `185.199.108.153`, `185.199.109.153`,
+     `185.199.110.153`, `185.199.111.153`
+   - `CNAME` for `www` → `abelabel16.github.io`
+3. In [.github/workflows/deploy.yml](.github/workflows/deploy.yml) change
+   `NEXT_PUBLIC_BASE_PATH` to `""` and `NEXT_PUBLIC_SITE_URL` to your domain,
+   update the Supabase auth URLs and the `SITE_URL` secret, then push.
+
+## Local development
+
+```bash
+npm install
+copy .env.example .env.local     # add your Supabase URL + anon key
+npm run dev
+```
+
+Without Supabase keys the marketing site runs fine and the customer areas show
+a "backend not connected" notice.
+
+## Customizing
+
+- **Brand, prices, support email**: [src/config/site.ts](src/config/site.ts)
+  ⚠️ the crossed-out $199 must be a genuine reference price, else set it to null.
+  Prices are also mirrored in `supabase/functions/create-checkout/index.ts`.
+- **Course content & video URLs**: [src/content/course.ts](src/content/course.ts)
+- **FAQ / resources**: `src/content/faq.ts`, `src/content/resources.ts`
+- **Legal pages**: `src/app/(marketing)/{terms,privacy,refund-policy,disclaimer}`
 
 ## Scripts
 
 - `npm run dev` — develop
-- `npm run build` — production build
-- `npm start` — serve the production build
+- `npm run build` — static export into `out/`

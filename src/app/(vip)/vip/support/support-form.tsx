@@ -1,12 +1,19 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Textarea } from "@/components/ui/field";
+import { getSupabase } from "@/lib/supabase";
 
-export function SupportForm() {
-  const router = useRouter();
+export function SupportForm({
+  email,
+  name,
+  onSent,
+}: {
+  email: string;
+  name: string;
+  onSent: () => void;
+}) {
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,21 +28,23 @@ export function SupportForm() {
     }
     setSubmitting(true);
     setError(null);
-    try {
-      const res = await fetch("/api/vip/support", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error();
-      setSent(true);
-      form.reset();
-      router.refresh();
-    } catch {
+    const { error: dbError } = await getSupabase().from("tickets").insert({
+      email,
+      name,
+      source: "vip",
+      subject: data.subject.trim(),
+      message: data.message.trim(),
+      store_url: data.storeUrl?.trim() || null,
+      product_url: data.productUrl?.trim() || null,
+    });
+    setSubmitting(false);
+    if (dbError) {
       setError("Couldn't send your question. Please try again.");
-    } finally {
-      setSubmitting(false);
+      return;
     }
+    setSent(true);
+    form.reset();
+    onSent();
   }
 
   return (

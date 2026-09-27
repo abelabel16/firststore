@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
-import type { User } from "@/lib/db";
+import { LogoutButton } from "@/components/app/logout-button";
 
 export interface AppNavLink {
   href: string;
@@ -12,11 +12,11 @@ export interface AppNavLink {
  * Mobile-first: nav links scroll horizontally under the bar on small screens.
  */
 export function AppHeader({
-  user,
+  email,
   links,
   homeHref,
 }: {
-  user: User;
+  email: string;
   links: AppNavLink[];
   homeHref: string;
 }) {
@@ -36,17 +36,8 @@ export function AppHeader({
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <span className="hidden max-w-40 truncate text-sm text-ink-faint sm:block">
-            {user.email}
-          </span>
-          <form action="/api/auth/logout" method="POST">
-            <button
-              type="submit"
-              className="rounded-lg border border-line px-3 py-1.5 text-xs font-medium text-ink-soft transition-colors hover:bg-zinc-50 hover:text-ink"
-            >
-              Log out
-            </button>
-          </form>
+          <span className="hidden max-w-40 truncate text-sm text-ink-faint sm:block">{email}</span>
+          <LogoutButton />
         </div>
       </div>
       <nav

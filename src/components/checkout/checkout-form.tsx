@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
+import { functionsUrl, supabaseConfigured } from "@/lib/supabase";
 
 /**
- * Minimal checkout form: name + email. On submit the server creates the order
- * and returns a hosted checkout URL from the payment provider; we redirect
- * there. Card details are never entered on our site.
+ * Minimal checkout: name + email. The "create-checkout" Supabase Edge
+ * Function records the order and returns the payment provider's hosted
+ * checkout URL; we redirect there. Card details never touch this site.
  */
 export function CheckoutForm({ product, cta }: { product: "course" | "vip"; cta: string }) {
   const [submitting, setSubmitting] = useState(false);
@@ -24,13 +25,26 @@ export function CheckoutForm({ product, cta }: { product: "course" | "vip"; cta:
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
+    if (!supabaseConfigured) {
+      setServerError("Checkout isn't live yet — the site's backend is not connected.");
+      return;
+    }
+
     setSubmitting(true);
     setServerError(null);
     try {
-      const res = await fetch("/api/checkout", {
+      const res = await fetch(functionsUrl("create-checkout"), {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ product, name: data.name, email: data.email }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          product,
+          name: data.name,
+          email: data.email,
+          returnOrigin: window.location.origin + (process.env.NEXT_PUBLIC_BASE_PATH ?? ""),
+        }),
       });
       const json = (await res.json()) as { checkoutUrl?: string; error?: string };
       if (!res.ok || !json.checkoutUrl) {

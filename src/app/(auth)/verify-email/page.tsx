@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import { SentToEmail } from "./sent-to-email";
 
 export const metadata: Metadata = { title: "Check your email" };
 
-export default async function VerifyEmailPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ email?: string }>;
-}) {
-  const { email } = await searchParams;
-
+export default function VerifyEmailPage() {
   return (
     <Card className="p-6 text-center sm:p-8">
       <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-accent-soft" aria-hidden="true">
@@ -21,8 +17,11 @@ export default async function VerifyEmailPage({
       </span>
       <h1 className="mt-4 text-xl font-semibold tracking-tight text-ink">Check your email</h1>
       <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-        If {email ? <strong className="text-ink">{email}</strong> : "your email"} has an account,
-        a login link is on its way. It expires in 30 minutes.
+        A login link is on its way to{" "}
+        <Suspense fallback={<span>your email</span>}>
+          <SentToEmail />
+        </Suspense>
+        . Open it on this device to log in.
       </p>
       <p className="mt-4 text-xs leading-relaxed text-ink-faint">
         Nothing arriving? Check spam, or{" "}

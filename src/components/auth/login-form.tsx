@@ -4,6 +4,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
+import { getSupabase, supabaseConfigured } from "@/lib/supabase";
+
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export function LoginForm({ buttonLabel = "Send Login Link" }: { buttonLabel?: string }) {
   const router = useRouter();
@@ -12,23 +15,30 @@ export function LoginForm({ buttonLabel = "Send Login Link" }: { buttonLabel?: s
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const email = String(new FormData(e.currentTarget).get("email") ?? "").trim();
+    const email = String(new FormData(e.currentTarget).get("email") ?? "")
+      .trim()
+      .toLowerCase();
     if (!/^\S+@\S+\.\S+$/.test(email)) {
       setError("Please enter a valid email address.");
+      return;
+    }
+    if (!supabaseConfigured) {
+      setError("Login isn't available yet — the site's backend is not connected.");
       return;
     }
     setError(null);
     setSubmitting(true);
     try {
-      const res = await fetch("/api/auth/request-link", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+      const { error: authError } = await getSupabase().auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}${basePath}/welcome/`,
+        },
       });
-      if (!res.ok) throw new Error();
-      router.push(`/verify-email?email=${encodeURIComponent(email)}`);
+      if (authError) throw authError;
+      router.push(`/verify-email/?email=${encodeURIComponent(email)}`);
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError("Couldn't send the login link. Please try again in a moment.");
       setSubmitting(false);
     }
   }

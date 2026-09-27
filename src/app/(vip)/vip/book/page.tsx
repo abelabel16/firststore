@@ -1,15 +1,30 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { requireEntitlement } from "@/lib/auth";
-import { listSessionsByEmail } from "@/lib/db";
+import { PageSkeleton } from "@/components/ui/skeleton";
+import { getSupabase } from "@/lib/supabase";
+import { useAuth } from "@/lib/use-auth";
+import type { VipSession } from "@/lib/types";
 import { BookingForm } from "./booking-form";
 
-export const metadata: Metadata = { title: "Book a Session" };
+export default function BookPage() {
+  const auth = useAuth();
+  const [sessions, setSessions] = useState<VipSession[] | null>(null);
 
-export default async function BookPage() {
-  const user = await requireEntitlement("vip");
-  const upcoming = listSessionsByEmail(user.email).find((s) => s.status === "upcoming");
+  const email = auth.session?.user.email;
+  useEffect(() => {
+    if (!email || !auth.configured) return;
+    getSupabase()
+      .from("vip_sessions")
+      .select("*")
+      .then(({ data }) => setSessions((data as VipSession[]) ?? []));
+  }, [email, auth.configured]);
+
+  if (auth.loading || !email || sessions === null) return <PageSkeleton />;
+
+  const upcoming = sessions.find((s) => s.status === "upcoming");
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
@@ -31,7 +46,10 @@ export default async function BookPage() {
               {upcoming.date} at {upcoming.time}
             </strong>
             .{" "}
-            <Link href={`/vip/session/${upcoming.id}`} className="font-medium text-accent hover:text-accent-strong">
+            <Link
+              href={`/vip/session/?id=${upcoming.id}`}
+              className="font-medium text-accent hover:text-accent-strong"
+            >
               View it →
             </Link>
           </p>
@@ -39,7 +57,7 @@ export default async function BookPage() {
       )}
 
       <Card className="p-5 sm:p-8">
-        <BookingForm />
+        <BookingForm email={email} existingCount={sessions.length} />
       </Card>
     </div>
   );

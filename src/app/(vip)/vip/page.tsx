@@ -1,23 +1,38 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { requireEntitlement } from "@/lib/auth";
-import { listSessionsByEmail } from "@/lib/db";
+import { PageSkeleton } from "@/components/ui/skeleton";
+import { getSupabase } from "@/lib/supabase";
+import { useAuth } from "@/lib/use-auth";
+import type { VipSession } from "@/lib/types";
 import { progressPercent } from "@/content/course";
 
-export const metadata: Metadata = { title: "VIP Dashboard" };
+export default function VipDashboardPage() {
+  const auth = useAuth();
+  const [sessions, setSessions] = useState<VipSession[] | null>(null);
 
-export default async function VipDashboardPage() {
-  const user = await requireEntitlement("vip");
-  const firstName = user.name.split(" ")[0];
-  const sessions = listSessionsByEmail(user.email);
+  const email = auth.session?.user.email;
+  useEffect(() => {
+    if (!email || !auth.configured) return;
+    getSupabase()
+      .from("vip_sessions")
+      .select("*")
+      .order("created_at", { ascending: true })
+      .then(({ data }) => setSessions((data as VipSession[]) ?? []));
+  }, [email, auth.configured]);
+
+  if (auth.loading || !auth.profile || sessions === null) return <PageSkeleton />;
+
+  const firstName = (auth.profile.name || email || "there").split(" ")[0];
   const upcoming = sessions.find((s) => s.status === "upcoming");
   const completedSessions = sessions.filter((s) => s.status === "completed");
-  const percent = progressPercent(user.completedLessons);
+  const percent = progressPercent(auth.profile.completed_lessons);
 
-  const nextStep = !user.vipOnboarding
+  const nextStep = !auth.profile.vip_onboarding
     ? {
         title: "Complete your onboarding",
         text: "Tell your mentor where you are and what you're stuck on — it shapes everything that follows.",
@@ -34,7 +49,7 @@ export default async function VipDashboardPage() {
       : {
           title: "Prepare for your session",
           text: "Add your store URL, product URL, and questions so your mentor can review before the call.",
-          href: `/vip/session/${upcoming.id}`,
+          href: `/vip/session/?id=${upcoming.id}`,
           cta: "Open Session",
         };
 
@@ -55,10 +70,7 @@ export default async function VipDashboardPage() {
             <p className="text-base font-semibold">{nextStep.title}</p>
             <p className="mt-1 max-w-md text-sm text-zinc-400">{nextStep.text}</p>
           </div>
-          <ButtonLink
-            href={nextStep.href}
-            className="shrink-0 bg-white text-ink hover:bg-zinc-200"
-          >
+          <ButtonLink href={nextStep.href} className="shrink-0 bg-white text-ink hover:bg-zinc-200">
             {nextStep.cta}
           </ButtonLink>
         </div>
@@ -77,12 +89,16 @@ export default async function VipDashboardPage() {
                 {upcoming.date} at {upcoming.time}
               </p>
               <p className="mt-0.5 text-sm text-ink-soft">
-                {upcoming.prep.storeUrl || upcoming.prep.questions
+                {upcoming.store_url || upcoming.questions
                   ? "Preparation added — you're set."
                   : "No preparation added yet."}
               </p>
             </div>
-            <ButtonLink href={`/vip/session/${upcoming.id}`} variant="secondary" className="shrink-0">
+            <ButtonLink
+              href={`/vip/session/?id=${upcoming.id}`}
+              variant="secondary"
+              className="shrink-0"
+            >
               View session
             </ButtonLink>
           </div>
@@ -109,8 +125,12 @@ export default async function VipDashboardPage() {
             <p className="text-xs text-ink-soft">Sessions completed</p>
           </div>
           <div>
-            <p className="text-2xl font-semibold text-ink">{user.vipOnboarding ? "✓" : "—"}</p>
-            <p className="text-xs text-ink-soft">Onboarding {user.vipOnboarding ? "done" : "pending"}</p>
+            <p className="text-2xl font-semibold text-ink">
+              {auth.profile.vip_onboarding ? "✓" : "—"}
+            </p>
+            <p className="text-xs text-ink-soft">
+              Onboarding {auth.profile.vip_onboarding ? "done" : "pending"}
+            </p>
           </div>
         </div>
       </Card>
