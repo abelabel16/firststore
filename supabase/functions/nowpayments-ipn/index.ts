@@ -13,7 +13,7 @@
  * Deploy:  supabase functions deploy nowpayments-ipn --no-verify-jwt
  */
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { grantEntitlements, sendAccessEmail } from "../_shared/grant.ts";
+import { grantEntitlements, sendAccessEmail, sendOwnerSaleAlert } from "../_shared/grant.ts";
 
 function sortKeysDeep(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(sortKeysDeep);
@@ -115,5 +115,6 @@ Deno.serve(async (req) => {
     amountUsd: order.amount_usd,
     orderRef: txRef,
   });
+  await sendOwnerSaleAlert(order.email, order.name ?? "", order.product, order.amount_usd);
   return new Response("ok");
 });

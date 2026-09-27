@@ -140,6 +140,42 @@ export async function sendAccessEmail(
 }
 
 /** Origins allowed to call the checkout function from a browser. */
+/** Alert the store owner that a sale just landed. */
+export async function sendOwnerSaleAlert(
+  buyerEmail: string,
+  buyerName: string,
+  product: "course" | "vip",
+  amountUsd?: number
+): Promise<void> {
+  const apiKey = Deno.env.get("RESEND_API_KEY");
+  const owner = Deno.env.get("OWNER_EMAIL");
+  if (!apiKey || !owner) return;
+  const productName = product === "vip" ? "VIP Accelerator" : "The Dropshipping Course";
+  await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from: Deno.env.get("EMAIL_FROM") ?? "VibrantFlacon <onboarding@resend.dev>",
+      to: owner,
+      subject: `🎉 New sale: ${productName}${amountUsd ? ` ($${amountUsd})` : ""}`,
+      html: `
+      <div style="font-family:ui-sans-serif,system-ui,sans-serif;max-width:480px;margin:0 auto;padding:24px;color:#18181b;">
+        <h2 style="font-size:20px;">You just made a sale! 🎉</h2>
+        <p style="font-size:14px;line-height:1.7;">
+          <strong>${productName}</strong>${amountUsd ? ` for $${amountUsd}` : ""}<br/>
+          Buyer: <strong>${buyerName || "(no name)"}</strong> · ${buyerEmail}<br/>
+          Time: ${new Date().toUTCString()}
+        </p>
+        <p style="font-size:13px;color:#71717a;line-height:1.6;">
+          Their receipt email was sent automatically. Remember your promise:
+          deliver the course materials to <strong>${buyerEmail}</strong> within 24 hours.
+          Full details in your admin panel.
+        </p>
+      </div>`,
+    }),
+  }).catch((e) => console.error("owner alert failed", e));
+}
+
 export const allowedOrigins = [
   "https://vibrantflacon.com",
   "https://www.vibrantflacon.com",

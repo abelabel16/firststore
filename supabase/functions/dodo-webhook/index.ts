@@ -13,7 +13,7 @@
  * Then set the webhook URL in the Dodo dashboard to this function's URL.
  */
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { grantEntitlements, sendAccessEmail } from "../_shared/grant.ts";
+import { grantEntitlements, sendAccessEmail, sendOwnerSaleAlert } from "../_shared/grant.ts";
 
 function base64ToBytes(b64: string): Uint8Array {
   return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
@@ -144,5 +144,6 @@ Deno.serve(async (req) => {
     amountUsd: data.total_amount != null ? data.total_amount / 100 : undefined,
     orderRef: data.payment_id ?? txRef ?? undefined,
   });
+  await sendOwnerSaleAlert(email, name, product, data.total_amount != null ? data.total_amount / 100 : undefined);
   return new Response("ok");
 });

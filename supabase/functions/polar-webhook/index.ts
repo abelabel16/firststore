@@ -11,7 +11,7 @@
  * Deploy:  supabase functions deploy polar-webhook --no-verify-jwt
  */
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { grantEntitlements, sendAccessEmail } from "../_shared/grant.ts";
+import { grantEntitlements, sendAccessEmail, sendOwnerSaleAlert } from "../_shared/grant.ts";
 
 function bytesToBase64(bytes: ArrayBuffer): string {
   return btoa(String.fromCharCode(...new Uint8Array(bytes)));
@@ -141,5 +141,6 @@ Deno.serve(async (req) => {
     amountUsd: data.total_amount != null ? data.total_amount / 100 : undefined,
     orderRef: data.id ?? txRef ?? undefined,
   });
+  await sendOwnerSaleAlert(email, name, product, data.total_amount != null ? data.total_amount / 100 : undefined);
   return new Response("ok");
 });
