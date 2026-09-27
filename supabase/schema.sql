@@ -4,6 +4,10 @@
 -- Safe to re-run: it drops and recreates its own objects.
 -- ============================================================
 
+-- Helper functions reference tables created later in this file; skip body
+-- validation during creation (the same technique pg_dump uses).
+set check_function_bodies = off;
+
 -- ---------- helpers ----------
 
 -- Current user's email from the JWT (lowercased).
