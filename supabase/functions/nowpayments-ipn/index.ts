@@ -74,8 +74,6 @@ Deno.serve(async (req) => {
   }
 
   const status = payload.payment_status ?? "";
-  if (!["confirmed", "finished"].includes(status)) return new Response("ok");
-
   const txRef = payload.order_id;
   if (!txRef) return new Response("Missing order_id", { status: 400 });
 
@@ -83,6 +81,26 @@ Deno.serve(async (req) => {
     Deno.env.get("SUPABASE_URL")!,
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
   );
+
+  // Customer has sent funds; the blockchain is confirming. Surface that in
+  // admin without granting access yet.
+  if (["confirming", "partially_paid", "sending"].includes(status)) {
+    await admin
+      .from("orders")
+      .update({ status: "confirming" })
+      .eq("tx_ref", txRef)
+      .eq("status", "pending");
+    return new Response("ok");
+  }
+  if (["failed", "expired", "refunded"].includes(status)) {
+    await admin
+      .from("orders")
+      .update({ status: "failed" })
+      .eq("tx_ref", txRef)
+      .neq("status", "paid");
+    return new Response("ok");
+  }
+  if (!["confirmed", "finished"].includes(status)) return new Response("ok");
 
   const { data: order } = await admin.from("orders").select("*").eq("tx_ref", txRef).maybeSingle();
   if (!order) return new Response("Unknown order", { status: 404 });

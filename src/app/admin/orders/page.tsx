@@ -16,20 +16,25 @@ export default function AdminOrdersPage() {
 
   useEffect(() => {
     if (!auth.profile?.is_admin) return;
+    // Abandoned checkouts (status 'pending') are noise, not orders; only
+    // real money appears here: paid, confirming on-chain, or failed.
     getSupabase()
       .from("orders")
       .select("*")
+      .neq("status", "pending")
       .order("created_at", { ascending: false })
       .then(({ data }) => setOrders((data as Order[]) ?? []));
   }, [auth.profile?.is_admin]);
 
   if (auth.loading || orders === null) return <PageSkeleton />;
 
+  const paidCount = orders.filter((o) => o.status === "paid").length;
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">Orders</h1>
-        <p className="mt-1 text-sm text-ink-soft">{orders.length} total.</p>
+        <p className="mt-1 text-sm text-ink-soft">{paidCount} paid.</p>
       </div>
       <DataTable
         headers={["Customer", "Email", "Product", "Amount", "Status", "Date"]}
@@ -40,7 +45,7 @@ export default function AdminOrdersPage() {
           o.product === "course" ? "Course" : "VIP Mentorship",
           formatUsd(o.amount_usd),
           <Badge key="s" tone={o.status === "paid" ? "good" : o.status === "failed" ? "danger" : "warn"}>
-            {o.status}
+            {o.status === "confirming" ? "paid, confirming on-chain" : o.status}
           </Badge>,
           formatDateTime(o.created_at),
         ])}

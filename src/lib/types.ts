@@ -31,7 +31,7 @@ export interface Order {
   name: string;
   product: Product;
   amount_usd: number;
-  status: "pending" | "paid" | "failed";
+  status: "pending" | "confirming" | "paid" | "failed";
   provider: string;
   created_at: string;
   paid_at: string | null;

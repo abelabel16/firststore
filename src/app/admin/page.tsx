@@ -19,9 +19,11 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     if (!auth.profile?.is_admin) return;
     const supabase = getSupabase();
+    // Only real orders (paid, confirming, failed); abandoned checkouts stay hidden.
     supabase
       .from("orders")
       .select("*")
+      .neq("status", "pending")
       .order("created_at", { ascending: false })
       .then(({ data }) => setOrders((data as Order[]) ?? []));
     supabase
@@ -49,8 +51,8 @@ export default function AdminDashboardPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard label="Revenue" value={formatUsd(revenue)} hint={`${paid.length} paid orders`} />
-        <StatCard label="Orders" value={String(orders.length)} hint="All statuses" />
+        <StatCard label="Revenue" value={formatUsd(revenue)} hint="Paid orders only" />
+        <StatCard label="Paid orders" value={String(paid.length)} />
         <StatCard label="Course students" value={String(courseStudents)} />
         <StatCard label="VIP clients" value={String(vipClients)} />
       </div>
@@ -68,7 +70,7 @@ export default function AdminDashboardPage() {
             o.product === "course" ? "Course" : "VIP Mentorship",
             formatUsd(o.amount_usd),
             <Badge key="s" tone={o.status === "paid" ? "good" : o.status === "failed" ? "danger" : "warn"}>
-              {o.status}
+              {o.status === "confirming" ? "paid, confirming on-chain" : o.status}
             </Badge>,
             formatDateTime(o.created_at),
           ])}

@@ -59,7 +59,9 @@ create table if not exists public.orders (
   name text not null default '',
   product text not null check (product in ('course', 'vip')),
   amount_usd numeric not null,
-  status text not null default 'pending' check (status in ('pending', 'paid', 'failed')),
+  -- 'confirming' = customer has sent a crypto payment that is awaiting
+  -- blockchain confirmation. 'pending' = checkout opened but never paid.
+  status text not null default 'pending' check (status in ('pending', 'confirming', 'paid', 'failed')),
   provider text not null default 'chapa',
   created_at timestamptz not null default now(),
   paid_at timestamptz
