@@ -30,7 +30,7 @@ jobs:
           # Serving at https://<user>.github.io/firststore → base path is the
           # repo name. When you attach a custom domain, change this to "".
           NEXT_PUBLIC_BASE_PATH: /firststore
-          NEXT_PUBLIC_SITE_URL: https://abelabel16.github.io/firststore
+          NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/firststore
           # Set these two in the repo: Settings → Secrets and variables →
           # Actions → Variables. Until then the site deploys in showcase
           # mode (marketing pages live, login/checkout inactive).
