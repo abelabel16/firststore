@@ -14,6 +14,8 @@ export const site = {
     "A practical dropshipping course and 1-to-1 mentorship. Learn product research, store setup, content, and traffic, a real process, not income promises.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   supportEmail: "support@vibrantflacon.com",
+  telegram: "@netro_s",
+  telegramUrl: "https://t.me/netro_s",
 
   course: {
     name: "The Dropshipping Course",

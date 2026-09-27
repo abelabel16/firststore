@@ -85,7 +85,10 @@ Deno.serve(async (req) => {
       .update({ status: "paid", paid_at: new Date().toISOString() })
       .eq("tx_ref", txRef);
     await grantEntitlements(admin, email, product);
-    await sendAccessEmail(email, name, product);
+    await sendAccessEmail(email, name, product, {
+      amountUsd: PRICES_USD[product],
+      orderRef: txRef,
+    });
     return json({ checkoutUrl: successUrl });
   }
 

@@ -77,11 +77,11 @@ export const faqCategories: FaqCategory[] = [
     items: [
       {
         q: "How do I access my purchase?",
-        a: "Right after payment, everything is sent to the email you used at checkout. No account, no password, no login. If it hasn't arrived within a few minutes, check your spam folder.",
+        a: "Everything is sent to the email you used at checkout within 24 hours of payment, and usually much faster. No account, no password, no login. Check your spam folder if you don't see it.",
       },
       {
-        q: "I lost the email. What do I do?",
-        a: "Contact support from the email you purchased with and we'll resend your access right away. If you no longer control that email, we'll verify your purchase and move it.",
+        q: "I didn't receive the email. What do I do?",
+        a: "Check spam first. If nothing has arrived within 24 hours, message us on Telegram at @netro_s or email support from the address you purchased with, and we'll resend your access right away.",
       },
       {
         q: "Can I use it on my phone?",

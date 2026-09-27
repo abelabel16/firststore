@@ -66,7 +66,10 @@ Deno.serve(async (req) => {
       .update({ status: "paid", paid_at: new Date().toISOString() })
       .eq("tx_ref", txRef);
     await grantEntitlements(admin, order.email, order.product);
-    await sendAccessEmail(order.email, order.name ?? "", order.product);
+    await sendAccessEmail(order.email, order.name ?? "", order.product, {
+      amountUsd: order.amount_usd,
+      orderRef: order.tx_ref,
+    });
   } else if (verification.data?.status === "failed") {
     await admin.from("orders").update({ status: "failed" }).eq("tx_ref", txRef);
   }

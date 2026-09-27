@@ -15,21 +15,31 @@ export function SuccessContent() {
         {isCourse ? "You’re in. 🎉" : "Welcome to VIP. 🤝"}
       </h1>
       <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-        {isCourse
-          ? "Your payment is confirmed. Everything you bought is on its way to"
-          : "Your payment is confirmed. Your onboarding instructions are on their way to"}{" "}
-        {email ? <strong className="text-ink">{email}</strong> : "your email"}. Check your inbox,
-        and the spam folder if it hasn&rsquo;t arrived within a few minutes.
+        Your payment is confirmed.{" "}
+        {isCourse ? "Your course will be sent to" : "Your onboarding will be sent to"}{" "}
+        {email ? <strong className="text-ink">{email}</strong> : "your email"}{" "}
+        <strong className="text-ink">within 24 hours</strong>, and usually much faster.
       </p>
-      <div className="mt-7">
+      <div className="mt-5 rounded-xl bg-paper p-4 text-left">
+        <p className="text-sm font-medium text-ink">Didn&rsquo;t receive it?</p>
+        <p className="mt-1 text-sm leading-relaxed text-ink-soft">
+          Check your spam folder first. Still nothing after 24 hours? Message us on Telegram at{" "}
+          <a
+            href={site.telegramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-accent hover:text-accent-strong"
+          >
+            {site.telegram}
+          </a>{" "}
+          or email {site.supportEmail} and we&rsquo;ll fix it right away.
+        </p>
+      </div>
+      <div className="mt-6">
         <ButtonLink href="/" size="lg" className="w-full">
           Back to Home
         </ButtonLink>
       </div>
-      <p className="mt-4 text-xs leading-relaxed text-ink-faint">
-        Nothing after 10 minutes? Write to {site.supportEmail} from your purchase email and we
-        will resend it right away.
-      </p>
     </>
   );
 }

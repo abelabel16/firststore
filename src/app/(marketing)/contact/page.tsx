@@ -26,6 +26,15 @@ export default function ContactPage() {
               className="font-medium text-accent hover:text-accent-strong"
             >
               {site.supportEmail}
+            </a>{" "}
+            · Telegram:{" "}
+            <a
+              href={site.telegramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-accent hover:text-accent-strong"
+            >
+              {site.telegram}
             </a>
           </p>
         </div>

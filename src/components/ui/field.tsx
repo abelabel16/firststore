@@ -1,7 +1,9 @@
 import { cn } from "@/lib/utils";
 
+// text-base (16px) on mobile is required: anything smaller makes iOS/Android
+// browsers zoom the page when an input is focused.
 const inputClass =
-  "w-full rounded-xl border border-line bg-surface px-4 py-2.5 text-sm text-ink placeholder:text-ink-faint transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/15";
+  "w-full rounded-xl border border-line bg-surface px-4 py-2.5 text-base sm:text-sm text-ink placeholder:text-ink-faint transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/15";
 
 export function Field({
   label,

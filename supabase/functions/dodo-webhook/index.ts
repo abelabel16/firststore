@@ -140,6 +140,9 @@ Deno.serve(async (req) => {
   }
 
   await grantEntitlements(admin, email, product);
-  await sendAccessEmail(email, name, product);
+  await sendAccessEmail(email, name, product, {
+    amountUsd: data.total_amount != null ? data.total_amount / 100 : undefined,
+    orderRef: data.payment_id ?? txRef ?? undefined,
+  });
   return new Response("ok");
 });
