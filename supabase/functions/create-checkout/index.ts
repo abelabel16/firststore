@@ -100,7 +100,17 @@ Deno.serve(async (req) => {
       product === "course"
         ? Deno.env.get("DODO_PRODUCT_COURSE")
         : Deno.env.get("DODO_PRODUCT_VIP");
-    if (!productId) return json({ error: "Payments are not configured yet." }, 503);
+    if (!productId) {
+      return json(
+        {
+          error:
+            product === "vip"
+              ? "VIP checkout is opening soon. Message us on Telegram @netro_s and we'll get you in today."
+              : "Payments are not configured yet.",
+        },
+        503
+      );
+    }
 
     const apiBase =
       Deno.env.get("DODO_TEST_MODE") === "true"
