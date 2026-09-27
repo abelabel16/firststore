@@ -71,7 +71,7 @@ Deno.serve(async (req) => {
     name,
     product,
     amount_usd: PRICES_USD[product],
-    provider: demo ? "demo" : "chapa",
+    provider: demo ? "demo" : (Deno.env.get("PAYMENT_GATEWAY") ?? "dodo"),
   });
   if (orderError) {
     console.error("order insert failed", orderError);
