@@ -56,6 +56,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans">
         <meta httpEquiv="Content-Security-Policy" content={csp} />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
+        {/* GitHub Pages already 301s http→https; this catches stale http tabs
+            and old links instantly on the client as well. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "if(location.protocol==='http:'&&location.hostname!=='localhost'){location.replace(location.href.replace('http://','https://'))}",
+          }}
+        />
         {children}
       </body>
     </html>

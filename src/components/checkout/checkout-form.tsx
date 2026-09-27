@@ -115,7 +115,7 @@ export function CheckoutForm({ product }: { product: "course" | "vip"; cta?: str
         {isCourse && (
           <p className="mt-2.5 text-xs font-medium text-good">
             Crypto price: {formatUsd(site.course.cryptoPrice)} instead of{" "}
-            {formatUsd(site.course.price)} — an extra discount because crypto costs us less to
+            {formatUsd(site.course.price)}. An extra discount, because crypto costs us less to
             accept.
           </p>
         )}
