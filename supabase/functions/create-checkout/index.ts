@@ -13,19 +13,19 @@
  * Deploy: supabase functions deploy create-checkout --no-verify-jwt
  */
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { corsHeaders, grantEntitlements, sendAccessEmail } from "../_shared/grant.ts";
+import { allowedOrigins, corsFor, grantEntitlements, sendAccessEmail } from "../_shared/grant.ts";
 
 const PRICES_USD = { course: 19, vip: 499 } as const;
 
-function json(body: unknown, status = 200): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
-  });
-}
-
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  const cors = corsFor(req);
+  const json = (body: unknown, status = 200): Response =>
+    new Response(JSON.stringify(body), {
+      status,
+      headers: { ...cors, "Content-Type": "application/json" },
+    });
+
+  if (req.method === "OPTIONS") return new Response(null, { headers: cors });
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
 
   let body: { product?: string; name?: string; email?: string; returnOrigin?: string };
@@ -36,13 +36,18 @@ Deno.serve(async (req) => {
   }
 
   const product = body.product === "vip" ? "vip" : body.product === "course" ? "course" : null;
-  const name = body.name?.trim() ?? "";
-  const email = body.email?.trim().toLowerCase() ?? "";
-  if (!product || !name || !/^\S+@\S+\.\S+$/.test(email)) {
+  const name = (body.name ?? "").trim().slice(0, 100);
+  const email = (body.email ?? "").trim().toLowerCase();
+  if (!product || !name || email.length > 254 || !/^\S+@\S+\.\S+$/.test(email)) {
     return json({ error: "Please provide a valid name and email." }, 400);
   }
 
-  const siteUrl = Deno.env.get("SITE_URL") ?? body.returnOrigin ?? "";
+  // The redirect target must be our own site: SITE_URL when configured,
+  // otherwise the caller's origin only if it is on the allowlist.
+  const returnOrigin = allowedOrigins.includes(body.returnOrigin ?? "")
+    ? body.returnOrigin!
+    : allowedOrigins[0];
+  const siteUrl = Deno.env.get("SITE_URL") ?? returnOrigin;
   const successUrl = `${siteUrl}/payment/success/?product=${product}&email=${encodeURIComponent(email)}`;
 
   const admin = createClient(

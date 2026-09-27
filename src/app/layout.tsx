@@ -30,10 +30,34 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Content Security Policy. GitHub Pages cannot set HTTP headers, so this
+ * ships as a meta tag (React hoists it into <head>). 'unsafe-inline' is
+ * required by Next.js hydration scripts; everything external is limited to
+ * Supabase (data) and https frames (lesson video embeds).
+ */
+const csp = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data:",
+  "font-src 'self'",
+  "connect-src 'self' https://*.supabase.co",
+  "frame-src https:",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "upgrade-insecure-requests",
+].join("; ");
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        <meta httpEquiv="Content-Security-Policy" content={csp} />
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
+        {children}
+      </body>
     </html>
   );
 }

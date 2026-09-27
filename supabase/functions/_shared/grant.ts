@@ -68,7 +68,8 @@ export async function sendAccessEmail(
   </div>`;
 
   if (!apiKey) {
-    console.log(`[email skipped, no RESEND_API_KEY] to=${email} product=${product}`);
+    // Never log full customer emails.
+    console.log(`[email skipped, no RESEND_API_KEY] to=${email.slice(0, 2)}*** product=${product}`);
     return;
   }
   const res = await fetch("https://api.resend.com/emails", {
@@ -84,8 +85,24 @@ export async function sendAccessEmail(
   if (!res.ok) console.error("access email failed:", res.status, await res.text());
 }
 
-export const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
+/** Origins allowed to call the checkout function from a browser. */
+export const allowedOrigins = [
+  "https://vibrantflacon.com",
+  "https://www.vibrantflacon.com",
+  "https://skdksdcw68-dev.github.io",
+  "https://abelabel16.github.io",
+  "http://localhost:3000",
+];
+
+/** CORS headers scoped to the requesting origin when it is on the allowlist. */
+export function corsFor(req: Request): Record<string, string> {
+  const origin = req.headers.get("origin") ?? "";
+  return {
+    "Access-Control-Allow-Origin": allowedOrigins.includes(origin)
+      ? origin
+      : allowedOrigins[0],
+    Vary: "Origin",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+  };
+}

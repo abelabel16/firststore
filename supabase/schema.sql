@@ -31,8 +31,8 @@ $$;
 
 create table if not exists public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
-  email text not null unique,
-  name text not null default '',
+  email text not null unique check (char_length(email) <= 254),
+  name text not null default '' check (char_length(name) <= 100),
   completed_lessons text[] not null default '{}',
   community_access boolean not null default false,
   is_admin boolean not null default false,
@@ -68,22 +68,22 @@ create table if not exists public.vip_sessions (
   date text not null,
   time text not null,
   status text not null default 'upcoming' check (status in ('upcoming', 'completed')),
-  store_url text not null default '',
-  product_url text not null default '',
-  questions text not null default '',
+  store_url text not null default '' check (char_length(store_url) <= 500),
+  product_url text not null default '' check (char_length(product_url) <= 500),
+  questions text not null default '' check (char_length(questions) <= 5000),
   action_plan text[] not null default '{}',
   created_at timestamptz not null default now()
 );
 
 create table if not exists public.tickets (
   id uuid primary key default gen_random_uuid(),
-  email text not null,
-  name text,
+  email text not null check (char_length(email) <= 254 and email ~ '^\S+@\S+\.\S+$'),
+  name text check (char_length(name) <= 100),
   source text not null check (source in ('contact', 'vip')),
-  subject text not null,
-  message text not null,
-  store_url text,
-  product_url text,
+  subject text not null check (char_length(subject) between 1 and 200),
+  message text not null check (char_length(message) between 1 and 5000),
+  store_url text check (char_length(store_url) <= 500),
+  product_url text check (char_length(product_url) <= 500),
   status text not null default 'open' check (status in ('open', 'closed')),
   reply text,
   created_at timestamptz not null default now()
