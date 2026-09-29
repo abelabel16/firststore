@@ -13,16 +13,10 @@ import { formatUsd, site } from "@/config/site";
  */
 export function CheckoutForm({ product }: { product: "course" | "vip"; cta?: string }) {
   const [submitting, setSubmitting] = useState(false);
-  const [method, setMethod] = useState<"card" | "crypto">(site.cardPayments ? "card" : "crypto");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const isCourse = product === "course";
-  const payAmount = isCourse
-    ? method === "crypto"
-      ? site.course.cryptoPrice
-      : site.course.price
-    : site.mentorship.price;
+  const payAmount = product === "course" ? site.course.price : site.mentorship.price;
   const ctaLabel =
     product === "vip" ? `Get VIP Access · ${formatUsd(payAmount)}` : `Pay ${formatUsd(payAmount)}`;
 
@@ -32,7 +26,7 @@ export function CheckoutForm({ product }: { product: "course" | "vip"; cta?: str
 
     const nextErrors: Record<string, string> = {};
     if (!data.name?.trim()) nextErrors.name = "Please enter your full name.";
-    if (!/^\S+@\S+\.\S+$/.test(data.email ?? "")) nextErrors.email = "Please enter a valid email.";
+    if (!/^S+@S+.S+$/.test(data.email ?? "")) nextErrors.email = "Please enter a valid email.";
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
@@ -52,7 +46,7 @@ export function CheckoutForm({ product }: { product: "course" | "vip"; cta?: str
         },
         body: JSON.stringify({
           product,
-          method,
+          method: "card",
           name: data.name,
           email: data.email,
           returnOrigin: window.location.origin + (process.env.NEXT_PUBLIC_BASE_PATH ?? ""),
@@ -83,66 +77,6 @@ export function CheckoutForm({ product }: { product: "course" | "vip"; cta?: str
         <Input id="email" name="email" type="email" autoComplete="email" placeholder="you@example.com" />
       </Field>
 
-      <div className="rounded-xl border border-line bg-paper p-4">
-        <p className="text-sm font-medium text-ink">How do you want to pay?</p>
-        <div className="mt-3 grid grid-cols-2 gap-2">
-          <button
-            type="button"
-            onClick={() => setMethod("crypto")}
-            aria-pressed={method === "crypto"}
-            className={`relative rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
-              method === "crypto"
-                ? "border-ink bg-ink text-white"
-                : "border-line bg-surface text-ink-soft hover:border-zinc-300 hover:text-ink"
-            }`}
-          >
-            ₮ Crypto (USDT)
-            {isCourse && (
-              <span className="absolute -top-2 right-2 rounded-full bg-good px-2 py-0.5 text-[10px] font-bold text-white">
-                {site.course.cryptoDiscountLabel}
-              </span>
-            )}
-          </button>
-          {site.cardPayments ? (
-            <button
-              type="button"
-              onClick={() => setMethod("card")}
-              aria-pressed={method === "card"}
-              className={`rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
-                method === "card"
-                  ? "border-ink bg-ink text-white"
-                  : "border-line bg-surface text-ink-soft hover:border-zinc-300 hover:text-ink"
-              }`}
-            >
-              💳 Card
-            </button>
-          ) : (
-            <button
-              type="button"
-              disabled
-              aria-disabled="true"
-              className="cursor-not-allowed rounded-xl border border-line bg-surface px-3 py-2.5 text-sm font-medium text-ink-faint"
-            >
-              💳 Card · Soon
-            </button>
-          )}
-        </div>
-        {isCourse && method === "crypto" && (
-          <p className="mt-2.5 text-xs font-medium text-good">
-            Crypto price: {formatUsd(site.course.cryptoPrice)} instead of{" "}
-            {formatUsd(site.course.price)}. An extra discount, because crypto costs us less to
-            accept.
-          </p>
-        )}
-        <p className="mt-2 text-xs leading-relaxed text-ink-soft">
-          {method === "card"
-            ? "You'll be redirected to a secure card checkout run by Whop. Your card details never touch this site, and your access is sent to the email above."
-            : `You'll be redirected to a secure crypto invoice. Pay in USDT or other supported coins; access is granted after blockchain confirmation, usually within minutes.${
-                site.cardPayments ? "" : " Card payments are coming soon."
-              }`}
-        </p>
-      </div>
-
       {serverError && (
         <p className="text-sm text-danger" role="alert">
           {serverError}
@@ -152,6 +86,10 @@ export function CheckoutForm({ product }: { product: "course" | "vip"; cta?: str
       <Button type="submit" size="lg" disabled={submitting} className="w-full">
         {submitting ? "Preparing secure payment…" : ctaLabel}
       </Button>
+      <p className="text-center text-xs leading-relaxed text-ink-faint">
+        💳 You&rsquo;ll pay by card on a secure checkout run by Whop. Your card details never
+        touch this site.
+      </p>
     </form>
   );
 }

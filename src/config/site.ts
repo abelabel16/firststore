@@ -16,18 +16,12 @@ export const site = {
   supportEmail: "support@vibrantflacon.com",
   telegram: "@netro_s",
   telegramUrl: "https://t.me/netro_s",
-  // Card checkout (Whop). Keep false until the Whop account is approved and
-  // the CARD_PAYMENTS=on secret is set, or the card button errors.
-  cardPayments: true as boolean,
 
   course: {
     name: "The Dropshipping Course",
     price: 19,
     referencePrice: 199 as number | null,
     discountLabel: "90% OFF",
-    // Crypto costs us less to accept, so crypto buyers pay less.
-    cryptoPrice: 17.99,
-    cryptoDiscountLabel: "91% OFF",
   },
 
   mentorship: {
