@@ -39,12 +39,12 @@ export default function PrivacyPage() {
         {
           heading: "5. Retention and deletion",
           paragraphs: [
-            "We keep your order details and support messages for as long as you have access to a product. You can request a copy of your data, or ask us to delete it, at any time by emailing us.",
+            "We keep your order details and support messages for as long as you have access to a product. You can request a copy of your data, or ask us to delete it, at any time by messaging us on Telegram.",
           ],
         },
         {
           heading: "6. Contact",
-          paragraphs: [`Privacy questions or requests: ${site.supportEmail}.`],
+          paragraphs: [`Privacy questions or requests: message ${site.telegram} on Telegram.`],
         },
       ]}
     />

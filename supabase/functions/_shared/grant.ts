@@ -72,7 +72,7 @@ export async function sendAccessEmail(
     product === "vip"
       ? Deno.env.get("VIP_ACCESS_URL") ?? Deno.env.get("COURSE_ACCESS_URL")
       : Deno.env.get("COURSE_ACCESS_URL");
-  const support = Deno.env.get("SUPPORT_EMAIL") ?? "support@vibrantflacon.com";
+  const telegram = Deno.env.get("SUPPORT_TELEGRAM") ?? "@netro_s";
   const firstName = (name.split(" ")[0] || "there").replace(/[<>&]/g, "");
 
   const isVip = product === "vip";
@@ -116,7 +116,7 @@ export async function sendAccessEmail(
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
     <td style="border-left:3px solid ${BRAND};padding:4px 0 4px 16px;">
       <p style="margin:0;font-size:15px;font-weight:700;color:${INK};line-height:1.5;">Your ${isVip ? "VIP access" : "course"} arrives at this email within 24 hours.</p>
-      <p style="margin:6px 0 0;font-size:13px;line-height:1.7;color:#52525b;">Usually much faster. Nothing after 24 hours? Check spam, then write to <strong>${support}</strong> or use the contact form at vibrantflacon.com/contact and it will be resent right away.</p>
+      <p style="margin:6px 0 0;font-size:13px;line-height:1.7;color:#52525b;">Usually much faster. Nothing after 24 hours? Check spam, then message <strong>${telegram}</strong> on Telegram with this email address and it will be resent right away.</p>
     </td>
   </tr></table>
 </td></tr>
@@ -128,7 +128,7 @@ ${accessUrl ? `<tr><td align="center" style="padding:28px 32px 4px;">${button(ac
 <tr><td style="padding:20px 32px 26px;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
     <td style="border-top:1px solid #ececee;padding-top:16px;font-size:11.5px;line-height:1.7;color:#a1a1aa;">
-      Questions or refunds: write to ${support} or use the contact form at vibrantflacon.com/contact. 14-day refund policy.
+      Questions or refunds: message ${telegram} on Telegram. 14-day refund policy.
     </td>
   </tr></table>
 </td></tr>`;

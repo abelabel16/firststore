@@ -9,7 +9,7 @@ export default function TermsPage() {
     <LegalPage
       title="Terms of Service"
       updated="September 2026"
-      intro={`These terms govern your use of ${site.name}, including the course, the VIP Accelerator, and this website. By purchasing or using our products you agree to these terms. If anything is unclear, ask us at ${site.supportEmail}.`}
+      intro={`These terms govern your use of ${site.name}, including the course, the VIP Accelerator, and this website. By purchasing or using our products you agree to these terms. If anything is unclear, message ${site.telegram} on Telegram.`}
       sections={[
         {
           heading: "1. What we provide",
@@ -62,7 +62,7 @@ export default function TermsPage() {
         },
         {
           heading: "9. Contact",
-          paragraphs: [`Questions about these terms: ${site.supportEmail}.`],
+          paragraphs: [`Questions about these terms: message ${site.telegram} on Telegram.`],
         },
       ]}
     />

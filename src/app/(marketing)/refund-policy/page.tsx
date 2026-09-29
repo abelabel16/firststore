@@ -14,14 +14,14 @@ export default function RefundPolicyPage() {
         {
           heading: "Course refunds",
           paragraphs: [
-            `If the course isn't what you expected, email ${site.supportEmail} within 14 days of purchase and we'll refund the full amount. We may ask what didn't work for you, but answering is optional and never a condition of the refund.`,
+            `If the course isn't what you expected, message ${site.telegram} on Telegram within 14 days of purchase and we'll refund the full amount. We may ask what didn't work for you, but answering is optional and never a condition of the refund.`,
             "Refunds are returned to the original payment method. Depending on your bank or payment provider, the money can take several business days to appear.",
           ],
         },
         {
           heading: "VIP Accelerator refunds",
           paragraphs: [
-            "Same terms as the course: email us within 14 days of purchase and we'll refund the full amount. VIP is a digital product, so there are no special conditions or exceptions.",
+            "Same terms as the course: message us within 14 days of purchase and we'll refund the full amount. VIP is a digital product, so there are no special conditions or exceptions.",
           ],
         },
         {
@@ -33,7 +33,7 @@ export default function RefundPolicyPage() {
         {
           heading: "How to request a refund",
           paragraphs: [
-            `Email ${site.supportEmail} from the address you purchased with, and include the word "refund" in the subject. That's it. We usually process requests within 2 business days.`,
+            `Message ${site.telegram} on Telegram with the email you purchased with and the word "refund". That's it. Requests are usually processed within 2 business days.`,
           ],
         },
       ]}

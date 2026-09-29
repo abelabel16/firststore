@@ -52,9 +52,16 @@ export function ButtonLink({
   className,
   href,
   children,
-}: CommonProps & { href: string }) {
+  target,
+  rel,
+}: CommonProps & { href: string; target?: string; rel?: string }) {
   return (
-    <Link href={href} className={cn(base, variants[variant], sizes[size], className)}>
+    <Link
+      href={href}
+      target={target}
+      rel={rel}
+      className={cn(base, variants[variant], sizes[size], className)}
+    >
       {children}
     </Link>
   );

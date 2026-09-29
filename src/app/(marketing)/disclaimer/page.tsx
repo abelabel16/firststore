@@ -44,7 +44,7 @@ export default function DisclaimerPage() {
         {
           heading: "Questions",
           paragraphs: [
-            `If anything about what you're buying is unclear, email ${site.supportEmail} before purchasing.`,
+            `If anything about what you're buying is unclear, message ${site.telegram} on Telegram before purchasing.`,
           ],
         },
       ]}

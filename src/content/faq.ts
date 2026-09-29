@@ -68,7 +68,7 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         q: "Can I get a refund?",
-        a: "Yes, see the refund policy for the exact terms. In short: if the course isn't for you, contact support within the stated window and we'll sort it out.",
+        a: "Yes, see the refund policy for the exact terms. In short: if the course isn't for you, message @netro_s on Telegram within 14 days for a full refund.",
       },
     ],
   },
@@ -81,7 +81,7 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         q: "I didn't receive the email. What do I do?",
-        a: "Check spam first. If nothing has arrived within 24 hours, use the contact form or email support@vibrantflacon.com from the address you purchased with, and your access will be resent right away.",
+        a: "Check spam first. If nothing has arrived within 24 hours, message @netro_s on Telegram with the email you purchased with, and your access will be resent right away.",
       },
       {
         q: "Can I use it on my phone?",

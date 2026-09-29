@@ -42,6 +42,17 @@ export function Footer() {
               Practical dropshipping education. Learn the process, test your ideas, and make
               decisions using real data.
             </p>
+            <p className="text-sm text-ink-soft">
+              Support on Telegram:{" "}
+              <a
+                href={site.telegramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-ink hover:text-accent"
+              >
+                {site.telegram}
+              </a>
+            </p>
           </div>
           {columns.map((col) => (
             <div key={col.title}>

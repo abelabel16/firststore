@@ -18,7 +18,7 @@ export default function AdminSettingsPage() {
         <dl className="mt-4 divide-y divide-line">
           {[
             ["Brand name", site.name],
-            ["Support email", site.supportEmail],
+            ["Support (Telegram)", site.telegram],
             [
               "Course price",
               `${formatUsd(site.course.price)}${site.course.referencePrice ? ` (reference ${formatUsd(site.course.referencePrice)})` : ""}`,

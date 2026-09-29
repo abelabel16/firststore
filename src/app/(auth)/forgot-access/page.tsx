@@ -23,7 +23,7 @@ export default function ForgotAccessPage() {
           <Link href="/contact" className="underline hover:text-ink">
             Contact support
           </Link>{" "}
-          or write to {site.supportEmail}, we&rsquo;ll verify your purchase and move your access.
+          on Telegram ({site.telegram}), we&rsquo;ll verify your purchase and move your access.
         </p>
       </div>
     </Card>

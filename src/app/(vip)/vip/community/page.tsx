@@ -63,7 +63,7 @@ export default function CommunityPage() {
             <p className="text-sm font-medium text-ink">Community access pending</p>
             <p className="mt-2 text-sm leading-relaxed text-ink-soft">
               Access is activated with your VIP membership. If you believe this is an error,
-              contact {site.supportEmail}.
+              message {site.telegram} on Telegram.
             </p>
           </>
         )}

@@ -23,18 +23,16 @@ export function SuccessContent() {
       <div className="mt-5 rounded-xl bg-paper p-4 text-left">
         <p className="text-sm font-medium text-ink">Didn&rsquo;t receive it?</p>
         <p className="mt-1 text-sm leading-relaxed text-ink-soft">
-          Check your spam folder first. Still nothing after 24 hours? Email{" "}
+          Check your spam folder first. Still nothing after 24 hours? Message{" "}
           <a
-            href={`mailto:${site.supportEmail}`}
+            href={site.telegramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="font-semibold text-accent hover:text-accent-strong"
           >
-            {site.supportEmail}
+            {site.telegram}
           </a>{" "}
-          or use the{" "}
-          <a href="/contact/" className="font-semibold text-accent hover:text-accent-strong">
-            contact form
-          </a>{" "}
-          and your access will be resent right away.
+          on Telegram with the email you used, and your access will be resent right away.
         </p>
       </div>
       <div className="mt-6">
