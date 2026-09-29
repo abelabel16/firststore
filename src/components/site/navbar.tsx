@@ -8,7 +8,7 @@ import { Logo } from "@/components/ui/logo";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "/course", label: "Learn" },
+  { href: "/course", label: "Course" },
   { href: "/mentorship", label: "VIP" },
   { href: "/pricing", label: "Pricing" },
   { href: "/faq", label: "FAQ" },

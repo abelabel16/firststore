@@ -10,14 +10,14 @@ export function FinalCta() {
           Ready to build your first store?
         </h2>
         <p className="mx-auto mt-4 max-w-md text-base text-zinc-400">
-          One payment. Everything delivered to your email. A real process you can follow.
+          One payment. Delivered to your email within 24 hours.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <ButtonLink href="/checkout/course" variant="inverse" size="lg" className="w-full sm:w-auto">
-            Start Learning for {formatUsd(site.course.price)}
+            Get the course for {formatUsd(site.course.price)}
           </ButtonLink>
           <ButtonLink href="/mentorship" variant="outlineDark" size="lg" className="w-full sm:w-auto">
-            Explore VIP Accelerator
+            See VIP Accelerator
           </ButtonLink>
         </div>
       </Container>

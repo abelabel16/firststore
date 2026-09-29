@@ -16,10 +16,28 @@ export function SuccessContent() {
       </h1>
       <p className="mt-3 text-sm leading-relaxed text-ink-soft">
         Your payment is confirmed.{" "}
-        {isCourse ? "Your course will be sent to" : "Your VIP access will be sent to"}{" "}
+        Your course will be sent to{" "}
         {email ? <strong className="text-ink">{email}</strong> : "your email"}{" "}
         <strong className="text-ink">within 24 hours</strong>, and usually much faster.
       </p>
+      {!isCourse && (
+        <div className="mt-5 rounded-xl bg-accent-soft p-4 text-left">
+          <p className="text-sm font-medium text-ink">Join the private VIP chat</p>
+          <p className="mt-1 text-sm leading-relaxed text-ink-soft">
+            Message{" "}
+            <a
+              href={site.telegramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-accent hover:text-accent-strong"
+            >
+              {site.telegram}
+            </a>{" "}
+            on Telegram with your purchase email. You&rsquo;ll be added to the VIP chat, where the
+            VIP materials are shared.
+          </p>
+        </div>
+      )}
       <div className="mt-5 rounded-xl bg-paper p-4 text-left">
         <p className="text-sm font-medium text-ink">Didn&rsquo;t receive it?</p>
         <p className="mt-1 text-sm leading-relaxed text-ink-soft">

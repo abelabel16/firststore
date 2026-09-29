@@ -1,20 +1,14 @@
 import type { Metadata } from "next";
 import { Card } from "@/components/ui/card";
+import { CheckList } from "@/components/ui/check-list";
 import { Container } from "@/components/ui/container";
 import { Price } from "@/components/ui/price";
 import { site } from "@/config/site";
+import { courseIncludes } from "@/content/offer";
 import { CheckoutForm } from "@/components/checkout/checkout-form";
 import { NextSteps, TrustStrip } from "@/components/checkout/checkout-extras";
 
 export const metadata: Metadata = { title: "Course Checkout" };
-
-const included = [
-  "All 8 modules, 29 video lessons",
-  "Product research & launch checklists",
-  "Templates and decision frameworks",
-  "Complete resource library",
-  "Every future update, free",
-];
 
 export default function CourseCheckoutPage() {
   return (
@@ -54,20 +48,9 @@ export default function CourseCheckoutPage() {
               What&rsquo;s included
             </p>
             <p className="mt-1.5 text-sm text-ink-soft">
-              The complete process, from first idea to launched store.
+              Every step, from starting with little money to your first orders.
             </p>
-            <ul className="mt-4 space-y-2.5">
-              {included.map((item) => (
-                <li key={item} className="flex items-center gap-2.5 text-sm text-ink">
-                  <span className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-good-soft text-good" aria-hidden="true">
-                    <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
-                      <path d="M1.5 5.5l2.5 2.5 4.5-6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                  {item}
-                </li>
-              ))}
-            </ul>
+            <CheckList items={courseIncludes} className="mt-4" />
           </Card>
           <NextSteps />
           <TrustStrip />

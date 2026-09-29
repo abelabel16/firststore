@@ -8,7 +8,7 @@ import { faqCategories } from "@/content/faq";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Honest answers about the course, the VIP Accelerator, payments, access, and what results to realistically expect.",
+    "Answers about the course, the VIP Accelerator, payments, delivery, and what results to expect.",
 };
 
 export default function FaqPage() {
@@ -20,7 +20,7 @@ export default function FaqPage() {
             Frequently asked questions
           </h1>
           <p className="mx-auto mt-4 max-w-md text-base text-ink-soft">
-            Straight answers, including the uncomfortable ones about results.
+            The course, VIP, payments, delivery, and results.
           </p>
         </Narrow>
       </section>

@@ -1,21 +1,13 @@
 import type { Metadata } from "next";
 import { Card } from "@/components/ui/card";
+import { CheckList } from "@/components/ui/check-list";
 import { Container } from "@/components/ui/container";
 import { formatUsd, site } from "@/config/site";
+import { vipIncludes } from "@/content/offer";
 import { CheckoutForm } from "@/components/checkout/checkout-form";
 import { NextSteps, TrustStrip } from "@/components/checkout/checkout-extras";
 
 export const metadata: Metadata = { title: "VIP Checkout" };
-
-const included = [
-  "The full course, all 8 modules",
-  "Advanced deep-dive guides",
-  "Store & product audit systems",
-  "Content review rubric",
-  "Action plan templates",
-  "Private community access",
-  "Priority support & lifetime updates",
-];
 
 export default function VipCheckoutPage() {
   return (
@@ -52,20 +44,9 @@ export default function VipCheckoutPage() {
               What&rsquo;s included
             </p>
             <p className="mt-1.5 text-sm text-zinc-400">
-              Everything in the course, plus the advanced system around it.
+              Everything in the course, plus the VIP tools and private Telegram chat.
             </p>
-            <ul className="mt-4 space-y-2.5">
-              {included.map((item) => (
-                <li key={item} className="flex items-center gap-2.5 text-sm text-zinc-100">
-                  <span className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-white/10 text-emerald-400" aria-hidden="true">
-                    <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
-                      <path d="M1.5 5.5l2.5 2.5 4.5-6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                  {item}
-                </li>
-              ))}
-            </ul>
+            <CheckList items={vipIncludes} dark className="mt-4" />
           </div>
           <NextSteps />
           <TrustStrip />

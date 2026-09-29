@@ -11,7 +11,7 @@ export const site = {
   name: "VibrantFlacon",
   tagline: "Build your first dropshipping store.",
   description:
-    "The Dropshipping Course by Vibrant Flacon: product research, store setup, suppliers, content, and traffic, step by step in video lessons.",
+    "The Dropshipping Course by Vibrant Flacon: every step from starting broke to handling orders, including the mistakes. Video lessons, PDF guides, and books.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   // Support runs on Telegram; the site email has no monitored inbox.
   telegram: "@netro_s",

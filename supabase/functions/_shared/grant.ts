@@ -84,8 +84,9 @@ export async function sendAccessEmail(
     : "You're in: your receipt and course access";
 
   const included = isVip
-    ? ["The full course, all 8 modules", "Advanced deep-dive guides", "Store &amp; product audit systems", "Content review rubric + action plan templates", "Private community access", "Priority support and lifetime updates"]
-    : ["Every video lesson in the course", "Every future course update, free"];
+    // Keep in sync with src/content/offer.ts.
+    ? ["Everything in the course", "Advanced deep-dive guides", "Store and product audit systems", "Content review rubric", "Action plan templates", "Private VIP Telegram chat", "Priority support"]
+    : ["10+ video lessons", "PDF guides and books", "Every step, including my mistakes", "Support on Telegram"];
 
   const inner = `
 <tr><td style="padding:34px 32px 8px;">
@@ -115,8 +116,9 @@ export async function sendAccessEmail(
 <tr><td style="padding:22px 32px 0;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
     <td style="border-left:3px solid ${BRAND};padding:4px 0 4px 16px;">
-      <p style="margin:0;font-size:15px;font-weight:700;color:${INK};line-height:1.5;">Your ${isVip ? "VIP access" : "course"} arrives at this email within 24 hours.</p>
+      <p style="margin:0;font-size:15px;font-weight:700;color:${INK};line-height:1.5;">Your course arrives at this email within 24 hours.</p>
       <p style="margin:6px 0 0;font-size:13px;line-height:1.7;color:#52525b;">Usually much faster. Nothing after 24 hours? Check spam, then message <strong>${telegram}</strong> on Telegram with this email address and it will be resent right away.</p>
+      ${isVip ? `<p style="margin:8px 0 0;font-size:13px;line-height:1.7;color:#52525b;"><strong style="color:${INK};">VIP:</strong> message <strong>${telegram}</strong> on Telegram with this email address to join the private VIP chat, where the VIP materials are shared.</p>` : ""}
     </td>
   </tr></table>
 </td></tr>

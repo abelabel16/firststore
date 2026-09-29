@@ -30,12 +30,6 @@ export default function DisclaimerPage() {
           ],
         },
         {
-          heading: "Any demos are demos",
-          paragraphs: [
-            "Interface previews and examples shown on this site illustrate how the course platform and teaching materials work. They are illustrations and demonstrations, never evidence of anyone's earnings.",
-          ],
-        },
-        {
           heading: "Not professional advice",
           paragraphs: [
             "Nothing in our materials is financial, legal, or tax advice. For decisions in those areas, consult a qualified professional in your jurisdiction.",
