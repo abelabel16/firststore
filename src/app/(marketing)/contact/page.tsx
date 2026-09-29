@@ -14,10 +14,10 @@ export default function ContactPage() {
       <Narrow>
         <div className="mb-10 text-center">
           <h1 className="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            Contact us
+            Contact
           </h1>
           <p className="mx-auto mt-3 max-w-md text-base text-ink-soft">
-            Questions before buying, access issues, refunds, we answer everything.
+            Questions before buying, delivery, or refunds.
           </p>
           <p className="mt-3 text-sm text-ink-soft">
             Support email:{" "}
@@ -26,15 +26,6 @@ export default function ContactPage() {
               className="font-medium text-accent hover:text-accent-strong"
             >
               {site.supportEmail}
-            </a>{" "}
-            · Telegram:{" "}
-            <a
-              href={site.telegramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-accent hover:text-accent-strong"
-            >
-              {site.telegram}
             </a>
           </p>
         </div>

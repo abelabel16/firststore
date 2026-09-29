@@ -16,7 +16,7 @@ const included = [
   { title: "The full course, included", text: "All 8 modules and 29 lessons of the base course come with VIP." },
   { title: "Advanced deep-dive guides", text: "Go further on validation, testing budgets, and reading early data with structured decision thresholds." },
   { title: "Store audit system", text: "The complete audit checklist: review your own store the way a professional would, section by section." },
-  { title: "Product audit system", text: "A structured scoring system for judging product candidates before you spend a birr on testing." },
+  { title: "Product audit system", text: "A structured scoring system for judging product candidates before you spend money on testing." },
   { title: "Content review rubric", text: "Score your own videos on hook, pacing, clarity, and call to action, then fix exactly what's weak." },
   { title: "Action plan templates", text: "Weekly planning templates that turn the process into a schedule you actually follow." },
   { title: "Private community", text: "A private group of serious VIP builders sharing real stores, real tests, and real feedback." },
@@ -43,7 +43,7 @@ export default function VipPage() {
       {/* HERO: deliberately darker and more premium than the course page */}
       <section className="bg-ink">
         <Narrow className="py-16 text-center sm:py-28">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.14em] text-zinc-500">
+          <p className="mb-4 text-sm font-medium text-zinc-400">
             VIP Accelerator
           </p>
           <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl text-balance">
@@ -71,7 +71,6 @@ export default function VipPage() {
       <section className="py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="What's included"
             title="Everything in VIP"
             description="One price, everything included, delivered straight to your email."
           />
@@ -89,7 +88,7 @@ export default function VipPage() {
       {/* WHO IT'S FOR */}
       <section className="border-t border-line bg-surface py-16 sm:py-24">
         <Container>
-          <SectionHeading eyebrow="Who it's for" title="VIP is for people who…" />
+          <SectionHeading title="VIP is for people who…" />
           <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2">
             {forWho.map((f) => (
               <div key={f.title} className="rounded-2xl border border-line bg-paper p-5">
@@ -112,7 +111,7 @@ export default function VipPage() {
       {/* HOW IT WORKS */}
       <section className="py-16 sm:py-24">
         <Container>
-          <SectionHeading eyebrow="How it works" title="From purchase to building" />
+          <SectionHeading title="From purchase to building" />
           <div className="mx-auto max-w-2xl">
             <ol className="space-y-0">
               {steps.map((s, idx) => (

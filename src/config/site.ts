@@ -11,11 +11,9 @@ export const site = {
   name: "VibrantFlacon",
   tagline: "Build your first dropshipping store.",
   description:
-    "A practical dropshipping course plus an advanced VIP tier. Learn product research, store setup, content, and traffic, a real process, not income promises.",
+    "The Dropshipping Course by Vibrant Flacon: product research, store setup, suppliers, content, and traffic, step by step in video lessons.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   supportEmail: "support@vibrantflacon.com",
-  telegram: "@netro_s",
-  telegramUrl: "https://t.me/netro_s",
 
   course: {
     name: "The Dropshipping Course",
@@ -27,14 +25,6 @@ export const site = {
   mentorship: {
     name: "VIP Accelerator",
     price: 199,
-    // Digital product: no capacity constraints, so no note.
-    capacityNote: null as string | null,
-  },
-
-  social: {
-    tiktok: "https://tiktok.com/@yourhandle",
-    instagram: "https://instagram.com/yourhandle",
-    youtube: "https://youtube.com/@yourhandle",
   },
 } as const;
 

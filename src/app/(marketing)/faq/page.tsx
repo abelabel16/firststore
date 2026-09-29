@@ -37,8 +37,8 @@ export default function FaqPage() {
             Didn&rsquo;t find your answer?{" "}
             <Link href="/contact" className="font-medium text-accent hover:text-accent-strong">
               Contact us
-            </Link>{" "}
-           , we reply to every message.
+            </Link>
+            .
           </p>
         </Narrow>
       </section>

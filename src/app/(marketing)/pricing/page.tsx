@@ -63,7 +63,7 @@ export default function PricingPage() {
         <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
           {/* Course */}
           <Card className="flex flex-col p-6 sm:p-8">
-            <p className="text-sm font-semibold uppercase tracking-wider text-ink-faint">
+            <p className="text-sm font-medium text-ink-soft">
               {site.course.name}
             </p>
             <div className="mt-4">
@@ -93,12 +93,9 @@ export default function PricingPage() {
           {/* VIP */}
           <div className="flex flex-col rounded-2xl bg-zinc-900 p-6 text-white shadow-md sm:p-8">
             <div className="flex items-center justify-between">
-              <p className="text-sm font-semibold uppercase tracking-wider text-zinc-400">
+              <p className="text-sm font-medium text-zinc-400">
                 {site.mentorship.name}
               </p>
-              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white">
-                Premium
-              </span>
             </div>
             <div className="mt-4">
               <span className="text-3xl font-semibold tracking-tight">

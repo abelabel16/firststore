@@ -3,6 +3,8 @@ import { Narrow } from "@/components/ui/container";
 export interface LegalSection {
   heading: string;
   paragraphs: string[];
+  /** Anchor so other pages can link straight to this section. */
+  id?: string;
 }
 
 export function LegalPage({
@@ -24,7 +26,7 @@ export function LegalPage({
         <p className="mt-6 text-base leading-relaxed text-ink-soft">{intro}</p>
         <div className="mt-10 space-y-8">
           {sections.map((s) => (
-            <div key={s.heading}>
+            <div key={s.heading} id={s.id} className="scroll-mt-24">
               <h2 className="text-lg font-semibold text-ink">{s.heading}</h2>
               {s.paragraphs.map((p, i) => (
                 <p key={i} className="mt-3 text-sm leading-relaxed text-ink-soft">

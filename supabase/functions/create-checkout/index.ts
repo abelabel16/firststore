@@ -214,7 +214,7 @@ Deno.serve(async (req) => {
         {
           error:
             product === "vip"
-              ? "VIP checkout is opening soon. Message us on Telegram @netro_s and we'll get you in today."
+              ? "VIP checkout is opening soon. Email support@vibrantflacon.com and we'll get you in today."
               : "Payments are not configured yet.",
         },
         503

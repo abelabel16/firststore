@@ -7,7 +7,7 @@ import { formatUsd, site } from "@/config/site";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Why FirstStore exists: practical dropshipping education built on process, data, and honest expectations.",
+    "Meet Vibrant Flacon, creator of The Dropshipping Course.",
 };
 
 const principles = [

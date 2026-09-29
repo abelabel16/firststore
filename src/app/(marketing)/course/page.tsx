@@ -98,7 +98,6 @@ export default function CoursePage() {
       <section className="py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="Curriculum"
             title="What you'll learn"
             description="Eight modules, in the order you'll actually need them."
           />
@@ -120,7 +119,6 @@ export default function CoursePage() {
       <section className="border-t border-line bg-surface py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="Inside the course"
             title="Every module, in detail"
             description="Exactly what each module contains, no mystery boxes."
           />
@@ -153,7 +151,6 @@ export default function CoursePage() {
       <section className="py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="Who it's for"
             title="Built for beginners"
             description="You don't need experience, a big budget, or a business background."
           />
@@ -172,7 +169,6 @@ export default function CoursePage() {
       <section className="border-t border-line bg-surface py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="Honesty first"
             title="What this course is not"
             description="This course is about learning, experimentation, execution, and understanding, not shortcuts."
           />
@@ -197,7 +193,7 @@ export default function CoursePage() {
       {/* WHAT'S INCLUDED */}
       <section className="py-16 sm:py-24">
         <Container>
-          <SectionHeading eyebrow="Included" title="Everything in the box" />
+          <SectionHeading title="Everything in the box" />
           <div className="mx-auto grid max-w-4xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {included.map((i) => (
               <Card key={i.title} className="p-5">
@@ -213,7 +209,7 @@ export default function CoursePage() {
       <section className="border-t border-line bg-surface py-16 sm:py-24">
         <Narrow>
           <Card className="p-8 text-center sm:p-12">
-            <p className="text-sm font-semibold uppercase tracking-wider text-ink-faint">
+            <p className="text-sm font-medium text-ink-soft">
               {site.course.name}
             </p>
             <div className="mt-6 flex justify-center">

@@ -14,7 +14,7 @@ export const faqCategories: FaqCategory[] = [
     items: [
       {
         q: "Is the course beginner friendly?",
-        a: "Yes. It assumes no prior experience, Module 1 starts with how the business model works. If you've already started a store, you can jump to the modules you need.",
+        a: "Yes. It assumes no prior experience. If you've already started a store, you can jump to the modules you need.",
       },
       {
         q: "What exactly do I get?",
@@ -30,7 +30,7 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         q: "How much money do I need to start?",
-        a: "Beyond the course, plan for a store subscription, product samples, and a small testing budget. The Foundations module walks through a realistic budget in detail, most students should expect a few hundred dollars to test properly. Anyone telling you it's free is not being honest.",
+        a: "Beyond the course, plan for a store subscription, product samples, and a small testing budget. A few hundred dollars is a realistic range to test properly.",
       },
     ],
   },
@@ -64,7 +64,7 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         q: "What payment methods do you accept?",
-        a: "Cards and local payment methods, depending on your region. The available options are shown at checkout.",
+        a: "Debit or credit card, on a secure checkout run by Whop. Your card details never touch this site.",
       },
       {
         q: "Can I get a refund?",
@@ -81,7 +81,7 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         q: "I didn't receive the email. What do I do?",
-        a: "Check spam first. If nothing has arrived within 24 hours, message us on Telegram at @netro_s or email support from the address you purchased with, and we'll resend your access right away.",
+        a: "Check spam first. If nothing has arrived within 24 hours, use the contact form or email support@vibrantflacon.com from the address you purchased with, and your access will be resent right away.",
       },
       {
         q: "Can I use it on my phone?",
@@ -94,15 +94,11 @@ export const faqCategories: FaqCategory[] = [
     items: [
       {
         q: "Is income guaranteed?",
-        a: "No, and you should be skeptical of anyone who guarantees it. This is education: we teach a real process for researching, building, and testing an online store. Your results depend on your execution, your product choices, your budget, and factors outside anyone's control. Many stores fail; the course exists to make your attempts smarter, not to promise an outcome.",
+        a: "No. This is education: a process for researching, building, and testing an online store. Your results depend on your execution, your product choices, your budget, and factors outside anyone's control. Many stores fail; the course exists to make your attempts smarter, not to promise an outcome.",
       },
       {
         q: "How long until I see results?",
-        a: "There's no honest universal answer. Building and launching a first store typically takes a few weeks of part-time work; finding a product that works can take multiple tests. Treat your first store as learning, not as a payday.",
-      },
-      {
-        q: "Do you show student income proof?",
-        a: "No. Income screenshots are easy to fake and even real ones are cherry-picked, so we don't use them to sell. Judge the course by its curriculum, which is public on this site.",
+        a: "It varies. Building and launching a first store typically takes a few weeks of part-time work, and finding a product that works can take several tests. Treat your first store as learning, not as a payday.",
       },
     ],
   },

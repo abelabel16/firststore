@@ -46,7 +46,7 @@ export const resources: Resource[] = [
   {
     id: "vr1",
     title: "Store Audit Checklist",
-    description: "The exact checklist used in VIP store reviews, audit your own store the way a mentor would.",
+    description: "A section by section checklist for auditing your own store.",
     type: "Checklist",
     vipOnly: true,
   },
@@ -60,14 +60,14 @@ export const resources: Resource[] = [
   {
     id: "vr3",
     title: "Content Review Rubric",
-    description: "The rubric used in VIP content feedback, hook, pacing, clarity, and call-to-action scoring.",
+    description: "Score your own videos on hook, pacing, clarity, and call to action.",
     type: "Framework",
     vipOnly: true,
   },
   {
     id: "vr4",
     title: "Action Plan Templates",
-    description: "The weekly action plan templates used with mentorship clients.",
+    description: "Weekly action plan templates for planning and tracking your tests.",
     type: "Template",
     vipOnly: true,
   },

@@ -9,7 +9,7 @@ import { site } from "@/config/site";
 
 const norms = [
   { title: "Real work only", text: "Share actual stores, actual products, actual content. Feedback is honest and specific." },
-  { title: "Small on purpose", text: "The group is limited to active mentorship clients so the signal stays high." },
+  { title: "Small on purpose", text: "The group is limited to VIP members so the signal stays high." },
   { title: "No income bragging", text: "We talk process and decisions, not screenshots. What worked, what didn't, and why." },
 ];
 
@@ -28,7 +28,7 @@ export default function CommunityPage() {
           Private community
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-          A small private group of active mentorship clients, ask questions, share what
+          A small private group of VIP members: ask questions, share what
           you&rsquo;re building, and see the feedback others get.
         </p>
       </div>

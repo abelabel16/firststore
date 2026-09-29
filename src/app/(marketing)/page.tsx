@@ -182,14 +182,13 @@ export default function HomePage() {
       <section id="pricing" className="py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="Two ways to learn"
             title="Choose how you want to build"
             description="The course teaches the full process. VIP adds the advanced guides, audit systems, and community around it."
           />
           <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
             {/* Course card */}
             <Card className="flex flex-col p-6 sm:p-8">
-              <p className="text-sm font-semibold uppercase tracking-wider text-ink-faint">
+              <p className="text-sm font-medium text-ink-soft">
                 Course
               </p>
               <div className="mt-4">
@@ -218,12 +217,9 @@ export default function HomePage() {
                 background can never be overridden by the Card base styles. */}
             <div className="flex flex-col rounded-2xl bg-zinc-900 p-6 text-white shadow-md sm:p-8">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold uppercase tracking-wider text-zinc-400">
+                <p className="text-sm font-medium text-zinc-400">
                   VIP Accelerator
                 </p>
-                <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white">
-                  Premium
-                </span>
               </div>
               <div className="mt-4">
                 <span className="text-3xl font-semibold tracking-tight">
@@ -254,7 +250,6 @@ export default function HomePage() {
       <section className="border-t border-line bg-surface py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="Curriculum"
             title="What you'll learn"
             description="Eight modules covering the complete process, from understanding the model to operating a launched store."
           />
@@ -284,7 +279,6 @@ export default function HomePage() {
       <section className="py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="Deliverables"
             title="What you actually get"
             description="Tangible materials. No “secret methods”, no vague promises. This is what's inside."
           />
@@ -303,7 +297,6 @@ export default function HomePage() {
       <section className="border-t border-line bg-surface py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="How it works"
             title="A process, not a promise"
             description="You're learning how to research, build, and test. The outcome depends on your execution, and that's the honest truth."
           />
@@ -325,7 +318,6 @@ export default function HomePage() {
       <section className="py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="Inside the course"
             title="What lands in your inbox"
             description="Buy once and everything arrives by email: video lessons, checklists, templates, and the full curriculum. No account or password needed."
           />
@@ -426,7 +418,6 @@ export default function HomePage() {
       <section className="border-t border-line bg-surface py-16 sm:py-24">
         <Container>
           <SectionHeading
-            eyebrow="VIP Accelerator"
             title="What VIP adds on top"
             description="The course teaches the process. VIP gives you the audit systems, templates, and community to execute it with precision."
           />
@@ -449,7 +440,7 @@ export default function HomePage() {
       {/* FAQ */}
       <section className="py-16 sm:py-24">
         <Narrow>
-          <SectionHeading eyebrow="FAQ" title="Honest answers to real questions" />
+          <SectionHeading title="Common questions" />
           <FaqAccordion items={homeFaq} />
           <p className="mt-6 text-center text-sm text-ink-soft">
             More questions?{" "}

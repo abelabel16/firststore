@@ -39,7 +39,7 @@ ${inner}
 </table>
 <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
 <tr><td style="padding:18px 12px;text-align:center;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:11px;color:#a1a1aa;line-height:1.6;">
-  VibrantFlacon · vibrantflacon.com · Education, honestly sold.
+  VibrantFlacon · vibrantflacon.com
 </td></tr>
 </table>
 </td></tr></table></body></html>`;
@@ -73,12 +73,11 @@ export async function sendAccessEmail(
       ? Deno.env.get("VIP_ACCESS_URL") ?? Deno.env.get("COURSE_ACCESS_URL")
       : Deno.env.get("COURSE_ACCESS_URL");
   const support = Deno.env.get("SUPPORT_EMAIL") ?? "support@vibrantflacon.com";
-  const telegram = Deno.env.get("SUPPORT_TELEGRAM") ?? "@netro_s";
   const firstName = (name.split(" ")[0] || "there").replace(/[<>&]/g, "");
 
   const isVip = product === "vip";
   const productName = isVip ? "VIP Accelerator" : "The Dropshipping Course";
-  const amount = receipt?.amountUsd ?? (isVip ? 199 : 17.99);
+  const amount = receipt?.amountUsd ?? (isVip ? 199 : 19);
   const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
   const subject = isVip
     ? "Welcome to VIP: your receipt and access"
@@ -86,7 +85,7 @@ export async function sendAccessEmail(
 
   const included = isVip
     ? ["The full course, all 8 modules", "Advanced deep-dive guides", "Store &amp; product audit systems", "Content review rubric + action plan templates", "Private community access", "Priority support and lifetime updates"]
-    : ["All 8 modules, 29 video lessons", "Checklists, templates, and frameworks", "The complete resource library", "Every future course update, free"];
+    : ["Every video lesson in the course", "Every future course update, free"];
 
   const inner = `
 <tr><td style="padding:34px 32px 8px;">
@@ -117,19 +116,19 @@ export async function sendAccessEmail(
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
     <td style="border-left:3px solid ${BRAND};padding:4px 0 4px 16px;">
       <p style="margin:0;font-size:15px;font-weight:700;color:${INK};line-height:1.5;">Your ${isVip ? "VIP access" : "course"} arrives at this email within 24 hours.</p>
-      <p style="margin:6px 0 0;font-size:13px;line-height:1.7;color:#52525b;">Usually much faster. Nothing after 24 hours? Check spam, then message us on Telegram at <strong>${telegram}</strong> or just reply here. We fix it immediately.</p>
+      <p style="margin:6px 0 0;font-size:13px;line-height:1.7;color:#52525b;">Usually much faster. Nothing after 24 hours? Check spam, then write to <strong>${support}</strong> or use the contact form at vibrantflacon.com/contact and it will be resent right away.</p>
     </td>
   </tr></table>
 </td></tr>
 ${accessUrl ? `<tr><td align="center" style="padding:28px 32px 4px;">${button(accessUrl, isVip ? "Open Your VIP Access" : "Open Your Course")}<p style="margin:10px 0 0;font-size:11px;color:#a1a1aa;">This button is your permanent access.</p></td></tr>` : ""}
 <tr><td style="padding:26px 32px 6px;">
-  <p style="margin:0;font-size:13px;line-height:1.8;color:#52525b;">One honest note before you start: this is education, not a shortcut. Go one module at a time, do the checklists, and let real data make your decisions. That's the whole game.</p>
-  <p style="margin:14px 0 0;font-size:14px;color:${INK};font-weight:600;">Let's build. 🚀<br/><span style="font-weight:400;color:#71717a;">The VibrantFlacon team</span></p>
+  <p style="margin:0;font-size:13px;line-height:1.8;color:#52525b;">Before you start: go one module at a time and let real data make your decisions.</p>
+  <p style="margin:14px 0 0;font-size:14px;color:${INK};font-weight:600;">Let's build. 🚀<br/><span style="font-weight:400;color:#71717a;">Vibrant Flacon</span></p>
 </td></tr>
 <tr><td style="padding:20px 32px 26px;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
     <td style="border-top:1px solid #ececee;padding-top:16px;font-size:11.5px;line-height:1.7;color:#a1a1aa;">
-      Questions or refunds: reply to this email, write to ${support}, or Telegram ${telegram}. Our 14-day refund policy is simple and honest.
+      Questions or refunds: write to ${support} or use the contact form at vibrantflacon.com/contact. 14-day refund policy.
     </td>
   </tr></table>
 </td></tr>`;
@@ -165,7 +164,7 @@ export async function sendOwnerSaleAlert(
   const owner = Deno.env.get("OWNER_EMAIL");
   if (!apiKey || !owner) return;
   const productName = product === "vip" ? "VIP Accelerator" : "The Dropshipping Course";
-  const amount = amountUsd ?? (product === "vip" ? 199 : 17.99);
+  const amount = amountUsd ?? (product === "vip" ? 199 : 19);
   const time = new Date().toLocaleString("en-US", {
     month: "short",
     day: "numeric",

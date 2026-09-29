@@ -9,7 +9,7 @@ export default function TermsPage() {
     <LegalPage
       title="Terms of Service"
       updated="September 2026"
-      intro={`These terms govern your use of ${site.name}, including the course, the VIP Accelerator, and this website. By purchasing or using our products you agree to these terms. We've written them to be readable, if anything is unclear, ask us at ${site.supportEmail}.`}
+      intro={`These terms govern your use of ${site.name}, including the course, the VIP Accelerator, and this website. By purchasing or using our products you agree to these terms. If anything is unclear, ask us at ${site.supportEmail}.`}
       sections={[
         {
           heading: "1. What we provide",
@@ -39,7 +39,7 @@ export default function TermsPage() {
         {
           heading: "5. Acceptable use",
           paragraphs: [
-            "Don't abuse the platform: no attempts to access other users' accounts or content you haven't purchased, no scraping or redistributing materials, and no disruptive or abusive behavior in the private community. We may suspend access for serious violations, with a refund where the law requires it.",
+            "Don't abuse the platform: no attempts to access content you haven't purchased, no scraping or redistributing materials, and no disruptive or abusive behavior in the private community. We may suspend access for serious violations, with a refund where the law requires it.",
           ],
         },
         {

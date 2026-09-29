@@ -9,12 +9,12 @@ export default function RefundPolicyPage() {
     <LegalPage
       title="Refund Policy"
       updated="September 2026"
-      intro="We'd rather refund you than have you feel tricked. Here is exactly how refunds work, no fine-print games."
+      intro="Both products come with a 14-day refund. Here is exactly how it works."
       sections={[
         {
           heading: "Course refunds",
           paragraphs: [
-            `If the course isn't what you expected, email ${site.supportEmail} within 14 days of purchase and we'll refund the full amount. We may ask what didn't work for you, honest feedback helps us improve, but answering is optional and never a condition of the refund.`,
+            `If the course isn't what you expected, email ${site.supportEmail} within 14 days of purchase and we'll refund the full amount. We may ask what didn't work for you, but answering is optional and never a condition of the refund.`,
             "Refunds are returned to the original payment method. Depending on your bank or payment provider, the money can take several business days to appear.",
           ],
         },
@@ -25,9 +25,9 @@ export default function RefundPolicyPage() {
           ],
         },
         {
-          heading: "What we don't do",
+          heading: "What isn't covered",
           paragraphs: [
-            "We don't refuse refunds on technicalities, and we don't make you jump through hoops. We also can't refund costs you incurred elsewhere (store subscriptions, ads, samples), those are payments to other companies and decisions you made in your own business.",
+            "We can't refund costs you incurred elsewhere, such as store subscriptions, ads, or samples. Those are payments to other companies.",
           ],
         },
         {

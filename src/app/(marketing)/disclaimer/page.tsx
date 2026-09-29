@@ -9,7 +9,7 @@ export default function DisclaimerPage() {
     <LegalPage
       title="Disclaimer"
       updated="September 2026"
-      intro={`This page says plainly what ${site.name} is and is not. We'd rather over-communicate this than have anyone buy with the wrong expectations.`}
+      intro={`This page explains what ${site.name} sells and what it doesn't.`}
       sections={[
         {
           heading: "This is education, not a financial outcome",
@@ -20,13 +20,13 @@ export default function DisclaimerPage() {
         {
           heading: "Results vary, a lot",
           paragraphs: [
-            "Outcomes depend on the products you choose, the effort and budget you put in, your market, timing, and factors nobody controls. Many first stores are not profitable. We think a first store is best treated as structured learning: some students go on to build stores that work, others conclude the model isn't for them, both are legitimate outcomes of honest experimentation.",
+            "Outcomes depend on the products you choose, the effort and budget you put in, your market, timing, and factors nobody controls. Many first stores are not profitable. A first store is best treated as structured learning.",
           ],
         },
         {
           heading: "Building a store involves real costs",
           paragraphs: [
-            "Beyond our course, running a store involves costs paid to other companies: store platform subscriptions, product samples, and any advertising you choose to run. Budget for these deliberately. The Foundations module covers realistic budgeting in detail.",
+            "Beyond our course, running a store involves costs paid to other companies: store platform subscriptions, product samples, and any advertising you choose to run. Budget for these deliberately.",
           ],
         },
         {
@@ -44,7 +44,7 @@ export default function DisclaimerPage() {
         {
           heading: "Questions",
           paragraphs: [
-            `If anything about what you're buying is unclear, email ${site.supportEmail} before purchasing. We'd rather answer questions up front than refund confusion later.`,
+            `If anything about what you're buying is unclear, email ${site.supportEmail} before purchasing.`,
           ],
         },
       ]}
