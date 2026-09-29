@@ -105,6 +105,24 @@ create table if not exists public.page_views (
 );
 create index if not exists page_views_created_idx on public.page_views (created_at desc);
 
+-- Visit detail. Each page view is a 'view' row; when the visitor leaves that
+-- page a 'leave' row (same view_id) records time on page and scroll depth;
+-- 'event' rows mark actions such as clicking Pay. Everything is anonymous:
+-- no IP, no name, only what the browser reports about itself.
+alter table public.page_views
+  add column if not exists kind text not null default 'view' check (kind in ('view', 'leave', 'event')),
+  add column if not exists view_id uuid,
+  add column if not exists session text check (char_length(session) <= 64),
+  add column if not exists event text check (char_length(event) <= 40),
+  add column if not exists duration_ms integer check (duration_ms between 0 and 86400000),
+  add column if not exists scroll_pct smallint check (scroll_pct between 0 and 100),
+  add column if not exists device text check (char_length(device) <= 20),
+  add column if not exists os text check (char_length(os) <= 20),
+  add column if not exists browser text check (char_length(browser) <= 20),
+  add column if not exists tz text check (char_length(tz) <= 64),
+  add column if not exists lang text check (char_length(lang) <= 20),
+  add column if not exists utm_source text check (char_length(utm_source) <= 60);
+
 -- ---------- triggers ----------
 
 -- Create a profile row automatically when a user signs up / first logs in.

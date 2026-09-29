@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
 import { functionsUrl, supabaseConfigured } from "@/lib/supabase";
 import { formatUsd, site } from "@/config/site";
+import { trackEvent } from "@/lib/analytics";
 
 /**
  * Minimal checkout: name + email. The "create-checkout" Supabase Edge
@@ -39,6 +40,7 @@ export function CheckoutForm({ product }: { product: "course" | "vip"; cta?: str
 
     setSubmitting(true);
     setServerError(null);
+    trackEvent(`checkout_click_${product}`);
     try {
       const res = await fetch(functionsUrl("create-checkout"), {
         method: "POST",

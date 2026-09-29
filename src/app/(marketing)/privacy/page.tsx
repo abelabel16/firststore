@@ -33,7 +33,7 @@ export default function PrivacyPage() {
         {
           heading: "4. Cookies and visit counts",
           paragraphs: [
-            "This site sets no cookies. To count visits, it stores a random visitor ID in your browser's local storage; that ID is not linked to your name or email. There is no advertising or cross-site tracking.",
+            "This site sets no cookies. To understand how the site is used, it records anonymous visit data in our own database: the pages you view, how long you stay and how far you scroll, whether you click Pay, your device type, operating system and browser, your browser's language and time zone, and the site or link that sent you. A random visitor ID in your browser's local storage connects the pages of one visit. None of this is linked to your name, email, or IP address, and there is no advertising or cross-site tracking.",
           ],
         },
         {

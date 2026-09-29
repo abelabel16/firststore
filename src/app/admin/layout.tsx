@@ -2,6 +2,8 @@
 
 import { AppHeader, type AppNavLink } from "@/components/app/app-header";
 import { RequireAccess } from "@/components/app/require-access";
+import { useEffect } from "react";
+import { markOwnerBrowser } from "@/lib/analytics";
 
 const links: AppNavLink[] = [
   { href: "/admin", label: "Overview" },
@@ -22,6 +24,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <RequireAccess need="admin">
       {(auth) => (
         <div className="flex min-h-screen flex-col">
+          <OwnerMark />
           <AppHeader email={auth.session?.user.email ?? ""} links={links} homeHref="/admin" />
           <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
             {children}
@@ -30,4 +33,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       )}
     </RequireAccess>
   );
+}
+
+/** Any browser that opens the admin panel is the owner's: stop counting its visits. */
+function OwnerMark() {
+  useEffect(() => markOwnerBrowser(), []);
+  return null;
 }
