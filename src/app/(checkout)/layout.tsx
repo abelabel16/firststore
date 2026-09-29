@@ -1,6 +1,4 @@
-import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
-import { site } from "@/config/site";
 
 export default function CheckoutLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -18,15 +16,6 @@ export default function CheckoutLayout({ children }: { children: React.ReactNode
         </div>
       </header>
       <main className="flex-1">{children}</main>
-      <footer className="border-t border-line py-6">
-        <p className="text-center text-xs text-ink-faint">
-          Questions?{" "}
-          <Link href="/contact" className="underline hover:text-ink-soft">
-            Contact support
-          </Link>{" "}
-          · {site.supportEmail}
-        </p>
-      </footer>
     </div>
   );
 }

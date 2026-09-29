@@ -1,5 +1,4 @@
 import { Card } from "@/components/ui/card";
-import { site } from "@/config/site";
 
 const steps = [
   { n: "1", text: "Pay securely" },
@@ -39,7 +38,6 @@ export function TrustStrip() {
       </span>
       <span>⚡ Email delivery</span>
       <span>↩ 14-day refunds</span>
-      <span>💬 {site.telegram}</span>
     </div>
   );
 }

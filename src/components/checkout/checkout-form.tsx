@@ -23,10 +23,12 @@ export function CheckoutForm({ product }: { product: "course" | "vip"; cta?: str
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget)) as Record<string, string>;
+    // Phone keyboards often append a space after an autocompleted email.
+    data.email = (data.email ?? "").trim();
 
     const nextErrors: Record<string, string> = {};
     if (!data.name?.trim()) nextErrors.name = "Please enter your full name.";
-    if (!/^S+@S+.S+$/.test(data.email ?? "")) nextErrors.email = "Please enter a valid email.";
+    if (!/^\S+@\S+\.\S+$/.test(data.email)) nextErrors.email = "Please enter a valid email.";
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
