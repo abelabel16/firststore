@@ -25,7 +25,11 @@ Set-Location "$root\out"
 git init -b gh-pages -q
 git add -A
 git commit -m "Deploy built site" -q
-git push --force "https://github.com/$Owner/firststore.git" gh-pages
+# Push as the repo owner even when another GitHub account is active.
+$token = gh auth token --user $Owner
+if ($LASTEXITCODE -ne 0) { throw "Not logged in to GitHub as $Owner (run: gh auth login)" }
+git -c credential.helper= push --force "https://x-access-token:$token@github.com/$Owner/firststore.git" gh-pages
+if ($LASTEXITCODE -ne 0) { throw "Push to gh-pages failed" }
 
 Set-Location $root
 Write-Host ""

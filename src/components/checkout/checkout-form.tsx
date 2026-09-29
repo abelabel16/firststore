@@ -13,7 +13,7 @@ import { formatUsd, site } from "@/config/site";
  */
 export function CheckoutForm({ product }: { product: "course" | "vip"; cta?: string }) {
   const [submitting, setSubmitting] = useState(false);
-  const [method, setMethod] = useState<"card" | "crypto">("crypto");
+  const [method, setMethod] = useState<"card" | "crypto">(site.cardPayments ? "card" : "crypto");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -103,16 +103,31 @@ export function CheckoutForm({ product }: { product: "course" | "vip"; cta?: str
               </span>
             )}
           </button>
-          <button
-            type="button"
-            disabled
-            aria-disabled="true"
-            className="cursor-not-allowed rounded-xl border border-line bg-surface px-3 py-2.5 text-sm font-medium text-ink-faint"
-          >
-            💳 Card · Soon
-          </button>
+          {site.cardPayments ? (
+            <button
+              type="button"
+              onClick={() => setMethod("card")}
+              aria-pressed={method === "card"}
+              className={`rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
+                method === "card"
+                  ? "border-ink bg-ink text-white"
+                  : "border-line bg-surface text-ink-soft hover:border-zinc-300 hover:text-ink"
+              }`}
+            >
+              💳 Card
+            </button>
+          ) : (
+            <button
+              type="button"
+              disabled
+              aria-disabled="true"
+              className="cursor-not-allowed rounded-xl border border-line bg-surface px-3 py-2.5 text-sm font-medium text-ink-faint"
+            >
+              💳 Card · Soon
+            </button>
+          )}
         </div>
-        {isCourse && (
+        {isCourse && method === "crypto" && (
           <p className="mt-2.5 text-xs font-medium text-good">
             Crypto price: {formatUsd(site.course.cryptoPrice)} instead of{" "}
             {formatUsd(site.course.price)}. An extra discount, because crypto costs us less to
@@ -120,9 +135,11 @@ export function CheckoutForm({ product }: { product: "course" | "vip"; cta?: str
           </p>
         )}
         <p className="mt-2 text-xs leading-relaxed text-ink-soft">
-          You&rsquo;ll be redirected to a secure crypto invoice. Pay in USDT or other supported
-          coins; access is granted after blockchain confirmation, usually within minutes. Card
-          payments are coming soon.
+          {method === "card"
+            ? "You'll be redirected to a secure card checkout run by Whop. Your card details never touch this site, and your access is sent to the email above."
+            : `You'll be redirected to a secure crypto invoice. Pay in USDT or other supported coins; access is granted after blockchain confirmation, usually within minutes.${
+                site.cardPayments ? "" : " Card payments are coming soon."
+              }`}
         </p>
       </div>
 

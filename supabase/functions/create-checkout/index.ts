@@ -4,9 +4,16 @@
  * Secrets (Supabase dashboard → Edge Functions → Secrets):
  *   DEMO_PAYMENTS         "true" while testing → no real gateway, order is
  *                         marked paid immediately and clearly labeled demo.
- *   PAYMENT_GATEWAY       "dodo" (default) or "chapa".
+ *   PAYMENT_GATEWAY       card gateway: "whop", "polar", "dodo" (default)
+ *                         or "chapa".
+ *   CARD_PAYMENTS         "on" to accept card checkouts at all.
  *   SITE_URL              canonical site origin for redirects, e.g.
  *                         https://vibrantflacon.com
+ *
+ *   Whop (whop.com):
+ *     WHOP_API_KEY        company API key from Dashboard → Developer
+ *     WHOP_PLAN_COURSE / WHOP_PLAN_VIP
+ *                         plan IDs (plan_…) of the two one-time plans
  *
  *   Dodo Payments (dodopayments.com):
  *     DODO_API_KEY        from Dashboard → Developer → API Keys
@@ -139,6 +146,31 @@ Deno.serve(async (req) => {
       return json({ error: "Could not start the crypto payment. Try again shortly." }, 502);
     }
     return json({ checkoutUrl: np.invoice_url });
+  }
+
+  // ── Whop (https://docs.whop.com) ──
+  if (Deno.env.get("PAYMENT_GATEWAY") === "whop") {
+    const apiKey = Deno.env.get("WHOP_API_KEY");
+    const planId =
+      product === "course" ? Deno.env.get("WHOP_PLAN_COURSE") : Deno.env.get("WHOP_PLAN_VIP");
+    if (!apiKey || !planId) return json({ error: "Payments are not configured yet." }, 503);
+
+    const res = await fetch("https://api.whop.com/api/v1/checkout_configurations", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        plan_id: planId,
+        redirect_url: successUrl,
+        // Copied onto the payment, so the webhook can find our order.
+        metadata: { tx_ref: txRef, product },
+      }),
+    });
+    const whop = (await res.json()) as { purchase_url?: string | null };
+    if (!res.ok || !whop.purchase_url) {
+      console.error("whop checkout failed", res.status, JSON.stringify(whop));
+      return json({ error: "The payment provider rejected the request. Try again shortly." }, 502);
+    }
+    return json({ checkoutUrl: new URL(whop.purchase_url, "https://whop.com").toString() });
   }
 
   // ── Polar (https://polar.sh/docs) ──

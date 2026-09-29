@@ -43,12 +43,16 @@ export default function CourseCheckoutPage() {
             </div>
             <div className="p-6">
               <Price
-                amount={site.course.cryptoPrice}
+                amount={site.cardPayments ? site.course.price : site.course.cryptoPrice}
                 referencePrice={site.course.referencePrice}
-                discountLabel={site.course.cryptoDiscountLabel}
+                discountLabel={
+                  site.cardPayments ? site.course.discountLabel : site.course.cryptoDiscountLabel
+                }
               />
               <p className="mt-1.5 text-xs text-ink-faint">
-                Crypto price. Card price {formatUsd(site.course.price)}, coming soon.
+                {site.cardPayments
+                  ? `Card price. Pay with crypto for ${formatUsd(site.course.cryptoPrice)}.`
+                  : `Crypto price. Card price ${formatUsd(site.course.price)}, coming soon.`}
               </p>
               <ul className="mt-5 space-y-2.5 border-t border-line pt-5">
                 {included.map((item) => (
